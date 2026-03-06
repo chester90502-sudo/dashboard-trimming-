@@ -94,7 +94,7 @@ h2{
 .table-container{
   overflow-x: auto;
   overflow-y: auto;
-  max-height: 55vh;
+  max-height: 80vh;
   -webkit-overflow-scrolling: touch;
   border-radius: 8px;
   background: #fff;
@@ -136,6 +136,7 @@ th{
   min-width: 45px;
   font-weight: bold;
   font-size: 12px;
+  color: #000;
 }
 
 .nameCol{
@@ -148,11 +149,22 @@ th{
   text-align: left;
   padding-left: 10px;
   font-size: 13px;
+  color: #000 !important;
+}
+
+/* CRITICAL FIX: Ensure name is visible in public mode */
+.nameCol-text{
+  color: #000 !important;
+  font-weight: 600;
+  padding-left: 8px;
+  display: block;
+  width: 100%;
 }
 
 th.rankCol, th.nameCol{
   z-index: 12;
   background: #1e293b;
+  color: #fff;
 }
 
 input{
@@ -178,15 +190,22 @@ input:focus{
   min-width: 130px;
   text-align: left;
   padding-left: 8px;
+  color: #000;
+  background: #fff;
 }
 
 .low{background: #fecaca !important;}
 .mid{background: #fde047 !important;}
 .high{background: #86efac !important;}
 
+/* STATUS COLORS */
 .status-P{background: #93c5fd !important; color: #1e40af; font-weight: bold;}
 .status-BE{background: #fca5a5 !important; color: #991b1b; font-weight: bold;}
 .status-U{background: #86efac !important; color: #166534; font-weight: bold;}
+.status-M{background: #c084fc !important; color: #6b21a8; font-weight: bold;}
+.status-L{background: #fcd34d !important; color: #92400e; font-weight: bold;}
+.status-I{background: #60a5fa !important; color: #1e40af; font-weight: bold;}
+.status-A{background: #f87171 !important; color: #991b1b; font-weight: bold;}
 
 /* ===== BUTTONS ===== */
 .btn{
@@ -205,7 +224,6 @@ input:focus{
   text-align: center;
   margin: 5px;
   transition: all 0.2s;
-  width: 100%;
   font-family: inherit;
 }
 
@@ -236,24 +254,78 @@ input:focus{
   font-size: 13px;
 }
 
-/* ===== LOGIN ===== */
-.login{
-  text-align: center;
-  margin-bottom: 15px;
-  background: #334155;
-  padding: 15px;
-  border-radius: 10px;
+/* ===== LOGIN BUTTON FLOATING (TAMPILAN SEBELUMNYA) ===== */
+.btn-login{
+  background: #7c3aed;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 50;
+  padding: 12px 20px;
+  border-radius: 50px;
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
+  margin: 0;
 }
 
-.login input{
+.btn-logout{
+  background: #ef4444;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 50;
+  padding: 12px 20px;
+  border-radius: 50px;
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+  margin: 0;
+}
+
+/* ===== LOGIN MODAL (TAMPILAN SEBELUMNYA) ===== */
+.login-modal-overlay{
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.8);
+  z-index: 100;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.login-modal-overlay.active{
+  display: flex;
+}
+
+.login-modal-content{
+  background: #1e293b;
+  border-radius: 12px;
+  padding: 25px;
   width: 100%;
-  max-width: 280px;
-  padding: 12px;
-  margin-bottom: 10px;
+  max-width: 350px;
+  text-align: center;
+}
+
+.login-modal-content h2{
+  margin-bottom: 20px;
+  color: #fbbf24;
+}
+
+.login-modal-content input{
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 15px;
   font-size: 16px;
   border-radius: 8px;
-  border: none;
-  font-family: inherit;
+  border: 2px solid #475569;
+  background: #0f172a;
+  color: #fff;
+  text-align: center;
+}
+
+.login-modal-content input:focus{
+  border-color: #7c3aed;
 }
 
 /* ===== INFO & LEGEND ===== */
@@ -443,6 +515,7 @@ input:focus{
   font-size: 14px;
   flex: 1;
   min-width: 120px;
+  color: #fff;
 }
 
 .operator-sizes{
@@ -483,6 +556,11 @@ input:focus{
   font-size: 12px;
   cursor: pointer;
   font-family: inherit;
+}
+
+.btn-add-size:disabled{
+  background: #64748b;
+  cursor: not-allowed;
 }
 
 /* ===== MODAL ===== */
@@ -562,6 +640,25 @@ input:focus{
   border-bottom: none;
 }
 
+/* ===== ADMIN BADGE ===== */
+.admin-badge{
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: #10b981;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: bold;
+  z-index: 50;
+  display: none;
+}
+
+.admin-badge.active{
+  display: block;
+}
+
 /* ===== SCROLLBAR ===== */
 ::-webkit-scrollbar{
   width: 8px;
@@ -583,35 +680,104 @@ input:focus{
   body{ padding: 8px; }
   h1{ font-size: 18px; }
   h2{ font-size: 14px; }
-  
+
   .card{ padding: 12px; }
-  
+
   .nav-tab{ font-size: 13px; padding: 10px; }
-  
+
   th, td{ 
     padding: 6px 2px; 
     font-size: 11px; 
     min-width: 45px;
     height: 36px;
   }
-  
+
   input{ font-size: 16px; padding: 4px 1px; }
   .nameInput{ min-width: 120px; font-size: 13px; }
-  .nameCol{ min-width: 120px; left: 45px; font-size: 12px; }
+  .nameCol{ min-width: 120px; left: 45px; font-size: 12px; color: #000 !important; }
   .rankCol{ min-width: 45px; font-size: 11px; }
-  
+
   .size-grid{
     grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
     gap: 6px;
   }
-  
+
   .size-item{ padding: 8px 3px; }
   .size-item .size-label{ font-size: 11px; }
-  
+
   .btn{ padding: 10px 16px; font-size: 14px; }
-  
+
   .table-container{ max-height: 50vh; }
   .operator-list{ max-height: 35vh; }
+
+  .btn-login, .btn-logout{
+    bottom: 15px;
+    right: 15px;
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+}
+
+/* ===== STYLE UNTUK INPUT HASIL SIZE ===== */
+.size-hasil-input {
+  width: 60px !important;
+  padding: 4px 2px !important;
+  font-size: 12px !important;
+  margin-left: 5px;
+  background: #0f172a !important;
+  color: #fff !important;
+  border: 1px solid #475569 !important;
+}
+
+.size-tag-with-input {
+  background: #2563eb !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  padding: 6px 10px !important;
+}
+
+.modal-size-hasil {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.size-hasil-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #334155;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.size-hasil-row label {
+  font-weight: 600;
+  color: #fbbf24;
+}
+
+.size-hasil-row input {
+  width: 100px;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #475569;
+  background: #0f172a;
+  color: #fff;
+  text-align: center;
+}
+
+/* ===== DEBUG INFO ===== */
+.debug-info {
+  background: #7c3aed;
+  color: #fff;
+  padding: 8px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  font-family: monospace;
 }
 </style>
 </head>
@@ -619,15 +785,26 @@ input:focus{
 
 <h1>📊 DASHBOARD TRIMMING</h1>
 
-<!-- LOGIN -->
-<div class="login" id="loginSection">
-  <input type="password" id="pass" placeholder="Password Admin">
-  <br>
-  <button class="btn" onclick="login()">🔐 Login Admin</button>
+<!-- ADMIN BADGE -->
+<div class="admin-badge" id="adminBadge">🔐 ADMIN MODE</div>
+
+<!-- LOGIN BUTTON (Floating di pojok kanan bawah - TAMPILAN SEBELUMNYA) -->
+<button class="btn btn-login" id="loginBtn" onclick="openLoginModal()">🔐 Login Admin</button>
+<button class="btn btn-logout" id="logoutBtn" onclick="logout()" style="display: none;">🚪 Logout</button>
+
+<!-- LOGIN MODAL (TAMPILAN SEBELUMNYA) -->
+<div class="login-modal-overlay" id="loginModal">
+  <div class="login-modal-content">
+    <h2>🔐 Login Admin</h2>
+    <input type="password" id="pass" placeholder="Masukkan Password">
+    <br>
+    <button class="btn" onclick="login()">Login</button>
+    <button class="btn btn-danger" onclick="closeLoginModal()">Batal</button>
+  </div>
 </div>
 
-<!-- MAIN APP (Hidden sampai login) -->
-<div id="mainApp" style="display: none;">
+<!-- MAIN APP (Always Visible - Public Access) -->
+<div id="mainApp">
 
 <!-- NAVIGATION TABS -->
 <div class="nav-tabs">
@@ -641,9 +818,11 @@ input:focus{
 
 <!-- PAGE 1: DASHBOARD PRODUKSI -->
 <div class="page active" id="page-dashboard">
-  
+
   <div class="info-box">
-    <strong>Input:</strong> Angka = Hasil | <strong>P</strong> = Perbantukan | <strong>BE</strong> = Pulang Awal | <strong>U</strong> = UKS
+    <strong>Input:</strong> Angka = Hasil | <strong>P</strong> = Perbantukan | <strong>BE</strong> = Pulang Awal | <strong>U</strong> = UKS | <strong>M</strong> = Minggu | <strong>L</strong> = Libur | <strong>I</strong> = Izin | <strong>A</strong> = Alpa
+    <br><br>
+    <strong>Mode:</strong> <span id="modeText">👁️ View Only (Public)</span>
   </div>
 
   <div class="legend">
@@ -651,9 +830,13 @@ input:focus{
     <span class="status-P">P = Perbantukan</span>
     <span class="status-BE">BE = Pulang Awal</span>
     <span class="status-U">U = UKS</span>
+    <span class="status-M">M = Minggu</span>
+    <span class="status-L">L = Libur</span>
+    <span class="status-I">I = Izin</span>
+    <span class="status-A">A = Alpa</span>
   </div>
 
-  <div class="table-container">
+  <div class="table-container" id="tableContainer">
     <table>
       <thead>
         <tr>
@@ -673,7 +856,14 @@ input:focus{
 
 <!-- PAGE 2: SIZE SUSAH -->
 <div class="page" id="page-sizesusah">
-  
+
+  <!-- DEBUG INFO - Hapus ini setelah testing -->
+  <div class="debug-info" id="debugInfo" style="display: none;">
+    Shift: <span id="debugShift">-</span> | 
+    Model: <span id="debugModel">-</span> | 
+    Day: <span id="debugDay">-</span>
+  </div>
+
   <!-- PILIH TANGGAL DAN SHIFT -->
   <div class="card">
     <div class="header-info">
@@ -694,35 +884,35 @@ input:focus{
 
   <!-- PILIH MODEL -->
   <div class="card">
-    <h2>📋 Pilih Model</h2>
+    <h2>📋 TYPE</h2>
     <div class="model-tabs">
       <div class="model-tab active" onclick="setModel('003')" id="tab003">
-        <h3>MODEL 003</h3>
+        <h3>S25-003</h3>
         <p>Size 2.5 - 16</p>
       </div>
       <div class="model-tab" onclick="setModel('008')" id="tab008">
-        <h3>MODEL 008</h3>
+        <h3>S25-008</h3>
         <p>Size 2.5 - 16</p>
       </div>
     </div>
   </div>
 
-  <!-- PILIH SIZE SUSAH -->
+  <!-- SIZE SUSAH -->
   <div class="card">
-    <h2>✅ Pilih Size Susah Hari Ini</h2>
+    <h2>✅ Size Susah Trimming</h2>
     <p style="font-size: 12px; color: #94a3b8; margin-bottom: 10px;">
-      Klik size yang dianggap susah hari ini (bisa pilih multiple)
+      Size Yang Susah Di Trimming - <strong>Hanya Admin</strong>
     </p>
     <div class="size-grid" id="sizeGrid"></div>
     <div style="text-align: center; margin-top: 10px;">
-      <button class="btn btn-sm btn-warning" onclick="clearAllSizes()">🗑️ Clear Semua</button>
-      <button class="btn btn-sm btn-success" onclick="selectAllSizes()">✓ Pilih Semua</button>
+      <button class="btn btn-sm btn-warning" onclick="clearAllSizes()" id="btnClearSizes">🗑️ Clear Semua</button>
+      <button class="btn btn-sm btn-success" onclick="selectAllSizes()" id="btnSelectAll">✓ Pilih Semua</button>
     </div>
   </div>
 
   <!-- DAFTAR OPERATOR -->
   <div class="card">
-    <h2>👷 Daftar Operator & Size Susah</h2>
+    <h2>👷 Daftar Operator & Size Susah - <span id="currentShiftDisplay">SHIFT A</span></h2>
     <div class="operator-list" id="operatorList"></div>
   </div>
 
@@ -745,12 +935,16 @@ input:focus{
       <span>Shift:</span>
       <span id="summaryShift">SHIFT A</span>
     </div>
+    <div class="summary-item">
+      <span>Mode:</span>
+      <span id="summaryMode">👁️ View Only</span>
+    </div>
   </div>
 </div>
 
 </div><!-- end mainApp -->
 
-<!-- MODAL -->
+<!-- MODAL SIZE SUSAH -->
 <div class="modal-overlay" id="sizeModal">
   <div class="modal-content">
     <div class="modal-header">
@@ -765,9 +959,26 @@ input:focus{
   </div>
 </div>
 
+<!-- MODAL INPUT HASIL SIZE -->
+<div class="modal-overlay" id="hasilModal">
+  <div class="modal-content" style="max-width: 400px;">
+    <div class="modal-header">
+      <h3>Input Hasil Size - <span id="hasilOpName"></span></h3>
+      <button class="close-modal" onclick="closeHasilModal()">&times;</button>
+    </div>
+    <div class="modal-size-hasil" id="hasilSizeContainer">
+      <!-- Input hasil akan di-generate di sini -->
+    </div>
+    <div style="text-align: center; margin-top: 15px;">
+      <button class="btn btn-success" onclick="saveHasilSizes()">💾 Simpan Hasil</button>
+      <button class="btn btn-danger" onclick="closeHasilModal()">❌ Batal</button>
+    </div>
+  </div>
+</div>
+
 <script>
 // ==========================================
-// FIREBASE CONFIG - Tanpa ES6 Modules
+// FIREBASE CONFIG
 // ==========================================
 
 const firebaseConfig = {
@@ -791,7 +1002,7 @@ let isAdmin = false;
 const TARGET = 450;
 let currentData = {};
 const shifts = { "SHIFT A": 30, "SHIFT B": 30, "SHIFT C": 30 };
-const SPECIAL_STATUS = ['P', 'BE', 'U'];
+const SPECIAL_STATUS = ['P', 'BE', 'U', 'M', 'L', 'I', 'A'];
 
 // Size Susah variables
 let currentModel = '003';
@@ -801,6 +1012,7 @@ let selectedSizes = [];
 let currentOperatorKey = null;
 let sizeSusahData = {};
 let operatorNames = {};
+let currentHasilOpKey = null;
 
 const ALL_SIZES = [
   '2.5', '3', '3.5', '4', '4.5', '5', '5.5', '6', '6.5', 
@@ -809,33 +1021,85 @@ const ALL_SIZES = [
 ];
 
 // ==========================================
-// LOGIN
+// LOGIN / LOGOUT FUNCTIONS (TAMPILAN SEBELUMNYA)
 // ==========================================
+function openLoginModal(){
+  document.getElementById("loginModal").classList.add("active");
+  document.getElementById("pass").value = "";
+  document.getElementById("pass").focus();
+}
+
+function closeLoginModal(){
+  document.getElementById("loginModal").classList.remove("active");
+}
+
 function login(){
   const input = document.getElementById("pass");
   if(input.value === ADMIN_PASS){
     isAdmin = true;
-    document.getElementById("loginSection").style.display = "none";
-    document.getElementById("mainApp").style.display = "block";
-    alert("✅ Login berhasil!");
-    initDashboard();
-    initSizeSusah();
+    closeLoginModal();
+    updateUIForAdmin();
+    renderDashboard();
+    updateOperatorList();
+    alert("✅ Login berhasil! Anda sekarang dapat mengedit data.");
   } else {
     alert("❌ Password salah!");
+    input.value = "";
+    input.focus();
   }
+}
+
+function logout(){
+  isAdmin = false;
+  updateUIForPublic();
+  renderDashboard();
+  updateOperatorList();
+  alert("🚪 Logout berhasil! Mode view only.");
+}
+
+function updateUIForAdmin(){
+  document.getElementById("adminBadge").classList.add("active");
+  document.getElementById("loginBtn").style.display = "none";
+  document.getElementById("logoutBtn").style.display = "block";
+  document.getElementById("modeText").innerHTML = "✏️ Edit Mode (Admin)";
+  document.getElementById("summaryMode").textContent = "✏️ Edit Mode";
+
+  document.getElementById("btnClearSizes").disabled = false;
+  document.getElementById("btnSelectAll").disabled = false;
+
+  document.getElementById("sizeGrid").style.pointerEvents = "auto";
+  document.getElementById("sizeGrid").style.opacity = "1";
+  
+  // Tampilkan debug info untuk admin
+  document.getElementById("debugInfo").style.display = "block";
+}
+
+function updateUIForPublic(){
+  document.getElementById("adminBadge").classList.remove("active");
+  document.getElementById("loginBtn").style.display = "block";
+  document.getElementById("logoutBtn").style.display = "none";
+  document.getElementById("modeText").innerHTML = "👁️ View Only (Public)";
+  document.getElementById("summaryMode").textContent = "👁️ View Only";
+
+  document.getElementById("btnClearSizes").disabled = true;
+  document.getElementById("btnSelectAll").disabled = true;
+
+  document.getElementById("sizeGrid").style.pointerEvents = "none";
+  document.getElementById("sizeGrid").style.opacity = "0.6";
+  
+  // Sembunyikan debug info untuk public
+  document.getElementById("debugInfo").style.display = "none";
 }
 
 // ==========================================
 // NAVIGATION
 // ==========================================
 function showPage(pageName){
-  // Update tabs
   document.querySelectorAll('.nav-tab').forEach(function(tab){
     tab.classList.remove('active');
   });
   document.getElementById('tab-' + pageName).classList.add('active');
-  
-  // Update pages
+
   document.querySelectorAll('.page').forEach(function(page){
     page.classList.remove('active');
   });
@@ -848,18 +1112,42 @@ function showPage(pageName){
 function initDashboard(){
   db.ref('maret').on('value', function(snapshot){
     currentData = snapshot.val() || {};
+    console.log('Data loaded:', currentData);
     renderDashboard();
   });
 }
 
 function isSpecialStatus(value){
   if(!value) return false;
-  return SPECIAL_STATUS.indexOf(String(value).toUpperCase().trim()) > -1;
+  let strValue = String(value).toUpperCase().trim();
+  
+  if(strValue.startsWith('BE')) return true;
+  if(strValue.startsWith('P')) return true;
+  if(strValue.startsWith('U')) return true;
+  if(strValue.startsWith('M')) return true;
+  if(strValue.startsWith('L')) return true;
+  if(strValue.startsWith('I')) return true;
+  if(strValue.startsWith('A')) return true;
+  
+  return SPECIAL_STATUS.indexOf(strValue) > -1;
 }
 
 function getNumericValue(value){
   if(isSpecialStatus(value)) return 0;
-  return Number(value) || 0;
+  let numStr = String(value).replace(/[^0-9]/g, '');
+  return Number(numStr) || 0;
+}
+
+function getStatusFromValue(value){
+  let strValue = String(value).toUpperCase().trim();
+  if(strValue.startsWith('BE')) return 'BE';
+  if(strValue.startsWith('P')) return 'P';
+  if(strValue.startsWith('U')) return 'U';
+  if(strValue.startsWith('M')) return 'M';
+  if(strValue.startsWith('L')) return 'L';
+  if(strValue.startsWith('I')) return 'I';
+  if(strValue.startsWith('A')) return 'A';
+  return null;
 }
 
 function getRankDisplay(rank){
@@ -880,30 +1168,35 @@ function renderDashboard(){
     for(let i = 1; i <= shifts[shiftName]; i++){
       let operatorKey = shiftName + "_OP" + i;
       let opData = currentData[operatorKey] || {};
-      let nama = opData.nama || "OP " + i;
+
+      let nama = "OP " + i;
+      if(opData.nama && opData.nama.trim() !== ""){
+        nama = opData.nama.trim();
+      }
 
       let totalPercent = 0, count = 0, consecutiveLow = 0, maxConsecutiveLow = 0;
       let row = "<tr data-key='" + operatorKey + "'>";
       row += "<td class='rankCol' data-rank='" + operatorKey + "'>-</td>";
 
       if(isAdmin){
-        row += "<td class='nameCol'><input class='nameInput' type='text' value='" + nama + "' onchange=\"saveName('" + operatorKey + "', this.value)\" placeholder='Nama'></td>";
+        row += "<td class='nameCol'><input class='nameInput' type='text' value='" + escapeHtml(nama) + "' onchange=\"saveName('" + operatorKey + "', this.value)\" placeholder='Nama'></td>";
       } else {
-        row += "<td class='nameCol'>" + nama + "</td>";
+        row += "<td class='nameCol'><span class='nameCol-text'>" + escapeHtml(nama) + "</span></td>";
       }
 
       for(let d = 1; d <= 31; d++){
         let rawValue = (opData[d] && opData[d].hasil) || '';
-        let val = getNumericValue(rawValue);
+        let status = getStatusFromValue(rawValue);
+        let numVal = getNumericValue(rawValue);
         let isStatus = isSpecialStatus(rawValue);
         let cls = "", displayValue = rawValue;
-        
+
         if(isStatus){
-          cls = "status-" + rawValue.toUpperCase().trim();
+          cls = "status-" + status;
           if(consecutiveLow > maxConsecutiveLow) maxConsecutiveLow = consecutiveLow;
           consecutiveLow = 0;
-        } else if(val > 0){
-          let p = val / TARGET * 100;
+        } else if(numVal > 0){
+          let p = numVal / TARGET * 100;
           totalPercent += p;
           count++;
           if(p < 80){
@@ -922,7 +1215,7 @@ function renderDashboard(){
         }
 
         if(isAdmin){
-          row += "<td class='" + cls + "'><input type='text' inputmode='numeric' value='" + displayValue + "' onchange=\"save('" + operatorKey + "', " + d + ", this.value)\" style='text-transform:uppercase;'></td>";
+          row += "<td class='" + cls + "'><input type='text' value='" + displayValue + "' onchange=\"save('" + operatorKey + "', " + d + ", this.value)\" style='text-transform:uppercase;'></td>";
         } else {
           row += "<td class='" + cls + "'>" + displayValue + "</td>";
         }
@@ -950,49 +1243,75 @@ function renderDashboard(){
   });
 }
 
+function escapeHtml(text){
+  if(!text) return "";
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 function save(op, day, value){
+  if(!isAdmin){
+    alert("❌ Anda harus login sebagai admin untuk mengedit data!");
+    return;
+  }
+
   let trimmedValue = value.trim().toUpperCase();
-  if(SPECIAL_STATUS.indexOf(trimmedValue) > -1){
-    db.ref('maret/' + op + '/' + day).set({hasil: trimmedValue});
-  } else if(trimmedValue === '' || trimmedValue === '0'){
+  
+  if(trimmedValue === '' || trimmedValue === '0'){
     db.ref('maret/' + op + '/' + day).set({hasil: 0});
   } else {
-    let numValue = Number(trimmedValue);
-    if(!isNaN(numValue) && numValue >= 0){
-      db.ref('maret/' + op + '/' + day).set({hasil: numValue});
-    }
+    db.ref('maret/' + op + '/' + day).set({hasil: trimmedValue});
   }
 }
 
 function saveName(op, name){
+  if(!isAdmin){
+    alert("❌ Anda harus login sebagai admin untuk mengedit data!");
+    return;
+  }
+
   db.ref('maret/' + op + '/nama').set(name.trim());
 }
 
 // ==========================================
 // SIZE SUSAH FUNCTIONS
 // ==========================================
+
 function initSizeSusah(){
+  console.log("Initializing Size Susah...");
   generateSizeGrid();
-  
+
   db.ref('size_susah').on('value', function(snapshot){
+    console.log("Size Susah Data Updated:", snapshot.val());
     sizeSusahData = snapshot.val() || {};
     updateOperatorList();
   });
-  
+
   db.ref('maret').on('value', function(snapshot){
     let data = snapshot.val() || {};
     operatorNames = {};
     Object.keys(data).forEach(function(key){
       if(data[key].nama) operatorNames[key] = data[key].nama;
     });
+    console.log("Operator Names Loaded:", operatorNames);
     updateOperatorList();
   });
 
   document.getElementById("selectDay").addEventListener("change", function(){
     currentDay = parseInt(this.value);
+    console.log("Day changed to:", currentDay);
     updateOperatorList();
     updateSummary();
   });
+  
+  currentShift = document.getElementById("selectShift").value;
+  currentDay = parseInt(document.getElementById("selectDay").value);
+  
+  console.log("Initial - Shift:", currentShift, "Day:", currentDay, "Model:", currentModel);
 }
 
 function generateSizeGrid(){
@@ -1002,13 +1321,20 @@ function generateSizeGrid(){
     let div = document.createElement("div");
     div.className = "size-item";
     div.dataset.size = size;
-    div.onclick = function(){ toggleSize(size); };
+    div.onclick = function(){ 
+      if(isAdmin) toggleSize(size); 
+    };
     div.innerHTML = "<span class='size-label'>" + size + "</span><span class='size-check'>✓</span>";
     grid.appendChild(div);
   });
 }
 
 function toggleSize(size){
+  if(!isAdmin){
+    alert("❌ Hanya admin yang dapat mengubah size susah!");
+    return;
+  }
+
   let index = selectedSizes.indexOf(size);
   if(index > -1){
     selectedSizes.splice(index, 1);
@@ -1039,69 +1365,231 @@ function setModel(model){
     document.getElementById("tab003").classList.remove("active");
     document.getElementById("tab008").classList.add("active");
   }
+  console.log("Model changed to:", currentModel);
   updateOperatorList();
   updateSummary();
 }
 
 function changeShift(){
-  currentShift = document.getElementById("selectShift").value;
+  let selectElement = document.getElementById("selectShift");
+  currentShift = selectElement.value;
+  
+  console.log("Shift changed to:", currentShift);
+  
+  document.getElementById("currentShiftDisplay").textContent = currentShift;
+  document.getElementById("summaryShift").textContent = currentShift;
+  
+  document.getElementById("debugShift").textContent = currentShift;
+  document.getElementById("debugModel").textContent = currentModel;
+  document.getElementById("debugDay").textContent = currentDay;
+  
   updateOperatorList();
   updateSummary();
 }
 
 function updateOperatorList(){
+  console.log("Updating operator list for:", currentShift, currentModel, "Day:", currentDay);
+  
   let list = document.getElementById("operatorList");
   list.innerHTML = "";
-  let totalOps = shifts[currentShift];
   
+  let totalOps = shifts[currentShift];
+  if(!totalOps) {
+    console.error("Invalid shift:", currentShift);
+    totalOps = 30;
+  }
+  
+  console.log("Total operators for", currentShift, ":", totalOps);
+
   for(let i = 1; i <= totalOps; i++){
     let opKey = currentShift + "_OP" + i;
     let opName = operatorNames[opKey] || "OP " + i;
+    
     let savedSizes = [];
-    
-    if(sizeSusahData[currentShift] && 
-       sizeSusahData[currentShift][opKey] && 
-       sizeSusahData[currentShift][opKey][currentModel] &&
-       sizeSusahData[currentShift][opKey][currentModel][currentDay]){
-      savedSizes = sizeSusahData[currentShift][opKey][currentModel][currentDay];
+    let sizeHasil = {};
+
+    if(sizeSusahData && sizeSusahData[currentShift]){
+      let shiftData = sizeSusahData[currentShift];
+      
+      if(shiftData[opKey]){
+        let opData = shiftData[opKey];
+        
+        if(opData[currentModel]){
+          let modelData = opData[currentModel];
+          
+          if(modelData[currentDay]){
+            let dayData = modelData[currentDay];
+            
+            if(Array.isArray(dayData)){
+              savedSizes = dayData;
+            } else if(typeof dayData === 'object' && dayData !== null){
+              savedSizes = dayData.sizes || [];
+              sizeHasil = dayData.hasil || {};
+            }
+          }
+        }
+      }
     }
-    
+
     let div = document.createElement("div");
     div.className = "operator-item";
+
+    let adminButtons = "";
+    if(isAdmin){
+      adminButtons = 
+        "<button class='btn-add-size' onclick=\"openSizeModal('" + opKey + "', '" + escapeHtml(opName) + "')\">+ Size</button>" +
+        "<button class='btn-add-size' style='background: #3b82f6; margin-left: 5px;' onclick=\"openHasilModal('" + opKey + "', '" + escapeHtml(opName) + "')\">📝 Input Hasil</button>";
+    }
+
     div.innerHTML = 
-      "<div class='operator-name'>" + opName + "</div>" +
-      "<div class='operator-sizes'>" + renderSizeTags(savedSizes, opKey) + "</div>" +
-      "<button class='btn-add-size' onclick=\"openSizeModal('" + opKey + "', '" + opName + "')\">+ Size</button>";
+      "<div class='operator-name'>" + escapeHtml(opName) + " <small style='color: #94a3b8;'>(" + opKey + ")</small></div>" +
+      "<div class='operator-sizes'>" + renderSizeTagsWithHasil(savedSizes, sizeHasil, opKey) + "</div>" +
+      adminButtons;
     list.appendChild(div);
   }
+  
   document.getElementById("totalOps").textContent = totalOps;
+  
+  document.getElementById("debugShift").textContent = currentShift;
+  document.getElementById("debugModel").textContent = currentModel;
+  document.getElementById("debugDay").textContent = currentDay;
 }
 
-function renderSizeTags(sizes, opKey){
-  if(sizes.length === 0) return "<span style='color: #64748b; font-size: 12px;'>Belum ada size</span>";
-  
+function renderSizeTagsWithHasil(sizes, hasilData, opKey){
+  if(!sizes || sizes.length === 0) return "<span style='color: #64748b; font-size: 12px;'>Belum ada size</span>";
+
   return sizes.map(function(size){
-    return "<span class='size-tag'>" + size + "<span class='remove' onclick=\"removeSize('" + opKey + "', '" + size + "')\">×</span></span>";
+    let hasil = hasilData && hasilData[size] ? hasilData[size] : '';
+    let hasilDisplay = hasil ? " <span style='color: #fbbf24;'>(" + hasil + ")</span>" : "";
+    
+    let removeBtn = "";
+    if(isAdmin){
+      removeBtn = "<span class='remove' onclick=\"removeSize('" + opKey + "', '" + size + "')\">×</span>";
+    }
+    
+    return "<span class='size-tag size-tag-with-input'>" + size + hasilDisplay + removeBtn + "</span>";
   }).join('');
 }
 
-function openSizeModal(opKey, opName){
-  currentOperatorKey = opKey;
-  document.getElementById("modalOpName").textContent = opName;
-  
-  let currentSizes = [];
-  if(sizeSusahData[currentShift] && 
+function openHasilModal(opKey, opName){
+  if(!isAdmin){
+    alert("❌ Hanya admin yang dapat menginput hasil!");
+    return;
+  }
+
+  currentHasilOpKey = opKey;
+  document.getElementById("hasilOpName").textContent = opName;
+
+  let savedSizes = [];
+  let sizeHasil = {};
+
+  if(sizeSusahData && sizeSusahData[currentShift] && 
      sizeSusahData[currentShift][opKey] && 
      sizeSusahData[currentShift][opKey][currentModel] &&
      sizeSusahData[currentShift][opKey][currentModel][currentDay]){
-    currentSizes = sizeSusahData[currentShift][opKey][currentModel][currentDay];
+    let dayData = sizeSusahData[currentShift][opKey][currentModel][currentDay];
+    if(Array.isArray(dayData)){
+      savedSizes = dayData;
+    } else if(typeof dayData === 'object' && dayData.sizes){
+      savedSizes = dayData.sizes;
+      sizeHasil = dayData.hasil || {};
+    }
   }
+
+  let container = document.getElementById("hasilSizeContainer");
+  container.innerHTML = "";
+
+  if(savedSizes.length === 0){
+    container.innerHTML = "<p style='text-align: center; color: #94a3b8;'>Belum ada size yang dipilih. Silakan pilih size terlebih dahulu.</p>";
+  } else {
+    savedSizes.forEach(function(size){
+      let hasil = sizeHasil[size] || '';
+      let row = document.createElement("div");
+      row.className = "size-hasil-row";
+      row.innerHTML = 
+        "<label>Size " + size + "</label>" +
+        "<input type='number' id='hasil-" + size + "' value='" + hasil + "' placeholder='Jumlah hasil'>";
+      container.appendChild(row);
+    });
+  }
+
+  document.getElementById("hasilModal").classList.add("active");
+}
+
+function closeHasilModal(){
+  document.getElementById("hasilModal").classList.remove("active");
+  currentHasilOpKey = null;
+}
+
+function saveHasilSizes(){
+  if(!isAdmin){
+    alert("❌ Anda harus login sebagai admin!");
+    return;
+  }
+
+  if(!currentHasilOpKey) return;
+
+  let savedSizes = [];
+  if(sizeSusahData && sizeSusahData[currentShift] && 
+     sizeSusahData[currentShift][currentHasilOpKey] && 
+     sizeSusahData[currentShift][currentHasilOpKey][currentModel] &&
+     sizeSusahData[currentShift][currentHasilOpKey][currentModel][currentDay]){
+    let dayData = sizeSusahData[currentShift][currentHasilOpKey][currentModel][currentDay];
+    if(Array.isArray(dayData)){
+      savedSizes = dayData;
+    } else if(typeof dayData === 'object' && dayData.sizes){
+      savedSizes = dayData.sizes;
+    }
+  }
+
+  let hasilData = {};
+  savedSizes.forEach(function(size){
+    let input = document.getElementById("hasil-" + size);
+    if(input && input.value){
+      hasilData[size] = parseInt(input.value) || 0;
+    }
+  });
+
+  let path = 'size_susah/' + currentShift + '/' + currentHasilOpKey + '/' + currentModel + '/' + currentDay;
+  let dataToSave = {
+    sizes: savedSizes,
+    hasil: hasilData,
+    timestamp: new Date().toISOString()
+  };
   
+  db.ref(path).set(dataToSave);
+
+  closeHasilModal();
+  alert("✅ Hasil size berhasil disimpan!");
+}
+
+function openSizeModal(opKey, opName){
+  if(!isAdmin){
+    alert("❌ Hanya admin yang dapat mengedit size susah!");
+    return;
+  }
+
+  currentOperatorKey = opKey;
+  document.getElementById("modalOpName").textContent = opName;
+
+  let currentSizes = [];
+  if(sizeSusahData && sizeSusahData[currentShift] && 
+     sizeSusahData[currentShift][opKey] && 
+     sizeSusahData[currentShift][opKey][currentModel] &&
+     sizeSusahData[currentShift][opKey][currentModel][currentDay]){
+    let dayData = sizeSusahData[currentShift][opKey][currentModel][currentDay];
+    if(Array.isArray(dayData)){
+      currentSizes = dayData;
+    } else if(typeof dayData === 'object' && dayData.sizes){
+      currentSizes = dayData.sizes;
+    }
+  }
+
   let availableSizes = selectedSizes.length > 0 ? selectedSizes : ALL_SIZES;
-  
+
   let grid = document.getElementById("modalSizeGrid");
   grid.innerHTML = "";
-  
+
   availableSizes.forEach(function(size){
     let isSelected = currentSizes.indexOf(size) > -1;
     let div = document.createElement("div");
@@ -1113,7 +1601,7 @@ function openSizeModal(opKey, opName){
     div.innerHTML = "<span class='size-label'>" + size + "</span><span class='size-check'>✓</span>";
     grid.appendChild(div);
   });
-  
+
   document.getElementById("sizeModal").classList.add("active");
 }
 
@@ -1123,36 +1611,85 @@ function closeModal(){
 }
 
 function saveOperatorSizes(){
+  if(!isAdmin){
+    alert("❌ Anda harus login sebagai admin!");
+    return;
+  }
+
   if(!currentOperatorKey) return;
-  
+
   let selected = [];
   document.querySelectorAll("#modalSizeGrid .size-item.selected").forEach(function(item){
     selected.push(item.dataset.size);
   });
-  
+
   let path = 'size_susah/' + currentShift + '/' + currentOperatorKey + '/' + currentModel + '/' + currentDay;
-  db.ref(path).set(selected);
   
+  let existingHasil = {};
+  if(sizeSusahData && sizeSusahData[currentShift] && 
+     sizeSusahData[currentShift][currentOperatorKey] && 
+     sizeSusahData[currentShift][currentOperatorKey][currentModel] &&
+     sizeSusahData[currentShift][currentOperatorKey][currentModel][currentDay]){
+    let dayData = sizeSusahData[currentShift][currentOperatorKey][currentModel][currentDay];
+    if(typeof dayData === 'object' && dayData.hasil){
+      existingHasil = dayData.hasil;
+    }
+  }
+
+  let dataToSave = {
+    sizes: selected,
+    hasil: existingHasil,
+    timestamp: new Date().toISOString()
+  };
+  
+  db.ref(path).set(dataToSave);
+
   closeModal();
   updateSummary();
 }
 
 function removeSize(opKey, size){
+  if(!isAdmin){
+    alert("❌ Anda harus login sebagai admin!");
+    return;
+  }
+
   let path = 'size_susah/' + currentShift + '/' + opKey + '/' + currentModel + '/' + currentDay;
-  let currentSizes = [];
   
-  if(sizeSusahData[currentShift] && 
+  let currentSizes = [];
+  let currentHasil = {};
+  
+  if(sizeSusahData && sizeSusahData[currentShift] && 
      sizeSusahData[currentShift][opKey] && 
      sizeSusahData[currentShift][opKey][currentModel] &&
      sizeSusahData[currentShift][opKey][currentModel][currentDay]){
-    currentSizes = sizeSusahData[currentShift][opKey][currentModel][currentDay];
+    let dayData = sizeSusahData[currentShift][opKey][currentModel][currentDay];
+    if(Array.isArray(dayData)){
+      currentSizes = dayData;
+    } else if(typeof dayData === 'object'){
+      currentSizes = dayData.sizes || [];
+      currentHasil = dayData.hasil || {};
+    }
   }
-  
+
   let newSizes = currentSizes.filter(function(s){ return s !== size; });
-  db.ref(path).set(newSizes);
+  delete currentHasil[size];
+  
+  let dataToSave = {
+    sizes: newSizes,
+    hasil: currentHasil,
+    timestamp: new Date().toISOString()
+  };
+  
+  db.ref(path).set(dataToSave);
 }
 
 function clearAllSizes(){
+  if(!isAdmin){
+    alert("❌ Hanya admin yang dapat melakukan ini!");
+    return;
+  }
+
   selectedSizes = [];
   updateSizeGrid();
   updateOperatorList();
@@ -1160,6 +1697,11 @@ function clearAllSizes(){
 }
 
 function selectAllSizes(){
+  if(!isAdmin){
+    alert("❌ Hanya admin yang dapat melakukan ini!");
+    return;
+  }
+
   selectedSizes = ALL_SIZES.slice();
   updateSizeGrid();
   updateOperatorList();
@@ -1172,8 +1714,23 @@ function updateSummary(){
   document.getElementById("summaryShift").textContent = currentShift;
 }
 
+// ==========================================
+// INITIALIZATION
+// ==========================================
+document.addEventListener('DOMContentLoaded', function(){
+  console.log("DOM Loaded - Starting initialization...");
+  initDashboard();
+  initSizeSusah();
+  updateUIForPublic();
+  
+  document.getElementById("currentShiftDisplay").textContent = currentShift;
+});
+
 // Make functions global for onclick
+window.openLoginModal = openLoginModal;
+window.closeLoginModal = closeLoginModal;
 window.login = login;
+window.logout = logout;
 window.showPage = showPage;
 window.save = save;
 window.saveName = saveName;
@@ -1185,6 +1742,9 @@ window.saveOperatorSizes = saveOperatorSizes;
 window.removeSize = removeSize;
 window.clearAllSizes = clearAllSizes;
 window.selectAllSizes = selectAllSizes;
+window.openHasilModal = openHasilModal;
+window.closeHasilModal = closeHasilModal;
+window.saveHasilSizes = saveHasilSizes;
 
 </script>
 
