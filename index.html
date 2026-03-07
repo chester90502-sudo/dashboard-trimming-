@@ -206,6 +206,7 @@ input:focus{
 .status-L{background: #fcd34d !important; color: #92400e; font-weight: bold;}
 .status-I{background: #60a5fa !important; color: #1e40af; font-weight: bold;}
 .status-A{background: #f87171 !important; color: #991b1b; font-weight: bold;}
+.status-BS{background: #fb923c !important; color: #9a3412; font-weight: bold;}
 
 /* ===== BUTTONS ===== */
 .btn{
@@ -254,7 +255,7 @@ input:focus{
   font-size: 13px;
 }
 
-/* ===== LOGIN BUTTON FLOATING (TAMPILAN SEBELUMNYA) ===== */
+/* ===== LOGIN BUTTON FLOATING ===== */
 .btn-login{
   background: #7c3aed;
   position: fixed;
@@ -279,7 +280,7 @@ input:focus{
   margin: 0;
 }
 
-/* ===== LOGIN MODAL (TAMPILAN SEBELUMNYA) ===== */
+/* ===== LOGIN MODAL ===== */
 .login-modal-overlay{
   display: none;
   position: fixed;
@@ -769,15 +770,21 @@ input:focus{
   text-align: center;
 }
 
-/* ===== DEBUG INFO ===== */
-.debug-info {
-  background: #7c3aed;
-  color: #fff;
-  padding: 8px;
-  border-radius: 6px;
-  margin-bottom: 10px;
-  font-size: 12px;
-  font-family: monospace;
+/* ===== SP LEGEND ===== */
+.sp-legend {
+  background: #450a0a;
+  border: 1px solid #7f1d1d;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  font-size: 11px;
+  color: #fecaca;
+}
+
+.sp-legend strong {
+  color: #f87171;
+  display: block;
+  margin-bottom: 5px;
 }
 </style>
 </head>
@@ -788,11 +795,11 @@ input:focus{
 <!-- ADMIN BADGE -->
 <div class="admin-badge" id="adminBadge">🔐 ADMIN MODE</div>
 
-<!-- LOGIN BUTTON (Floating di pojok kanan bawah - TAMPILAN SEBELUMNYA) -->
+<!-- LOGIN BUTTON -->
 <button class="btn btn-login" id="loginBtn" onclick="openLoginModal()">🔐 Login Admin</button>
 <button class="btn btn-logout" id="logoutBtn" onclick="logout()" style="display: none;">🚪 Logout</button>
 
-<!-- LOGIN MODAL (TAMPILAN SEBELUMNYA) -->
+<!-- LOGIN MODAL -->
 <div class="login-modal-overlay" id="loginModal">
   <div class="login-modal-content">
     <h2>🔐 Login Admin</h2>
@@ -803,7 +810,7 @@ input:focus{
   </div>
 </div>
 
-<!-- MAIN APP (Always Visible - Public Access) -->
+<!-- MAIN APP -->
 <div id="mainApp">
 
 <!-- NAVIGATION TABS -->
@@ -820,9 +827,22 @@ input:focus{
 <div class="page active" id="page-dashboard">
 
   <div class="info-box">
-    <strong>Input:</strong> Angka = Hasil | <strong>P</strong> = Perbantukan | <strong>BE</strong> = Pulang Awal | <strong>U</strong> = UKS | <strong>M</strong> = Minggu | <strong>L</strong> = Libur | <strong>I</strong> = Izin | <strong>A</strong> = Alpa
+    <strong>Input:</strong> Angka = Hasil | <strong>P</strong> = Perbantukan | <strong>BE</strong> = Pulang Awal | <strong>U</strong> = UKS | <strong>M</strong> = Minggu | <strong>L</strong> = Libur | <strong>I</strong> = Izin | <strong>A</strong> = Alpa | <strong>BS</strong> = Barang Sedikit (contoh: BS 250)
     <br><br>
     <strong>Mode:</strong> <span id="modeText">👁️ View Only (Public)</span>
+    <br><br>
+    <strong style="color: #fbbf24;">📊 Info Penting:</strong><br>
+    • Ijin (I) dan Alpa (A) = 0% (dihitung dalam persentase dan SP)<br>
+    • BS = Tidak dihitung dalam persentase dan SP<br>
+    • 3 data berturut-turut < 80% (merah, I, atau A) = SP naik 1 level
+  </div>
+
+  <div class="sp-legend">
+    <strong>📋 Aturan SP (Surat Peringatan):</strong><br>
+    • 3 hari merah/I/A (< 80%) berturut-turut = SP1<br>
+    • 3 hari merah/I/A berturut-turut lagi = SP2<br>
+    • 3 hari merah/I/A berturut-turut lagi = SP3<br>
+    • BS (Barang Sedikit) tidak mempengaruhi % dan SP
   </div>
 
   <div class="legend">
@@ -832,8 +852,9 @@ input:focus{
     <span class="status-U">U = UKS</span>
     <span class="status-M">M = Minggu</span>
     <span class="status-L">L = Libur</span>
-    <span class="status-I">I = Izin</span>
-    <span class="status-A">A = Alpa</span>
+    <span class="status-I">I = Izin (0%)</span>
+    <span class="status-A">A = Alpa (0%)</span>
+    <span class="status-BS">BS = Barang Sedikit</span>
   </div>
 
   <div class="table-container" id="tableContainer">
@@ -857,14 +878,6 @@ input:focus{
 <!-- PAGE 2: SIZE SUSAH -->
 <div class="page" id="page-sizesusah">
 
-  <!-- DEBUG INFO - Hapus ini setelah testing -->
-  <div class="debug-info" id="debugInfo" style="display: none;">
-    Shift: <span id="debugShift">-</span> | 
-    Model: <span id="debugModel">-</span> | 
-    Day: <span id="debugDay">-</span>
-  </div>
-
-  <!-- PILIH TANGGAL DAN SHIFT -->
   <div class="card">
     <div class="header-info">
       <label>
@@ -882,7 +895,6 @@ input:focus{
     </div>
   </div>
 
-  <!-- PILIH MODEL -->
   <div class="card">
     <h2>📋 TYPE</h2>
     <div class="model-tabs">
@@ -897,7 +909,6 @@ input:focus{
     </div>
   </div>
 
-  <!-- SIZE SUSAH -->
   <div class="card">
     <h2>✅ Size Susah Trimming</h2>
     <p style="font-size: 12px; color: #94a3b8; margin-bottom: 10px;">
@@ -910,13 +921,11 @@ input:focus{
     </div>
   </div>
 
-  <!-- DAFTAR OPERATOR -->
   <div class="card">
     <h2>👷 Daftar Operator & Size Susah - <span id="currentShiftDisplay">SHIFT A</span></h2>
     <div class="operator-list" id="operatorList"></div>
   </div>
 
-  <!-- SUMMARY -->
   <div class="summary-card">
     <h3>📊 Ringkasan Hari Ini</h3>
     <div class="summary-item">
@@ -942,7 +951,7 @@ input:focus{
   </div>
 </div>
 
-</div><!-- end mainApp -->
+</div>
 
 <!-- MODAL SIZE SUSAH -->
 <div class="modal-overlay" id="sizeModal">
@@ -967,7 +976,6 @@ input:focus{
       <button class="close-modal" onclick="closeHasilModal()">&times;</button>
     </div>
     <div class="modal-size-hasil" id="hasilSizeContainer">
-      <!-- Input hasil akan di-generate di sini -->
     </div>
     <div style="text-align: center; margin-top: 15px;">
       <button class="btn btn-success" onclick="saveHasilSizes()">💾 Simpan Hasil</button>
@@ -980,7 +988,6 @@ input:focus{
 // ==========================================
 // FIREBASE CONFIG
 // ==========================================
-
 const firebaseConfig = {
   apiKey: "AIzaSyD3WEe4qb-QgpNYJuD_3zettZN8IFOfWVc",
   authDomain: "hasil-ec37d.firebaseapp.com",
@@ -1002,7 +1009,7 @@ let isAdmin = false;
 const TARGET = 450;
 let currentData = {};
 const shifts = { "SHIFT A": 30, "SHIFT B": 30, "SHIFT C": 30 };
-const SPECIAL_STATUS = ['P', 'BE', 'U', 'M', 'L', 'I', 'A'];
+const SPECIAL_STATUS = ['P', 'BE', 'U', 'M', 'L', 'I', 'A', 'BS'];
 
 // Size Susah variables
 let currentModel = '003';
@@ -1014,6 +1021,9 @@ let sizeSusahData = {};
 let operatorNames = {};
 let currentHasilOpKey = null;
 
+// Debounce timer untuk optimasi input
+let saveTimer = null;
+
 const ALL_SIZES = [
   '2.5', '3', '3.5', '4', '4.5', '5', '5.5', '6', '6.5', 
   '7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', 
@@ -1021,7 +1031,7 @@ const ALL_SIZES = [
 ];
 
 // ==========================================
-// LOGIN / LOGOUT FUNCTIONS (TAMPILAN SEBELUMNYA)
+// LOGIN / LOGOUT FUNCTIONS
 // ==========================================
 function openLoginModal(){
   document.getElementById("loginModal").classList.add("active");
@@ -1069,9 +1079,6 @@ function updateUIForAdmin(){
 
   document.getElementById("sizeGrid").style.pointerEvents = "auto";
   document.getElementById("sizeGrid").style.opacity = "1";
-  
-  // Tampilkan debug info untuk admin
-  document.getElementById("debugInfo").style.display = "block";
 }
 
 function updateUIForPublic(){
@@ -1086,9 +1093,6 @@ function updateUIForPublic(){
 
   document.getElementById("sizeGrid").style.pointerEvents = "none";
   document.getElementById("sizeGrid").style.opacity = "0.6";
-  
-  // Sembunyikan debug info untuk public
-  document.getElementById("debugInfo").style.display = "none";
 }
 
 // ==========================================
@@ -1112,7 +1116,6 @@ function showPage(pageName){
 function initDashboard(){
   db.ref('maret').on('value', function(snapshot){
     currentData = snapshot.val() || {};
-    console.log('Data loaded:', currentData);
     renderDashboard();
   });
 }
@@ -1128,18 +1131,66 @@ function isSpecialStatus(value){
   if(strValue.startsWith('L')) return true;
   if(strValue.startsWith('I')) return true;
   if(strValue.startsWith('A')) return true;
+  if(strValue.startsWith('BS')) return true;
   
   return SPECIAL_STATUS.indexOf(strValue) > -1;
 }
 
+function isBS(value){
+  if(!value) return false;
+  let strValue = String(value).toUpperCase().trim();
+  return strValue.startsWith('BS');
+}
+
+// Ijin dan Alpa dihitung sebagai "merah" untuk SP
+function isMerahOrIjinAlpa(value){
+  if(!value) return false;
+  let strValue = String(value).toUpperCase().trim();
+  
+  // BS tidak dianggap merah
+  if(strValue.startsWith('BS')) return false;
+  
+  // Status P, BE, U, M, L tidak dianggap merah
+  if(strValue.startsWith('P') || strValue.startsWith('BE') || 
+     strValue.startsWith('U') || strValue.startsWith('M') || 
+     strValue.startsWith('L')) return false;
+  
+  // Ijin atau Alpa dianggap sebagai merah untuk perhitungan SP
+  if(strValue.startsWith('I') || strValue.startsWith('A')) return true;
+  
+  // Cek apakah angka dan < 80%
+  let numVal = getNumericValue(value);
+  if(numVal > 0){
+    let p = (numVal / TARGET) * 100;
+    return p < 80;
+  }
+  
+  return false;
+}
+
 function getNumericValue(value){
-  if(isSpecialStatus(value)) return 0;
-  let numStr = String(value).replace(/[^0-9]/g, '');
+  if(!value) return 0;
+  
+  let strValue = String(value).toUpperCase().trim();
+  
+  if(isBS(value)) {
+    let match = strValue.match(/BS\s*(\d+)/i);
+    return match ? parseInt(match[1]) : 0;
+  }
+  
+  if(isSpecialStatus(value)) {
+    return 0;
+  }
+  
+  let numStr = strValue.replace(/[^0-9]/g, '');
   return Number(numStr) || 0;
 }
 
 function getStatusFromValue(value){
+  if(!value) return null;
   let strValue = String(value).toUpperCase().trim();
+  
+  if(strValue.startsWith('BS')) return 'BS';
   if(strValue.startsWith('BE')) return 'BE';
   if(strValue.startsWith('P')) return 'P';
   if(strValue.startsWith('U')) return 'U';
@@ -1147,6 +1198,7 @@ function getStatusFromValue(value){
   if(strValue.startsWith('L')) return 'L';
   if(strValue.startsWith('I')) return 'I';
   if(strValue.startsWith('A')) return 'A';
+  
   return null;
 }
 
@@ -1155,6 +1207,89 @@ function getRankDisplay(rank){
   if(rank === 2) return "🥈";
   if(rank === 3) return "🥉";
   return rank;
+}
+
+// Ijin dan Alpa dihitung untuk SP
+function calculateSP(dayValues){
+  let spLevel = 0;
+  let consecutiveBad = 0;
+  
+  for(let d = 1; d <= 31; d++){
+    let rawValue = dayValues[d];
+    
+    if(!rawValue || rawValue === '' || rawValue === '0' || rawValue === 0){
+      consecutiveBad = 0;
+      continue;
+    }
+    
+    let status = getStatusFromValue(rawValue);
+    
+    // BS - tidak berpengaruh, reset counter
+    if(status === 'BS'){
+      consecutiveBad = 0;
+      continue;
+    }
+    
+    // P, BE, U, M, L - tidak merah, reset counter
+    if(status === 'P' || status === 'BE' || status === 'U' || status === 'M' || status === 'L'){
+      consecutiveBad = 0;
+      continue;
+    }
+    
+    // Merah, Ijin, atau Alpa - dianggap "bad" untuk SP
+    if(isMerahOrIjinAlpa(rawValue)){
+      consecutiveBad++;
+      
+      // Setiap 3 kali berturut-turut, naik 1 level SP
+      if(consecutiveBad >= 3){
+        spLevel++;
+        consecutiveBad = 0;
+      }
+    } else {
+      // Hijau atau Kuning - reset counter
+      consecutiveBad = 0;
+    }
+  }
+  
+  return spLevel;
+}
+
+function calculatePercentage(dayValues){
+  let totalPercent = 0;
+  let count = 0;
+  
+  for(let d = 1; d <= 31; d++){
+    let rawValue = dayValues[d];
+    
+    if(!rawValue || rawValue === '' || rawValue === '0' || rawValue === 0){
+      continue;
+    }
+    
+    let status = getStatusFromValue(rawValue);
+    let numVal = getNumericValue(rawValue);
+    
+    // BS tidak dihitung
+    if(status === 'BS'){
+      continue;
+    }
+    
+    // Ijin atau Alpa = 0%
+    if(status === 'I' || status === 'A'){
+      totalPercent += 0;
+      count++;
+      continue;
+    }
+    
+    // Hasil normal
+    if(numVal > 0 && !isSpecialStatus(rawValue)){
+      let p = (numVal / TARGET) * 100;
+      totalPercent += p;
+      count++;
+      continue;
+    }
+  }
+  
+  return count ? (totalPercent / count).toFixed(1) : 0;
 }
 
 function renderDashboard(){
@@ -1174,64 +1309,63 @@ function renderDashboard(){
         nama = opData.nama.trim();
       }
 
-      let totalPercent = 0, count = 0, consecutiveLow = 0, maxConsecutiveLow = 0;
-      let row = "<tr data-key='" + operatorKey + "'>";
-      row += "<td class='rankCol' data-rank='" + operatorKey + "'>-</td>";
+      let dayValues = {};
+      for(let d = 1; d <= 31; d++){
+        if(opData[d] && opData[d].hasil !== undefined && opData[d].hasil !== null){
+          dayValues[d] = opData[d].hasil;
+        } else {
+          dayValues[d] = '';
+        }
+      }
+
+      let rowHtml = "<tr data-key='" + operatorKey + "'>";
+      rowHtml += "<td class='rankCol' data-rank='" + operatorKey + "'>-</td>";
 
       if(isAdmin){
-        row += "<td class='nameCol'><input class='nameInput' type='text' value='" + escapeHtml(nama) + "' onchange=\"saveName('" + operatorKey + "', this.value)\" placeholder='Nama'></td>";
+        rowHtml += "<td class='nameCol'><input class='nameInput' type='text' value='" + escapeHtml(nama) + "' onchange=\"saveName('" + operatorKey + "', this.value)\" placeholder='Nama'></td>";
       } else {
-        row += "<td class='nameCol'><span class='nameCol-text'>" + escapeHtml(nama) + "</span></td>";
+        rowHtml += "<td class='nameCol'><span class='nameCol-text'>" + escapeHtml(nama) + "</span></td>";
       }
 
       for(let d = 1; d <= 31; d++){
-        let rawValue = (opData[d] && opData[d].hasil) || '';
+        let rawValue = dayValues[d] || '';
+        
         let status = getStatusFromValue(rawValue);
         let numVal = getNumericValue(rawValue);
-        let isStatus = isSpecialStatus(rawValue);
         let cls = "", displayValue = rawValue;
 
-        if(isStatus){
+        if(status === 'BS'){
+          cls = "status-BS";
+        } else if(status){
           cls = "status-" + status;
-          if(consecutiveLow > maxConsecutiveLow) maxConsecutiveLow = consecutiveLow;
-          consecutiveLow = 0;
         } else if(numVal > 0){
-          let p = numVal / TARGET * 100;
-          totalPercent += p;
-          count++;
-          if(p < 80){
-            cls = "low";
-            consecutiveLow++;
-          } else {
-            if(consecutiveLow > maxConsecutiveLow) maxConsecutiveLow = consecutiveLow;
-            consecutiveLow = 0;
-            if(p < 100) cls = "mid";
-            else cls = "high";
-          }
+          let p = (numVal / TARGET) * 100;
+          if(p < 80) cls = "low";
+          else if(p < 100) cls = "mid";
+          else cls = "high";
         } else {
-          if(consecutiveLow > maxConsecutiveLow) maxConsecutiveLow = consecutiveLow;
-          consecutiveLow = 0;
           displayValue = '';
         }
 
         if(isAdmin){
-          row += "<td class='" + cls + "'><input type='text' value='" + displayValue + "' onchange=\"save('" + operatorKey + "', " + d + ", this.value)\" style='text-transform:uppercase;'></td>";
+          rowHtml += "<td class='" + cls + "'><input type='text' value='" + displayValue + "' onchange=\"save('" + operatorKey + "', " + d + ", this.value)\" style='text-transform:uppercase;'></td>";
         } else {
-          row += "<td class='" + cls + "'>" + displayValue + "</td>";
+          rowHtml += "<td class='" + cls + "'>" + displayValue + "</td>";
         }
       }
 
-      if(consecutiveLow > maxConsecutiveLow) maxConsecutiveLow = consecutiveLow;
-      let avg = count ? (totalPercent / count).toFixed(1) : 0;
+      let avg = calculatePercentage(dayValues);
+      let spLevel = calculateSP(dayValues);
+
       shiftRankingData.push({key: operatorKey, avg: Number(avg)});
 
       let spText = "-";
-      if(maxConsecutiveLow >= 3){
-        spText = "SP" + Math.floor(maxConsecutiveLow / 3);
+      if(spLevel > 0){
+        spText = "SP" + spLevel;
       }
 
-      row += "<td><b>" + avg + "%</b></td><td class='warning'>" + spText + "</td></tr>";
-      tbody.innerHTML += row;
+      rowHtml += "<td><b>" + avg + "%</b></td><td class='warning'>" + spText + "</td></tr>";
+      tbody.innerHTML += rowHtml;
     }
 
     shiftRankingData.sort(function(a, b){ return b.avg - a.avg; });
@@ -1253,6 +1387,7 @@ function escapeHtml(text){
     .replace(/'/g, "&#039;");
 }
 
+// OPTIMASI: Gunakan debounce untuk mencegah multiple save
 function save(op, day, value){
   if(!isAdmin){
     alert("❌ Anda harus login sebagai admin untuk mengedit data!");
@@ -1261,11 +1396,27 @@ function save(op, day, value){
 
   let trimmedValue = value.trim().toUpperCase();
   
-  if(trimmedValue === '' || trimmedValue === '0'){
-    db.ref('maret/' + op + '/' + day).set({hasil: 0});
-  } else {
-    db.ref('maret/' + op + '/' + day).set({hasil: trimmedValue});
+  if(trimmedValue.startsWith('BS')){
+    let match = trimmedValue.match(/BS\s*(\d+)/i);
+    if(!match && trimmedValue !== 'BS'){
+      alert("❌ Format BS salah! Gunakan format: BS 250");
+      return;
+    }
   }
+  
+  // Clear timer yang ada
+  if(saveTimer) {
+    clearTimeout(saveTimer);
+  }
+  
+  // Debounce save ke Firebase dengan delay 500ms
+  saveTimer = setTimeout(function() {
+    if(trimmedValue === '' || trimmedValue === '0'){
+      db.ref('maret/' + op + '/' + day).set({hasil: 0});
+    } else {
+      db.ref('maret/' + op + '/' + day).set({hasil: trimmedValue});
+    }
+  }, 500);
 }
 
 function saveName(op, name){
@@ -1274,19 +1425,24 @@ function saveName(op, name){
     return;
   }
 
-  db.ref('maret/' + op + '/nama').set(name.trim());
+  // Clear timer yang ada
+  if(saveTimer) {
+    clearTimeout(saveTimer);
+  }
+  
+  // Debounce save nama dengan delay 500ms
+  saveTimer = setTimeout(function() {
+    db.ref('maret/' + op + '/nama').set(name.trim());
+  }, 500);
 }
 
 // ==========================================
 // SIZE SUSAH FUNCTIONS
 // ==========================================
-
 function initSizeSusah(){
-  console.log("Initializing Size Susah...");
   generateSizeGrid();
 
   db.ref('size_susah').on('value', function(snapshot){
-    console.log("Size Susah Data Updated:", snapshot.val());
     sizeSusahData = snapshot.val() || {};
     updateOperatorList();
   });
@@ -1297,21 +1453,17 @@ function initSizeSusah(){
     Object.keys(data).forEach(function(key){
       if(data[key].nama) operatorNames[key] = data[key].nama;
     });
-    console.log("Operator Names Loaded:", operatorNames);
     updateOperatorList();
   });
 
   document.getElementById("selectDay").addEventListener("change", function(){
     currentDay = parseInt(this.value);
-    console.log("Day changed to:", currentDay);
     updateOperatorList();
     updateSummary();
   });
   
   currentShift = document.getElementById("selectShift").value;
   currentDay = parseInt(document.getElementById("selectDay").value);
-  
-  console.log("Initial - Shift:", currentShift, "Day:", currentDay, "Model:", currentModel);
 }
 
 function generateSizeGrid(){
@@ -1365,7 +1517,6 @@ function setModel(model){
     document.getElementById("tab003").classList.remove("active");
     document.getElementById("tab008").classList.add("active");
   }
-  console.log("Model changed to:", currentModel);
   updateOperatorList();
   updateSummary();
 }
@@ -1374,32 +1525,21 @@ function changeShift(){
   let selectElement = document.getElementById("selectShift");
   currentShift = selectElement.value;
   
-  console.log("Shift changed to:", currentShift);
-  
   document.getElementById("currentShiftDisplay").textContent = currentShift;
   document.getElementById("summaryShift").textContent = currentShift;
-  
-  document.getElementById("debugShift").textContent = currentShift;
-  document.getElementById("debugModel").textContent = currentModel;
-  document.getElementById("debugDay").textContent = currentDay;
   
   updateOperatorList();
   updateSummary();
 }
 
 function updateOperatorList(){
-  console.log("Updating operator list for:", currentShift, currentModel, "Day:", currentDay);
-  
   let list = document.getElementById("operatorList");
   list.innerHTML = "";
   
   let totalOps = shifts[currentShift];
   if(!totalOps) {
-    console.error("Invalid shift:", currentShift);
     totalOps = 30;
   }
-  
-  console.log("Total operators for", currentShift, ":", totalOps);
 
   for(let i = 1; i <= totalOps; i++){
     let opKey = currentShift + "_OP" + i;
@@ -1449,10 +1589,6 @@ function updateOperatorList(){
   }
   
   document.getElementById("totalOps").textContent = totalOps;
-  
-  document.getElementById("debugShift").textContent = currentShift;
-  document.getElementById("debugModel").textContent = currentModel;
-  document.getElementById("debugDay").textContent = currentDay;
 }
 
 function renderSizeTagsWithHasil(sizes, hasilData, opKey){
@@ -1718,7 +1854,6 @@ function updateSummary(){
 // INITIALIZATION
 // ==========================================
 document.addEventListener('DOMContentLoaded', function(){
-  console.log("DOM Loaded - Starting initialization...");
   initDashboard();
   initSizeSusah();
   updateUIForPublic();
