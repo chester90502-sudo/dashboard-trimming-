@@ -202,11 +202,15 @@ input:focus{
 .status-P{background: #93c5fd !important; color: #1e40af; font-weight: bold;}
 .status-BE{background: #fca5a5 !important; color: #991b1b; font-weight: bold;}
 .status-U{background: #86efac !important; color: #166534; font-weight: bold;}
-.status-M{background: #c084fc !important; color: #6b21a8; font-weight: bold;}
+.status-ML{background: #c084fc !important; color: #6b21a8; font-weight: bold;} /* Minggu Libur - tidak lembur */
+.status-M{background: #f472b6 !important; color: #9d174d; font-weight: bold;} /* Minggu Lembur */
 .status-L{background: #fcd34d !important; color: #92400e; font-weight: bold;}
 .status-I{background: #60a5fa !important; color: #1e40af; font-weight: bold;}
 .status-A{background: #f87171 !important; color: #991b1b; font-weight: bold;}
 .status-BS{background: #fb923c !important; color: #9a3412; font-weight: bold;}
+.status-MT{background: #a8a29e !important; color: #451a03; font-weight: bold;} /* Mesin Trouble */
+.status-PR{background: #818cf8 !important; color: #3730a3; font-weight: bold;} /* Probation */
+.status-BM{background: #f0abfc !important; color: #86198f; font-weight: bold;} /* Belum Mulai */
 
 /* ===== BUTTONS ===== */
 .btn{
@@ -450,7 +454,7 @@ input:focus{
 
 .size-grid{
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
   gap: 8px;
   margin-bottom: 15px;
 }
@@ -460,7 +464,7 @@ input:focus{
   background: #334155;
   border: 2px solid #475569;
   border-radius: 8px;
-  padding: 10px 5px;
+  padding: 12px 5px;
   text-align: center;
   cursor: pointer;
   transition: all 0.2s;
@@ -478,15 +482,15 @@ input:focus{
 }
 
 .size-item .size-label{
-  font-size: 13px;
+  font-size: 14px;
   font-weight: bold;
   display: block;
-  margin-bottom: 4px;
 }
 
 .size-item .size-check{
   font-size: 16px;
   display: none;
+  margin-top: 4px;
 }
 
 .size-item.selected .size-check{
@@ -699,12 +703,12 @@ input:focus{
   .rankCol{ min-width: 45px; font-size: 11px; }
 
   .size-grid{
-    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(55px, 1fr));
     gap: 6px;
   }
 
-  .size-item{ padding: 8px 3px; }
-  .size-item .size-label{ font-size: 11px; }
+  .size-item{ padding: 10px 3px; }
+  .size-item .size-label{ font-size: 12px; }
 
   .btn{ padding: 10px 16px; font-size: 14px; }
 
@@ -721,13 +725,14 @@ input:focus{
 
 /* ===== STYLE UNTUK INPUT HASIL SIZE ===== */
 .size-hasil-input {
-  width: 60px !important;
-  padding: 4px 2px !important;
-  font-size: 12px !important;
+  width: 80px !important;
+  padding: 8px 4px !important;
+  font-size: 14px !important;
   margin-left: 5px;
   background: #0f172a !important;
   color: #fff !important;
   border: 1px solid #475569 !important;
+  border-radius: 6px;
 }
 
 .size-tag-with-input {
@@ -741,9 +746,10 @@ input:focus{
 .modal-size-hasil {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   max-height: 50vh;
   overflow-y: auto;
+  padding: 10px 0;
 }
 
 .size-hasil-row {
@@ -751,23 +757,32 @@ input:focus{
   justify-content: space-between;
   align-items: center;
   background: #334155;
-  padding: 10px;
-  border-radius: 6px;
+  padding: 12px;
+  border-radius: 8px;
+  gap: 10px;
 }
 
 .size-hasil-row label {
   font-weight: 600;
   color: #fbbf24;
+  font-size: 14px;
 }
 
 .size-hasil-row input {
   width: 100px;
-  padding: 8px;
-  border-radius: 4px;
-  border: 1px solid #475569;
+  padding: 10px;
+  border-radius: 6px;
+  border: 2px solid #475569;
   background: #0f172a;
   color: #fff;
   text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.size-hasil-row input:focus {
+  border-color: #10b981;
+  outline: none;
 }
 
 /* ===== SP LEGEND ===== */
@@ -785,6 +800,21 @@ input:focus{
   color: #f87171;
   display: block;
   margin-bottom: 5px;
+}
+
+/* Loading spinner */
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255,255,255,.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 </style>
 </head>
@@ -827,34 +857,38 @@ input:focus{
 <div class="page active" id="page-dashboard">
 
   <div class="info-box">
-    <strong>Input:</strong> Angka = Hasil | <strong>P</strong> = Perbantukan | <strong>BE</strong> = Pulang Awal | <strong>U</strong> = UKS | <strong>M</strong> = Minggu | <strong>L</strong> = Libur | <strong>I</strong> = Izin | <strong>A</strong> = Alpa | <strong>BS</strong> = Barang Sedikit (contoh: BS 250)
+    <strong>Input:</strong> Angka = Hasil | <strong>P</strong> = Perbantukan | <strong>BE</strong> = Pulang Awal (0%) | <strong>U</strong> = UKS | <strong>ML</strong> = Minggu Libur | <strong>M</strong> = Minggu Lembur (contoh: M 230) | <strong>L</strong> = Libur | <strong>I</strong> = Izin (0%) | <strong>A</strong> = Alpa (0%) | <strong>BS</strong> = Barang Sedikit (contoh: BS 250) | <strong>MT</strong> = Mesin Trouble (contoh: MT 250) | <strong>PR</strong> = Probation (contoh: PR 250) | <strong>BM</strong> = Belum Mulai (contoh: BM 250)
     <br><br>
     <strong>Mode:</strong> <span id="modeText">👁️ View Only (Public)</span>
     <br><br>
     <strong style="color: #fbbf24;">📊 Info Penting:</strong><br>
-    • Ijin (I) dan Alpa (A) = 0% (dihitung dalam persentase dan SP)<br>
-    • BS = Tidak dihitung dalam persentase dan SP<br>
-    • 3 data berturut-turut < 80% (merah, I, atau A) = SP naik 1 level
+    • Ijin (I), Alpa (A), dan BE (Pulang Awal) = 0% (dihitung dalam persentase dan SP)<br>
+    • BS, M (Minggu Lembur), MT (Mesin Trouble), PR (Probation), BM (Belum Mulai) = Tidak dihitung dalam persentase dan SP<br>
+    • 3 data berturut-turut < 80% (merah, I, A, atau BE) = SP naik 1 level
   </div>
 
   <div class="sp-legend">
     <strong>📋 Aturan SP (Surat Peringatan):</strong><br>
-    • 3 hari merah/I/A (< 80%) berturut-turut = SP1<br>
-    • 3 hari merah/I/A berturut-turut lagi = SP2<br>
-    • 3 hari merah/I/A berturut-turut lagi = SP3<br>
-    • BS (Barang Sedikit) tidak mempengaruhi % dan SP
+    • 3 hari merah/I/A/BE (< 80% atau 0%) berturut-turut = SP1<br>
+    • 3 hari merah/I/A/BE berturut-turut lagi = SP2<br>
+    • 3 hari merah/I/A/BE berturut-turut lagi = SP3<br>
+    • BS, M, MT, PR, BM tidak mempengaruhi % dan SP
   </div>
 
   <div class="legend">
     <strong>Keterangan Status:</strong>
     <span class="status-P">P = Perbantukan</span>
-    <span class="status-BE">BE = Pulang Awal</span>
+    <span class="status-BE">BE = Pulang Awal (0%)</span>
     <span class="status-U">U = UKS</span>
-    <span class="status-M">M = Minggu</span>
+    <span class="status-ML">ML = Minggu Libur</span>
+    <span class="status-M">M = Minggu Lembur</span>
     <span class="status-L">L = Libur</span>
     <span class="status-I">I = Izin (0%)</span>
     <span class="status-A">A = Alpa (0%)</span>
     <span class="status-BS">BS = Barang Sedikit</span>
+    <span class="status-MT">MT = Mesin Trouble</span>
+    <span class="status-PR">PR = Probation</span>
+    <span class="status-BM">BM = Belum Mulai</span>
   </div>
 
   <div class="table-container" id="tableContainer">
@@ -900,11 +934,11 @@ input:focus{
     <div class="model-tabs">
       <div class="model-tab active" onclick="setModel('003')" id="tab003">
         <h3>S25-003</h3>
-        <p>Size 2.5 - 16</p>
+        <p>Size 2 - 16</p>
       </div>
       <div class="model-tab" onclick="setModel('008')" id="tab008">
         <h3>S25-008</h3>
-        <p>Size 2.5 - 16</p>
+        <p>Size 2 - 16</p>
       </div>
     </div>
   </div>
@@ -978,7 +1012,7 @@ input:focus{
     <div class="modal-size-hasil" id="hasilSizeContainer">
     </div>
     <div style="text-align: center; margin-top: 15px;">
-      <button class="btn btn-success" onclick="saveHasilSizes()">💾 Simpan Hasil</button>
+      <button class="btn btn-success" onclick="saveHasilSizes()" id="btnSaveHasil">💾 Simpan Hasil</button>
       <button class="btn btn-danger" onclick="closeHasilModal()">❌ Batal</button>
     </div>
   </div>
@@ -1009,7 +1043,7 @@ let isAdmin = false;
 const TARGET = 450;
 let currentData = {};
 const shifts = { "SHIFT A": 30, "SHIFT B": 30, "SHIFT C": 30 };
-const SPECIAL_STATUS = ['P', 'BE', 'U', 'M', 'L', 'I', 'A', 'BS'];
+const SPECIAL_STATUS = ['P', 'BE', 'U', 'ML', 'M', 'L', 'I', 'A', 'BS', 'MT', 'PR', 'BM'];
 
 // Size Susah variables
 let currentModel = '003';
@@ -1020,14 +1054,19 @@ let currentOperatorKey = null;
 let sizeSusahData = {};
 let operatorNames = {};
 let currentHasilOpKey = null;
+let currentHasilSizes = []; // Simpan daftar size yang sedang di-edit
 
 // Debounce timer untuk optimasi input
 let saveTimer = null;
 
+// ==========================================
+// DAFTAR SIZE BARU - FORMAT DENGAN T
+// ==========================================
 const ALL_SIZES = [
-  '2.5', '3', '3.5', '4', '4.5', '5', '5.5', '6', '6.5', 
-  '7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', 
-  '11', '11.5', '12', '12.5', '13', '14', '15', '16'
+  '2', '2T', '3', '3T', '4', '4T', '5', '5T', 
+  '6', '6T', '7', '7T', '8', '8T', '9', '9T', 
+  '10', '10T', '11', '11T', '12', '12T', 
+  '13', '14', '15', '16'
 ];
 
 // ==========================================
@@ -1127,11 +1166,15 @@ function isSpecialStatus(value){
   if(strValue.startsWith('BE')) return true;
   if(strValue.startsWith('P')) return true;
   if(strValue.startsWith('U')) return true;
-  if(strValue.startsWith('M')) return true;
+  if(strValue.startsWith('ML')) return true; // Minggu Libur
+  if(strValue.startsWith('M')) return true;  // Minggu Lembur
   if(strValue.startsWith('L')) return true;
   if(strValue.startsWith('I')) return true;
   if(strValue.startsWith('A')) return true;
   if(strValue.startsWith('BS')) return true;
+  if(strValue.startsWith('MT')) return true; // Mesin Trouble
+  if(strValue.startsWith('PR')) return true; // Probation
+  if(strValue.startsWith('BM')) return true; // Belum Mulai
   
   return SPECIAL_STATUS.indexOf(strValue) > -1;
 }
@@ -1142,21 +1185,54 @@ function isBS(value){
   return strValue.startsWith('BS');
 }
 
-// Ijin dan Alpa dihitung sebagai "merah" untuk SP
-function isMerahOrIjinAlpa(value){
+// M (Minggu Lembur) - tidak mempengaruhi % dan SP seperti BS
+function isMingguLembur(value){
+  if(!value) return false;
+  let strValue = String(value).toUpperCase().trim();
+  // M harus diikuti angka (M 230), bukan ML (Minggu Libur)
+  return strValue.startsWith('M') && !strValue.startsWith('ML');
+}
+
+// MT (Mesin Trouble) - tidak mempengaruhi % dan SP
+function isMesinTrouble(value){
+  if(!value) return false;
+  let strValue = String(value).toUpperCase().trim();
+  return strValue.startsWith('MT');
+}
+
+// PR (Probation) - tidak mempengaruhi % dan SP
+function isProbation(value){
+  if(!value) return false;
+  let strValue = String(value).toUpperCase().trim();
+  return strValue.startsWith('PR');
+}
+
+// BM (Belum Mulai) - tidak mempengaruhi % dan SP
+function isBelumMulai(value){
+  if(!value) return false;
+  let strValue = String(value).toUpperCase().trim();
+  return strValue.startsWith('BM');
+}
+
+// Status yang tidak mempengaruhi % dan SP (BS, M, MT, PR, BM)
+function isNeutralStatus(value){
+  return isBS(value) || isMingguLembur(value) || isMesinTrouble(value) || isProbation(value) || isBelumMulai(value);
+}
+
+// Ijin, Alpa, dan BE dihitung sebagai "merah" untuk SP (0%)
+function isMerahOrIjinAlpaBE(value){
   if(!value) return false;
   let strValue = String(value).toUpperCase().trim();
   
-  // BS tidak dianggap merah
-  if(strValue.startsWith('BS')) return false;
+  // BS, M, MT, PR, BM tidak dianggap merah (netral)
+  if(isNeutralStatus(value)) return false;
   
-  // Status P, BE, U, M, L tidak dianggap merah
-  if(strValue.startsWith('P') || strValue.startsWith('BE') || 
-     strValue.startsWith('U') || strValue.startsWith('M') || 
-     strValue.startsWith('L')) return false;
+  // Status P, U, ML, L tidak dianggap merah
+  if(strValue.startsWith('P') || strValue.startsWith('U') || 
+     strValue.startsWith('ML') || strValue.startsWith('L')) return false;
   
-  // Ijin atau Alpa dianggap sebagai merah untuk perhitungan SP
-  if(strValue.startsWith('I') || strValue.startsWith('A')) return true;
+  // BE, Ijin atau Alpa dianggap sebagai merah untuk perhitungan SP (0%)
+  if(strValue.startsWith('BE') || strValue.startsWith('I') || strValue.startsWith('A')) return true;
   
   // Cek apakah angka dan < 80%
   let numVal = getNumericValue(value);
@@ -1173,8 +1249,29 @@ function getNumericValue(value){
   
   let strValue = String(value).toUpperCase().trim();
   
+  // BS, M, MT, PR, BM mengembalikan nilai angkanya untuk ditampilkan (tapi tidak dihitung)
   if(isBS(value)) {
     let match = strValue.match(/BS\s*(\d+)/i);
+    return match ? parseInt(match[1]) : 0;
+  }
+  
+  if(isMingguLembur(value)) {
+    let match = strValue.match(/M\s*(\d+)/i);
+    return match ? parseInt(match[1]) : 0;
+  }
+  
+  if(isMesinTrouble(value)) {
+    let match = strValue.match(/MT\s*(\d+)/i);
+    return match ? parseInt(match[1]) : 0;
+  }
+  
+  if(isProbation(value)) {
+    let match = strValue.match(/PR\s*(\d+)/i);
+    return match ? parseInt(match[1]) : 0;
+  }
+  
+  if(isBelumMulai(value)) {
+    let match = strValue.match(/BM\s*(\d+)/i);
     return match ? parseInt(match[1]) : 0;
   }
   
@@ -1192,9 +1289,13 @@ function getStatusFromValue(value){
   
   if(strValue.startsWith('BS')) return 'BS';
   if(strValue.startsWith('BE')) return 'BE';
+  if(strValue.startsWith('MT')) return 'MT'; // Mesin Trouble
+  if(strValue.startsWith('PR')) return 'PR'; // Probation
+  if(strValue.startsWith('BM')) return 'BM'; // Belum Mulai
+  if(strValue.startsWith('ML')) return 'ML'; // Minggu Libur
+  if(strValue.startsWith('M')) return 'M';    // Minggu Lembur
   if(strValue.startsWith('P')) return 'P';
   if(strValue.startsWith('U')) return 'U';
-  if(strValue.startsWith('M')) return 'M';
   if(strValue.startsWith('L')) return 'L';
   if(strValue.startsWith('I')) return 'I';
   if(strValue.startsWith('A')) return 'A';
@@ -1209,7 +1310,7 @@ function getRankDisplay(rank){
   return rank;
 }
 
-// Ijin dan Alpa dihitung untuk SP
+// Ijin, Alpa, dan BE dihitung untuk SP (semua 0%)
 function calculateSP(dayValues){
   let spLevel = 0;
   let consecutiveBad = 0;
@@ -1224,20 +1325,20 @@ function calculateSP(dayValues){
     
     let status = getStatusFromValue(rawValue);
     
-    // BS - tidak berpengaruh, reset counter
-    if(status === 'BS'){
+    // BS, M, MT, PR, BM - tidak berpengaruh, reset counter
+    if(isNeutralStatus(rawValue)){
       consecutiveBad = 0;
       continue;
     }
     
-    // P, BE, U, M, L - tidak merah, reset counter
-    if(status === 'P' || status === 'BE' || status === 'U' || status === 'M' || status === 'L'){
+    // P, U, ML, L - tidak merah, reset counter
+    if(status === 'P' || status === 'U' || status === 'ML' || status === 'L'){
       consecutiveBad = 0;
       continue;
     }
     
-    // Merah, Ijin, atau Alpa - dianggap "bad" untuk SP
-    if(isMerahOrIjinAlpa(rawValue)){
+    // Merah, BE, Ijin, atau Alpa - dianggap "bad" untuk SP (0%)
+    if(isMerahOrIjinAlpaBE(rawValue)){
       consecutiveBad++;
       
       // Setiap 3 kali berturut-turut, naik 1 level SP
@@ -1268,13 +1369,13 @@ function calculatePercentage(dayValues){
     let status = getStatusFromValue(rawValue);
     let numVal = getNumericValue(rawValue);
     
-    // BS tidak dihitung
-    if(status === 'BS'){
+    // BS, M, MT, PR, BM tidak dihitung dalam persentase
+    if(isNeutralStatus(rawValue)){
       continue;
     }
     
-    // Ijin atau Alpa = 0%
-    if(status === 'I' || status === 'A'){
+    // BE, Ijin atau Alpa = 0%
+    if(status === 'BE' || status === 'I' || status === 'A'){
       totalPercent += 0;
       count++;
       continue;
@@ -1336,6 +1437,18 @@ function renderDashboard(){
 
         if(status === 'BS'){
           cls = "status-BS";
+        } else if(status === 'BE'){
+          cls = "status-BE";
+        } else if(status === 'MT'){
+          cls = "status-MT";
+        } else if(status === 'PR'){
+          cls = "status-PR";
+        } else if(status === 'BM'){
+          cls = "status-BM";
+        } else if(status === 'M'){
+          cls = "status-M";
+        } else if(status === 'ML'){
+          cls = "status-ML";
         } else if(status){
           cls = "status-" + status;
         } else if(numVal > 0){
@@ -1396,10 +1509,47 @@ function save(op, day, value){
 
   let trimmedValue = value.trim().toUpperCase();
   
+  // Validasi format BS
   if(trimmedValue.startsWith('BS')){
     let match = trimmedValue.match(/BS\s*(\d+)/i);
     if(!match && trimmedValue !== 'BS'){
       alert("❌ Format BS salah! Gunakan format: BS 250");
+      return;
+    }
+  }
+  
+  // Validasi format M (Minggu Lembur)
+  if(trimmedValue.startsWith('M') && !trimmedValue.startsWith('ML')){
+    let match = trimmedValue.match(/M\s*(\d+)/i);
+    if(!match && trimmedValue !== 'M'){
+      alert("❌ Format M (Minggu Lembur) salah! Gunakan format: M 230");
+      return;
+    }
+  }
+  
+  // Validasi format MT (Mesin Trouble)
+  if(trimmedValue.startsWith('MT')){
+    let match = trimmedValue.match(/MT\s*(\d+)/i);
+    if(!match && trimmedValue !== 'MT'){
+      alert("❌ Format MT (Mesin Trouble) salah! Gunakan format: MT 250");
+      return;
+    }
+  }
+  
+  // Validasi format PR (Probation)
+  if(trimmedValue.startsWith('PR')){
+    let match = trimmedValue.match(/PR\s*(\d+)/i);
+    if(!match && trimmedValue !== 'PR'){
+      alert("❌ Format PR (Probation) salah! Gunakan format: PR 250");
+      return;
+    }
+  }
+  
+  // Validasi format BM (Belum Mulai)
+  if(trimmedValue.startsWith('BM')){
+    let match = trimmedValue.match(/BM\s*(\d+)/i);
+    if(!match && trimmedValue !== 'BM'){
+      alert("❌ Format BM (Belum Mulai) salah! Gunakan format: BM 250");
       return;
     }
   }
@@ -1607,96 +1757,160 @@ function renderSizeTagsWithHasil(sizes, hasilData, opKey){
   }).join('');
 }
 
+// ==========================================
+// MODAL INPUT HASIL - PERBAIKAN UTAMA
+// ==========================================
 function openHasilModal(opKey, opName){
   if(!isAdmin){
     alert("❌ Hanya admin yang dapat menginput hasil!");
     return;
   }
 
+  console.log("Opening hasil modal for:", opKey, opName);
+  
   currentHasilOpKey = opKey;
   document.getElementById("hasilOpName").textContent = opName;
 
+  // Ambil data yang sudah tersimpan
   let savedSizes = [];
   let sizeHasil = {};
 
-  if(sizeSusahData && sizeSusahData[currentShift] && 
-     sizeSusahData[currentShift][opKey] && 
-     sizeSusahData[currentShift][opKey][currentModel] &&
-     sizeSusahData[currentShift][opKey][currentModel][currentDay]){
-    let dayData = sizeSusahData[currentShift][opKey][currentModel][currentDay];
-    if(Array.isArray(dayData)){
-      savedSizes = dayData;
-    } else if(typeof dayData === 'object' && dayData.sizes){
-      savedSizes = dayData.sizes;
-      sizeHasil = dayData.hasil || {};
+  try {
+    if(sizeSusahData && sizeSusahData[currentShift] && 
+       sizeSusahData[currentShift][opKey] && 
+       sizeSusahData[currentShift][opKey][currentModel] &&
+       sizeSusahData[currentShift][opKey][currentModel][currentDay]){
+      
+      let dayData = sizeSusahData[currentShift][opKey][currentModel][currentDay];
+      console.log("Day data:", dayData);
+      
+      if(Array.isArray(dayData)){
+        savedSizes = dayData;
+      } else if(typeof dayData === 'object' && dayData !== null){
+        savedSizes = dayData.sizes || [];
+        sizeHasil = dayData.hasil || {};
+      }
     }
+  } catch(e) {
+    console.error("Error reading data:", e);
   }
+
+  // Simpan daftar size yang sedang di-edit
+  currentHasilSizes = savedSizes;
+  
+  console.log("Saved sizes:", savedSizes);
+  console.log("Size hasil:", sizeHasil);
 
   let container = document.getElementById("hasilSizeContainer");
   container.innerHTML = "";
 
   if(savedSizes.length === 0){
-    container.innerHTML = "<p style='text-align: center; color: #94a3b8;'>Belum ada size yang dipilih. Silakan pilih size terlebih dahulu.</p>";
+    container.innerHTML = "<p style='text-align: center; color: #94a3b8; padding: 20px;'>Belum ada size yang dipilih. Silakan pilih size terlebih dahulu.</p>";
   } else {
     savedSizes.forEach(function(size){
       let hasil = sizeHasil[size] || '';
       let row = document.createElement("div");
       row.className = "size-hasil-row";
-      row.innerHTML = 
-        "<label>Size " + size + "</label>" +
-        "<input type='number' id='hasil-" + size + "' value='" + hasil + "' placeholder='Jumlah hasil'>";
+      
+      // Buat label dan input dengan ID yang valid (size sudah tidak ada titik)
+      let label = document.createElement("label");
+      label.textContent = "Size " + size;
+      
+      let input = document.createElement("input");
+      input.type = "number";
+      input.id = "hasil-" + size; // ID sekarang aman karena tidak ada titik
+      input.value = hasil;
+      input.placeholder = "0";
+      input.min = "0";
+      
+      row.appendChild(label);
+      row.appendChild(input);
       container.appendChild(row);
     });
   }
 
+  // Tampilkan modal
   document.getElementById("hasilModal").classList.add("active");
+  console.log("Modal opened");
 }
 
 function closeHasilModal(){
   document.getElementById("hasilModal").classList.remove("active");
   currentHasilOpKey = null;
+  currentHasilSizes = [];
 }
 
+// ==========================================
+// SAVE HASIL - PERBAIKAN UTAMA
+// ==========================================
 function saveHasilSizes(){
+  console.log("Save hasil clicked");
+  
   if(!isAdmin){
     alert("❌ Anda harus login sebagai admin!");
     return;
   }
 
-  if(!currentHasilOpKey) return;
-
-  let savedSizes = [];
-  if(sizeSusahData && sizeSusahData[currentShift] && 
-     sizeSusahData[currentShift][currentHasilOpKey] && 
-     sizeSusahData[currentShift][currentHasilOpKey][currentModel] &&
-     sizeSusahData[currentShift][currentHasilOpKey][currentModel][currentDay]){
-    let dayData = sizeSusahData[currentShift][currentHasilOpKey][currentModel][currentDay];
-    if(Array.isArray(dayData)){
-      savedSizes = dayData;
-    } else if(typeof dayData === 'object' && dayData.sizes){
-      savedSizes = dayData.sizes;
-    }
+  if(!currentHasilOpKey){
+    alert("❌ Error: Operator tidak dipilih!");
+    return;
   }
 
+  if(!currentHasilSizes || currentHasilSizes.length === 0){
+    alert("❌ Tidak ada size untuk disimpan!");
+    return;
+  }
+
+  // Kumpulkan data hasil dari input fields
   let hasilData = {};
-  savedSizes.forEach(function(size){
-    let input = document.getElementById("hasil-" + size);
-    if(input && input.value){
-      hasilData[size] = parseInt(input.value) || 0;
+  let hasInput = false;
+  
+  currentHasilSizes.forEach(function(size){
+    // ID sekarang sama persis dengan size karena tidak ada titik
+    let inputId = "hasil-" + size;
+    let inputElement = document.getElementById(inputId);
+    
+    console.log("Looking for input:", inputId, "Found:", inputElement);
+    
+    if(inputElement){
+      let value = inputElement.value.trim();
+      if(value !== '' && value !== '0'){
+        hasilData[size] = parseInt(value) || 0;
+        hasInput = true;
+        console.log("Size", size, "=", hasilData[size]);
+      }
     }
   });
 
+  // Buat path Firebase
   let path = 'size_susah/' + currentShift + '/' + currentHasilOpKey + '/' + currentModel + '/' + currentDay;
+  
+  // Data yang akan disimpan
   let dataToSave = {
-    sizes: savedSizes,
+    sizes: currentHasilSizes,
     hasil: hasilData,
     timestamp: new Date().toISOString()
   };
   
-  db.ref(path).set(dataToSave);
+  console.log("Saving to path:", path);
+  console.log("Data:", dataToSave);
 
-  closeHasilModal();
-  alert("✅ Hasil size berhasil disimpan!");
+  // Simpan ke Firebase dengan error handling
+  try {
+    db.ref(path).set(dataToSave)
+      .then(function() {
+        console.log("Save successful");
+        closeHasilModal();
+        alert("✅ Hasil size berhasil disimpan!");
+      })
+      .catch(function(error) {
+        console.error("Save failed:", error);
+        alert("❌ Gagal menyimpan: " + error.message);
+      });
+  } catch(e) {
+    console.error("Error saving:", e);
+    alert("❌ Error: " + e.message);
+  }
 }
 
 function openSizeModal(opKey, opName){
@@ -1854,11 +2068,21 @@ function updateSummary(){
 // INITIALIZATION
 // ==========================================
 document.addEventListener('DOMContentLoaded', function(){
+  console.log("DOM Loaded");
+  
+  // Cek Firebase
+  if(typeof firebase === 'undefined'){
+    alert("Error: Firebase tidak ter-load!");
+    return;
+  }
+  
   initDashboard();
   initSizeSusah();
   updateUIForPublic();
   
   document.getElementById("currentShiftDisplay").textContent = currentShift;
+  
+  console.log("Initialization complete");
 });
 
 // Make functions global for onclick
