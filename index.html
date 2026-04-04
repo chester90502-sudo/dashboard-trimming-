@@ -38,6 +38,12 @@ h2{
   color: #fbbf24;
 }
 
+h3{
+  font-size: 14px;
+  margin: 10px 0 8px 0;
+  color: #60a5fa;
+}
+
 .card{
   background: #1e293b;
   border-radius: 12px;
@@ -54,6 +60,7 @@ h2{
   background: #334155;
   padding: 5px;
   border-radius: 10px;
+  flex-wrap: wrap;
 }
 
 .nav-tab{
@@ -69,6 +76,7 @@ h2{
   background: transparent;
   border: none;
   font-family: inherit;
+  min-width: 80px;
 }
 
 .nav-tab.active{
@@ -152,7 +160,6 @@ th{
   color: #000 !important;
 }
 
-/* CRITICAL FIX: Ensure name is visible in public mode */
 .nameCol-text{
   color: #000 !important;
   font-weight: 600;
@@ -202,15 +209,22 @@ input:focus{
 .status-P{background: #93c5fd !important; color: #1e40af; font-weight: bold;}
 .status-BE{background: #fca5a5 !important; color: #991b1b; font-weight: bold;}
 .status-U{background: #86efac !important; color: #166534; font-weight: bold;}
-.status-ML{background: #c084fc !important; color: #6b21a8; font-weight: bold;} /* Minggu Libur - tidak lembur */
-.status-M{background: #f472b6 !important; color: #9d174d; font-weight: bold;} /* Minggu Lembur */
+.status-ML{background: #c084fc !important; color: #6b21a8; font-weight: bold;}
+.status-M{background: #f472b6 !important; color: #9d174d; font-weight: bold;}
 .status-L{background: #fcd34d !important; color: #92400e; font-weight: bold;}
 .status-I{background: #60a5fa !important; color: #1e40af; font-weight: bold;}
 .status-A{background: #f87171 !important; color: #991b1b; font-weight: bold;}
 .status-BS{background: #fb923c !important; color: #9a3412; font-weight: bold;}
-.status-MT{background: #a8a29e !important; color: #451a03; font-weight: bold;} /* Mesin Trouble */
-.status-PR{background: #818cf8 !important; color: #3730a3; font-weight: bold;} /* Probation */
-.status-BM{background: #f0abfc !important; color: #86198f; font-weight: bold;} /* Belum Mulai */
+.status-MT{background: #a8a29e !important; color: #451a03; font-weight: bold;}
+.status-PR{background: #818cf8 !important; color: #3730a3; font-weight: bold;}
+.status-BM{background: #f0abfc !important; color: #86198f; font-weight: bold;}
+
+/* ABSENSI COLORS */
+.absen-H{background: #86efac !important; color: #166534; font-weight: bold;}
+.absen-I{background: #fde047 !important; color: #92400e; font-weight: bold;}
+.absen-S{background: #60a5fa !important; color: #1e40af; font-weight: bold;}
+.absen-A{background: #f87171 !important; color: #991b1b; font-weight: bold;}
+.absen-L{background: #c084fc !important; color: #6b21a8; font-weight: bold;}
 
 /* ===== BUTTONS ===== */
 .btn{
@@ -257,6 +271,14 @@ input:focus{
 .btn-sm{
   padding: 8px 15px;
   font-size: 13px;
+}
+
+.btn-purple{
+  background: #7c3aed;
+}
+
+.btn-info{
+  background: #06b6d4;
 }
 
 /* ===== LOGIN BUTTON FLOATING ===== */
@@ -394,21 +416,64 @@ input:focus{
   font-size: 12px;
 }
 
-/* ===== SIZE SUSAH PAGE ===== */
-.header-info{
-  background: #334155;
-  padding: 12px;
-  border-radius: 8px;
+/* ===== PIKET STYLES ===== */
+.piket-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 15px;
   margin-bottom: 15px;
-  font-size: 13px;
 }
 
-.header-info label{
-  display: block;
+.piket-card{
+  background: #334155;
+  border-radius: 10px;
+  padding: 15px;
+  border: 2px solid #475569;
+}
+
+.piket-card h4{
+  color: #fbbf24;
   margin-bottom: 10px;
+  font-size: 14px;
+  text-align: center;
+  text-transform: uppercase;
+  border-bottom: 1px solid #475569;
+  padding-bottom: 8px;
 }
 
-.header-info select, .header-info input{
+.piket-list{
+  list-style: none;
+  padding: 0;
+}
+
+.piket-list li{
+  background: #1e293b;
+  margin-bottom: 6px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-left: 3px solid #2563eb;
+}
+
+.piket-list li .remove-piket{
+  color: #ef4444;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+  margin-left: 10px;
+}
+
+.piket-count{
+  text-align: center;
+  margin-top: 10px;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.piket-select{
   width: 100%;
   padding: 10px;
   border-radius: 6px;
@@ -416,233 +481,120 @@ input:focus{
   background: #1e293b;
   color: #fff;
   font-size: 14px;
-  margin-top: 5px;
+  margin-bottom: 10px;
   font-family: inherit;
 }
 
-.model-tabs{
+/* ===== ABSENSI STYLES ===== */
+.absensi-table th{
+  min-width: 35px;
+  font-size: 11px;
+}
+
+.absensi-table td{
+  min-width: 35px;
+  font-size: 12px;
+  padding: 6px 2px;
+}
+
+.absensi-legend{
   display: flex;
   gap: 10px;
+  flex-wrap: wrap;
   margin-bottom: 15px;
+  justify-content: center;
 }
 
-.model-tab{
-  flex: 1;
-  padding: 15px;
-  background: #334155;
-  border: 2px solid transparent;
-  border-radius: 10px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.model-tab.active{
-  background: #2563eb;
-  border-color: #60a5fa;
-}
-
-.model-tab h3{
-  font-size: 18px;
-  margin-bottom: 5px;
-}
-
-.model-tab p{
+.absensi-legend-item{
+  display: flex;
+  align-items: center;
+  gap: 5px;
   font-size: 12px;
-  color: #cbd5e1;
 }
 
-.size-grid{
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
-  gap: 8px;
-  margin-bottom: 15px;
+.absensi-legend-box{
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 1px solid #475569;
 }
 
-.size-item{
-  position: relative;
+/* ===== SP STYLES ===== */
+.sp-card{
   background: #334155;
-  border: 2px solid #475569;
-  border-radius: 8px;
-  padding: 12px 5px;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.2s;
-  user-select: none;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-left: 4px solid #ef4444;
 }
 
-.size-item:hover{
-  border-color: #60a5fa;
-}
-
-.size-item.selected{
-  background: #2563eb;
-  border-color: #60a5fa;
-  color: #fff;
-}
-
-.size-item .size-label{
+.sp-card h4{
+  color: #f87171;
+  margin-bottom: 10px;
   font-size: 14px;
-  font-weight: bold;
-  display: block;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.size-item .size-check{
-  font-size: 16px;
-  display: none;
+.sp-level{
+  background: #ef4444;
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.sp-list{
+  list-style: none;
+  padding: 0;
+}
+
+.sp-list li{
+  background: #1e293b;
+  margin-bottom: 8px;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sp-date{
+  color: #fbbf24;
+  font-weight: 600;
+}
+
+.sp-reason{
+  color: #94a3b8;
+  font-size: 12px;
   margin-top: 4px;
 }
 
-.size-item.selected .size-check{
-  display: block;
-}
-
-.operator-list{
-  max-height: 40vh;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-.operator-item{
-  background: #334155;
-  border-radius: 8px;
-  padding: 12px;
-  margin-bottom: 8px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
+.sp-form{
+  display: grid;
   gap: 10px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #475569;
 }
 
-.operator-name{
-  font-weight: 600;
-  font-size: 14px;
-  flex: 1;
-  min-width: 120px;
-  color: #fff;
-}
-
-.operator-sizes{
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  flex: 2;
-}
-
-.size-tag{
-  background: #ef4444;
-  color: #fff;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-  font-weight: bold;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.size-tag .remove{
-  cursor: pointer;
-  font-weight: bold;
-  opacity: 0.7;
-}
-
-.size-tag .remove:hover{
-  opacity: 1;
-}
-
-.btn-add-size{
-  padding: 6px 12px;
-  background: #10b981;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  font-size: 12px;
-  cursor: pointer;
-  font-family: inherit;
-}
-
-.btn-add-size:disabled{
-  background: #64748b;
-  cursor: not-allowed;
-}
-
-/* ===== MODAL ===== */
-.modal-overlay{
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0,0,0,0.8);
-  z-index: 100;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
-
-.modal-overlay.active{
-  display: flex;
-}
-
-.modal-content{
-  background: #1e293b;
-  border-radius: 12px;
-  padding: 20px;
+.sp-form input, .sp-form select{
   width: 100%;
-  max-width: 500px;
-  max-height: 80vh;
-  overflow-y: auto;
-}
-
-.modal-header{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #334155;
-}
-
-.modal-header h3{
-  font-size: 16px;
-}
-
-.close-modal{
-  background: none;
-  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #475569;
+  background: #1e293b;
   color: #fff;
-  font-size: 24px;
-  cursor: pointer;
   font-family: inherit;
 }
 
-/* ===== SUMMARY ===== */
-.summary-card{
-  background: #065f46;
-  border-radius: 10px;
-  padding: 15px;
-  margin-top: 15px;
-}
-
-.summary-card h3{
-  color: #6ee7b7;
-  margin-bottom: 10px;
-  font-size: 14px;
-}
-
-.summary-item{
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 0;
-  border-bottom: 1px solid #047857;
-  font-size: 13px;
-}
-
-.summary-item:last-child{
-  border-bottom: none;
+.sp-form-row{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 
 /* ===== ADMIN BADGE ===== */
@@ -688,7 +640,7 @@ input:focus{
 
   .card{ padding: 12px; }
 
-  .nav-tab{ font-size: 13px; padding: 10px; }
+  .nav-tab{ font-size: 12px; padding: 10px 5px; min-width: 70px; }
 
   th, td{ 
     padding: 6px 2px; 
@@ -702,18 +654,13 @@ input:focus{
   .nameCol{ min-width: 120px; left: 45px; font-size: 12px; color: #000 !important; }
   .rankCol{ min-width: 45px; font-size: 11px; }
 
-  .size-grid{
-    grid-template-columns: repeat(auto-fill, minmax(55px, 1fr));
-    gap: 6px;
+  .piket-grid{
+    grid-template-columns: 1fr;
   }
-
-  .size-item{ padding: 10px 3px; }
-  .size-item .size-label{ font-size: 12px; }
 
   .btn{ padding: 10px 16px; font-size: 14px; }
 
   .table-container{ max-height: 50vh; }
-  .operator-list{ max-height: 35vh; }
 
   .btn-login, .btn-logout{
     bottom: 15px;
@@ -721,85 +668,11 @@ input:focus{
     padding: 10px 16px;
     font-size: 13px;
   }
-}
-
-/* ===== STYLE UNTUK INPUT HASIL SIZE ===== */
-.size-hasil-input {
-  width: 80px !important;
-  padding: 8px 4px !important;
-  font-size: 14px !important;
-  margin-left: 5px;
-  background: #0f172a !important;
-  color: #fff !important;
-  border: 1px solid #475569 !important;
-  border-radius: 6px;
-}
-
-.size-tag-with-input {
-  background: #2563eb !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 5px !important;
-  padding: 6px 10px !important;
-}
-
-.modal-size-hasil {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  max-height: 50vh;
-  overflow-y: auto;
-  padding: 10px 0;
-}
-
-.size-hasil-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #334155;
-  padding: 12px;
-  border-radius: 8px;
-  gap: 10px;
-}
-
-.size-hasil-row label {
-  font-weight: 600;
-  color: #fbbf24;
-  font-size: 14px;
-}
-
-.size-hasil-row input {
-  width: 100px;
-  padding: 10px;
-  border-radius: 6px;
-  border: 2px solid #475569;
-  background: #0f172a;
-  color: #fff;
-  text-align: center;
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.size-hasil-row input:focus {
-  border-color: #10b981;
-  outline: none;
-}
-
-/* ===== SP LEGEND ===== */
-.sp-legend {
-  background: #450a0a;
-  border: 1px solid #7f1d1d;
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 12px;
-  font-size: 11px;
-  color: #fecaca;
-}
-
-.sp-legend strong {
-  color: #f87171;
-  display: block;
-  margin-bottom: 5px;
+  
+  .absensi-table th, .absensi-table td{
+    min-width: 30px;
+    font-size: 10px;
+  }
 }
 
 /* Loading spinner */
@@ -820,7 +693,7 @@ input:focus{
 </head>
 <body>
 
-<h1>📊 DASHBOARD TRIMMING BULAN MARET 2026</h1>
+<h1>📊 DASHBOARD TRIMMING</h1>
 
 <!-- ADMIN BADGE -->
 <div class="admin-badge" id="adminBadge">🔐 ADMIN MODE</div>
@@ -848,8 +721,14 @@ input:focus{
   <button class="nav-tab active" onclick="showPage('dashboard')" id="tab-dashboard">
     📊 Produksi
   </button>
-  <button class="nav-tab" onclick="showPage('sizesusah')" id="tab-sizesusah">
-    📏 Size Susah
+  <button class="nav-tab" onclick="showPage('piket')" id="tab-piket">
+    🧹 Piket
+  </button>
+  <button class="nav-tab" onclick="showPage('absensi')" id="tab-absensi">
+    📋 Absensi
+  </button>
+  <button class="nav-tab" onclick="showPage('sp')" id="tab-sp">
+    ⚠️ SP
   </button>
 </div>
 
@@ -865,14 +744,6 @@ input:focus{
     • Ijin (I), Alpa (A), dan BE (Pulang Awal) = 0% (dihitung dalam persentase dan SP)<br>
     • BS, M (Minggu Lembur), MT (Mesin Trouble), PR (Probation), BM (Belum Mulai) = Tidak dihitung dalam persentase dan SP<br>
     • 3 data berturut-turut < 80% (merah, I, A, atau BE) = SP naik 1 level
-  </div>
-
-  <div class="sp-legend">
-    <strong>📋 Aturan SP (Surat Peringatan):</strong><br>
-    • 3 hari merah/I/A/BE (< 80% atau 0%) berturut-turut = SP1<br>
-    • 3 hari merah/I/A/BE berturut-turut lagi = SP2<br>
-    • 3 hari merah/I/A/BE berturut-turut lagi = SP3<br>
-    • BS, M, MT, PR, BM tidak mempengaruhi % dan SP
   </div>
 
   <div class="legend">
@@ -909,113 +780,113 @@ input:focus{
   </div>
 </div>
 
-<!-- PAGE 2: SIZE SUSAH -->
-<div class="page" id="page-sizesusah">
-
+<!-- PAGE 2: PIKET -->
+<div class="page" id="page-piket">
   <div class="card">
-    <div class="header-info">
-      <label>
-        Tanggal:
-        <input type="number" id="selectDay" min="1" max="31" value="1">
-      </label>
-      <label>
-        Shift:
-        <select id="selectShift" onchange="changeShift()">
-          <option value="SHIFT A">SHIFT A</option>
-          <option value="SHIFT B">SHIFT B</option>
-          <option value="SHIFT C">SHIFT C</option>
-        </select>
-      </label>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>📋 TYPE</h2>
-    <div class="model-tabs">
-      <div class="model-tab active" onclick="setModel('003')" id="tab003">
-        <h3>S25-003</h3>
-        <p>Size 2 - 16</p>
-      </div>
-      <div class="model-tab" onclick="setModel('008')" id="tab008">
-        <h3>S25-008</h3>
-        <p>Size 2 - 16</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>✅ Size Susah Trimming</h2>
-    <p style="font-size: 12px; color: #94a3b8; margin-bottom: 10px;">
-      Size Yang Susah Di Trimming - <strong>Hanya Admin</strong>
+    <h2>🧹 Jadwal Piket Per Shift</h2>
+    <p style="font-size: 12px; color: #94a3b8; margin-bottom: 15px;">
+      Jadwal piket Senin-Sabtu (acak 4-5 orang per hari) - <strong>Hanya Admin yang dapat mengedit</strong>
     </p>
-    <div class="size-grid" id="sizeGrid"></div>
-    <div style="text-align: center; margin-top: 10px;">
-      <button class="btn btn-sm btn-warning" onclick="clearAllSizes()" id="btnClearSizes">🗑️ Clear Semua</button>
-      <button class="btn btn-sm btn-success" onclick="selectAllSizes()" id="btnSelectAll">✓ Pilih Semua</button>
+    
+    <div style="margin-bottom: 15px;">
+      <label style="display: block; margin-bottom: 8px; color: #fbbf24;">Pilih Shift:</label>
+      <select id="piketShiftSelect" class="piket-select" onchange="changePiketShift()">
+        <option value="SHIFT A">SHIFT A</option>
+        <option value="SHIFT B">SHIFT B</option>
+        <option value="SHIFT C">SHIFT C</option>
+      </select>
+    </div>
+
+    <div style="text-align: center; margin-bottom: 15px;">
+      <button class="btn btn-warning" onclick="acakPiket()" id="btnAcakPiket" disabled>🎲 Acak Ulang Piket</button>
+      <button class="btn btn-success" onclick="simpanPiket()" id="btnSimpanPiket" disabled>💾 Simpan Perubahan</button>
+    </div>
+
+    <div class="piket-grid" id="piketGrid">
+      <!-- Generated by JavaScript -->
     </div>
   </div>
+</div>
 
+<!-- PAGE 3: ABSENSI -->
+<div class="page" id="page-absensi">
   <div class="card">
-    <h2>👷 Daftar Operator & Size Susah - <span id="currentShiftDisplay">SHIFT A</span></h2>
-    <div class="operator-list" id="operatorList"></div>
-  </div>
+    <h2>📋 Daftar Absensi Harian</h2>
+    <p style="font-size: 12px; color: #94a3b8; margin-bottom: 15px;">
+      Absensi tanggal 1-31 per shift
+    </p>
 
-  <div class="summary-card">
-    <h3>📊 Ringkasan Hari Ini</h3>
-    <div class="summary-item">
-      <span>Total Operator:</span>
-      <span id="totalOps">0</span>
+    <div style="margin-bottom: 15px;">
+      <label style="display: block; margin-bottom: 8px; color: #fbbf24;">Pilih Shift:</label>
+      <select id="absensiShiftSelect" class="piket-select" onchange="changeAbsensiShift()">
+        <option value="SHIFT A">SHIFT A</option>
+        <option value="SHIFT B">SHIFT B</option>
+        <option value="SHIFT C">SHIFT C</option>
+      </select>
     </div>
-    <div class="summary-item">
-      <span>Total Size Susah:</span>
-      <span id="totalSizes">0</span>
+
+    <div class="absensi-legend">
+      <div class="absensi-legend-item">
+        <div class="absensi-legend-box absen-H"></div>
+        <span>H = Hadir</span>
+      </div>
+      <div class="absensi-legend-item">
+        <div class="absensi-legend-box absen-I"></div>
+        <span>I = Izin</span>
+      </div>
+      <div class="absensi-legend-item">
+        <div class="absensi-legend-box absen-S"></div>
+        <span>S = Sakit</span>
+      </div>
+      <div class="absensi-legend-item">
+        <div class="absensi-legend-box absen-A"></div>
+        <span>A = Alpa</span>
+      </div>
+      <div class="absensi-legend-item">
+        <div class="absensi-legend-box absen-L"></div>
+        <span>L = Libur</span>
+      </div>
     </div>
-    <div class="summary-item">
-      <span>Model:</span>
-      <span id="summaryModel">003</span>
-    </div>
-    <div class="summary-item">
-      <span>Shift:</span>
-      <span id="summaryShift">SHIFT A</span>
-    </div>
-    <div class="summary-item">
-      <span>Mode:</span>
-      <span id="summaryMode">👁️ View Only</span>
+
+    <div class="table-container">
+      <table class="absensi-table">
+        <thead>
+          <tr>
+            <th class="nameCol">Operator</th>
+            <script>
+              for(let i=1;i<=31;i++){document.write("<th>"+i+"</th>")}
+            </script>
+          </tr>
+        </thead>
+        <tbody id="absensiBody"></tbody>
+      </table>
     </div>
   </div>
 </div>
 
-</div>
+<!-- PAGE 4: SP (SURAT PERINGATAN) -->
+<div class="page" id="page-sp">
+  <div class="card">
+    <h2>⚠️ Daftar Surat Peringatan (SP)</h2>
+    <p style="font-size: 12px; color: #94a3b8; margin-bottom: 15px;">
+      Riwayat SP per operator dengan keterangan tanggal dan alasan
+    </p>
 
-<!-- MODAL SIZE SUSAH -->
-<div class="modal-overlay" id="sizeModal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h3>Pilih Size Susah untuk <span id="modalOpName"></span></h3>
-      <button class="close-modal" onclick="closeModal()">&times;</button>
+    <div style="margin-bottom: 15px;">
+      <label style="display: block; margin-bottom: 8px; color: #fbbf24;">Pilih Shift:</label>
+      <select id="spShiftSelect" class="piket-select" onchange="changeSPShift()">
+        <option value="SHIFT A">SHIFT A</option>
+        <option value="SHIFT B">SHIFT B</option>
+        <option value="SHIFT C">SHIFT C</option>
+      </select>
     </div>
-    <div class="size-grid" id="modalSizeGrid"></div>
-    <div style="text-align: center; margin-top: 15px;">
-      <button class="btn btn-success" onclick="saveOperatorSizes()">💾 Simpan</button>
-      <button class="btn btn-danger" onclick="closeModal()">❌ Batal</button>
+
+    <div id="spContainer">
+      <!-- Generated by JavaScript -->
     </div>
   </div>
 </div>
 
-<!-- MODAL INPUT HASIL SIZE -->
-<div class="modal-overlay" id="hasilModal">
-  <div class="modal-content" style="max-width: 400px;">
-    <div class="modal-header">
-      <h3>Input Hasil Size - <span id="hasilOpName"></span></h3>
-      <button class="close-modal" onclick="closeHasilModal()">&times;</button>
-    </div>
-    <div class="modal-size-hasil" id="hasilSizeContainer">
-    </div>
-    <div style="text-align: center; margin-top: 15px;">
-      <button class="btn btn-success" onclick="saveHasilSizes()" id="btnSaveHasil">💾 Simpan Hasil</button>
-      <button class="btn btn-danger" onclick="closeHasilModal()">❌ Batal</button>
-    </div>
-  </div>
 </div>
 
 <script>
@@ -1045,29 +916,21 @@ let currentData = {};
 const shifts = { "SHIFT A": 30, "SHIFT B": 30, "SHIFT C": 30 };
 const SPECIAL_STATUS = ['P', 'BE', 'U', 'ML', 'M', 'L', 'I', 'A', 'BS', 'MT', 'PR', 'BM'];
 
-// Size Susah variables
-let currentModel = '003';
-let currentShift = 'SHIFT A';
-let currentDay = 1;
-let selectedSizes = [];
-let currentOperatorKey = null;
-let sizeSusahData = {};
-let operatorNames = {};
-let currentHasilOpKey = null;
-let currentHasilSizes = []; // Simpan daftar size yang sedang di-edit
+// Piket variables
+let currentPiketShift = 'SHIFT A';
+let piketData = {};
+const hariPiket = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+
+// Absensi variables
+let currentAbsensiShift = 'SHIFT A';
+let absensiData = {};
+
+// SP variables
+let currentSPShift = 'SHIFT A';
+let spData = {};
 
 // Debounce timer untuk optimasi input
 let saveTimer = null;
-
-// ==========================================
-// DAFTAR SIZE BARU - FORMAT DENGAN T
-// ==========================================
-const ALL_SIZES = [
-  '2', '2T', '3', '3T', '4', '4T', '5', '5T', 
-  '6', '6T', '7', '7T', '8', '8T', '9', '9T', 
-  '10', '10T', '11', '11T', '12', '12T', 
-  '13', '14', '15', '16'
-];
 
 // ==========================================
 // LOGIN / LOGOUT FUNCTIONS
@@ -1089,7 +952,9 @@ function login(){
     closeLoginModal();
     updateUIForAdmin();
     renderDashboard();
-    updateOperatorList();
+    renderPiket();
+    renderAbsensi();
+    renderSP();
     alert("✅ Login berhasil! Anda sekarang dapat mengedit data.");
   } else {
     alert("❌ Password salah!");
@@ -1102,7 +967,9 @@ function logout(){
   isAdmin = false;
   updateUIForPublic();
   renderDashboard();
-  updateOperatorList();
+  renderPiket();
+  renderAbsensi();
+  renderSP();
   alert("🚪 Logout berhasil! Mode view only.");
 }
 
@@ -1111,13 +978,10 @@ function updateUIForAdmin(){
   document.getElementById("loginBtn").style.display = "none";
   document.getElementById("logoutBtn").style.display = "block";
   document.getElementById("modeText").innerHTML = "✏️ Edit Mode (Admin)";
-  document.getElementById("summaryMode").textContent = "✏️ Edit Mode";
 
-  document.getElementById("btnClearSizes").disabled = false;
-  document.getElementById("btnSelectAll").disabled = false;
-
-  document.getElementById("sizeGrid").style.pointerEvents = "auto";
-  document.getElementById("sizeGrid").style.opacity = "1";
+  // Enable piket buttons
+  document.getElementById("btnAcakPiket").disabled = false;
+  document.getElementById("btnSimpanPiket").disabled = false;
 }
 
 function updateUIForPublic(){
@@ -1125,13 +989,10 @@ function updateUIForPublic(){
   document.getElementById("loginBtn").style.display = "block";
   document.getElementById("logoutBtn").style.display = "none";
   document.getElementById("modeText").innerHTML = "👁️ View Only (Public)";
-  document.getElementById("summaryMode").textContent = "👁️ View Only";
 
-  document.getElementById("btnClearSizes").disabled = true;
-  document.getElementById("btnSelectAll").disabled = true;
-
-  document.getElementById("sizeGrid").style.pointerEvents = "none";
-  document.getElementById("sizeGrid").style.opacity = "0.6";
+  // Disable piket buttons
+  document.getElementById("btnAcakPiket").disabled = true;
+  document.getElementById("btnSimpanPiket").disabled = true;
 }
 
 // ==========================================
@@ -1150,7 +1011,7 @@ function showPage(pageName){
 }
 
 // ==========================================
-// DASHBOARD FUNCTIONS
+// DASHBOARD FUNCTIONS (ORIGINAL)
 // ==========================================
 function initDashboard(){
   db.ref('maret').on('value', function(snapshot){
@@ -1166,15 +1027,15 @@ function isSpecialStatus(value){
   if(strValue.startsWith('BE')) return true;
   if(strValue.startsWith('P')) return true;
   if(strValue.startsWith('U')) return true;
-  if(strValue.startsWith('ML')) return true; // Minggu Libur
-  if(strValue.startsWith('M')) return true;  // Minggu Lembur
+  if(strValue.startsWith('ML')) return true;
+  if(strValue.startsWith('M')) return true;
   if(strValue.startsWith('L')) return true;
   if(strValue.startsWith('I')) return true;
   if(strValue.startsWith('A')) return true;
   if(strValue.startsWith('BS')) return true;
-  if(strValue.startsWith('MT')) return true; // Mesin Trouble
-  if(strValue.startsWith('PR')) return true; // Probation
-  if(strValue.startsWith('BM')) return true; // Belum Mulai
+  if(strValue.startsWith('MT')) return true;
+  if(strValue.startsWith('PR')) return true;
+  if(strValue.startsWith('BM')) return true;
   
   return SPECIAL_STATUS.indexOf(strValue) > -1;
 }
@@ -1185,56 +1046,45 @@ function isBS(value){
   return strValue.startsWith('BS');
 }
 
-// M (Minggu Lembur) - tidak mempengaruhi % dan SP seperti BS
 function isMingguLembur(value){
   if(!value) return false;
   let strValue = String(value).toUpperCase().trim();
-  // M harus diikuti angka (M 230), bukan ML (Minggu Libur)
   return strValue.startsWith('M') && !strValue.startsWith('ML');
 }
 
-// MT (Mesin Trouble) - tidak mempengaruhi % dan SP
 function isMesinTrouble(value){
   if(!value) return false;
   let strValue = String(value).toUpperCase().trim();
   return strValue.startsWith('MT');
 }
 
-// PR (Probation) - tidak mempengaruhi % dan SP
 function isProbation(value){
   if(!value) return false;
   let strValue = String(value).toUpperCase().trim();
   return strValue.startsWith('PR');
 }
 
-// BM (Belum Mulai) - tidak mempengaruhi % dan SP
 function isBelumMulai(value){
   if(!value) return false;
   let strValue = String(value).toUpperCase().trim();
   return strValue.startsWith('BM');
 }
 
-// Status yang tidak mempengaruhi % dan SP (BS, M, MT, PR, BM)
 function isNeutralStatus(value){
   return isBS(value) || isMingguLembur(value) || isMesinTrouble(value) || isProbation(value) || isBelumMulai(value);
 }
 
-// Ijin, Alpa, dan BE dihitung sebagai "merah" untuk SP (0%)
 function isMerahOrIjinAlpaBE(value){
   if(!value) return false;
   let strValue = String(value).toUpperCase().trim();
   
-  // BS, M, MT, PR, BM tidak dianggap merah (netral)
   if(isNeutralStatus(value)) return false;
   
-  // Status P, U, ML, L tidak dianggap merah
   if(strValue.startsWith('P') || strValue.startsWith('U') || 
      strValue.startsWith('ML') || strValue.startsWith('L')) return false;
   
-  // BE, Ijin atau Alpa dianggap sebagai merah untuk perhitungan SP (0%)
   if(strValue.startsWith('BE') || strValue.startsWith('I') || strValue.startsWith('A')) return true;
   
-  // Cek apakah angka dan < 80%
   let numVal = getNumericValue(value);
   if(numVal > 0){
     let p = (numVal / TARGET) * 100;
@@ -1249,7 +1099,6 @@ function getNumericValue(value){
   
   let strValue = String(value).toUpperCase().trim();
   
-  // BS, M, MT, PR, BM mengembalikan nilai angkanya untuk ditampilkan (tapi tidak dihitung)
   if(isBS(value)) {
     let match = strValue.match(/BS\s*(\d+)/i);
     return match ? parseInt(match[1]) : 0;
@@ -1289,11 +1138,11 @@ function getStatusFromValue(value){
   
   if(strValue.startsWith('BS')) return 'BS';
   if(strValue.startsWith('BE')) return 'BE';
-  if(strValue.startsWith('MT')) return 'MT'; // Mesin Trouble
-  if(strValue.startsWith('PR')) return 'PR'; // Probation
-  if(strValue.startsWith('BM')) return 'BM'; // Belum Mulai
-  if(strValue.startsWith('ML')) return 'ML'; // Minggu Libur
-  if(strValue.startsWith('M')) return 'M';    // Minggu Lembur
+  if(strValue.startsWith('MT')) return 'MT';
+  if(strValue.startsWith('PR')) return 'PR';
+  if(strValue.startsWith('BM')) return 'BM';
+  if(strValue.startsWith('ML')) return 'ML';
+  if(strValue.startsWith('M')) return 'M';
   if(strValue.startsWith('P')) return 'P';
   if(strValue.startsWith('U')) return 'U';
   if(strValue.startsWith('L')) return 'L';
@@ -1310,7 +1159,6 @@ function getRankDisplay(rank){
   return rank;
 }
 
-// Ijin, Alpa, dan BE dihitung untuk SP (semua 0%)
 function calculateSP(dayValues){
   let spLevel = 0;
   let consecutiveBad = 0;
@@ -1325,29 +1173,24 @@ function calculateSP(dayValues){
     
     let status = getStatusFromValue(rawValue);
     
-    // BS, M, MT, PR, BM - tidak berpengaruh, reset counter
     if(isNeutralStatus(rawValue)){
       consecutiveBad = 0;
       continue;
     }
     
-    // P, U, ML, L - tidak merah, reset counter
     if(status === 'P' || status === 'U' || status === 'ML' || status === 'L'){
       consecutiveBad = 0;
       continue;
     }
     
-    // Merah, BE, Ijin, atau Alpa - dianggap "bad" untuk SP (0%)
     if(isMerahOrIjinAlpaBE(rawValue)){
       consecutiveBad++;
       
-      // Setiap 3 kali berturut-turut, naik 1 level SP
       if(consecutiveBad >= 3){
         spLevel++;
         consecutiveBad = 0;
       }
     } else {
-      // Hijau atau Kuning - reset counter
       consecutiveBad = 0;
     }
   }
@@ -1369,19 +1212,16 @@ function calculatePercentage(dayValues){
     let status = getStatusFromValue(rawValue);
     let numVal = getNumericValue(rawValue);
     
-    // BS, M, MT, PR, BM tidak dihitung dalam persentase
     if(isNeutralStatus(rawValue)){
       continue;
     }
     
-    // BE, Ijin atau Alpa = 0%
     if(status === 'BE' || status === 'I' || status === 'A'){
       totalPercent += 0;
       count++;
       continue;
     }
     
-    // Hasil normal
     if(numVal > 0 && !isSpecialStatus(rawValue)){
       let p = (numVal / TARGET) * 100;
       totalPercent += p;
@@ -1500,7 +1340,6 @@ function escapeHtml(text){
     .replace(/'/g, "&#039;");
 }
 
-// OPTIMASI: Gunakan debounce untuk mencegah multiple save
 function save(op, day, value){
   if(!isAdmin){
     alert("❌ Anda harus login sebagai admin untuk mengedit data!");
@@ -1509,7 +1348,6 @@ function save(op, day, value){
 
   let trimmedValue = value.trim().toUpperCase();
   
-  // Validasi format BS
   if(trimmedValue.startsWith('BS')){
     let match = trimmedValue.match(/BS\s*(\d+)/i);
     if(!match && trimmedValue !== 'BS'){
@@ -1518,7 +1356,6 @@ function save(op, day, value){
     }
   }
   
-  // Validasi format M (Minggu Lembur)
   if(trimmedValue.startsWith('M') && !trimmedValue.startsWith('ML')){
     let match = trimmedValue.match(/M\s*(\d+)/i);
     if(!match && trimmedValue !== 'M'){
@@ -1527,7 +1364,6 @@ function save(op, day, value){
     }
   }
   
-  // Validasi format MT (Mesin Trouble)
   if(trimmedValue.startsWith('MT')){
     let match = trimmedValue.match(/MT\s*(\d+)/i);
     if(!match && trimmedValue !== 'MT'){
@@ -1536,7 +1372,6 @@ function save(op, day, value){
     }
   }
   
-  // Validasi format PR (Probation)
   if(trimmedValue.startsWith('PR')){
     let match = trimmedValue.match(/PR\s*(\d+)/i);
     if(!match && trimmedValue !== 'PR'){
@@ -1545,7 +1380,6 @@ function save(op, day, value){
     }
   }
   
-  // Validasi format BM (Belum Mulai)
   if(trimmedValue.startsWith('BM')){
     let match = trimmedValue.match(/BM\s*(\d+)/i);
     if(!match && trimmedValue !== 'BM'){
@@ -1554,12 +1388,10 @@ function save(op, day, value){
     }
   }
   
-  // Clear timer yang ada
   if(saveTimer) {
     clearTimeout(saveTimer);
   }
   
-  // Debounce save ke Firebase dengan delay 500ms
   saveTimer = setTimeout(function() {
     if(trimmedValue === '' || trimmedValue === '0'){
       db.ref('maret/' + op + '/' + day).set({hasil: 0});
@@ -1575,493 +1407,430 @@ function saveName(op, name){
     return;
   }
 
-  // Clear timer yang ada
   if(saveTimer) {
     clearTimeout(saveTimer);
   }
   
-  // Debounce save nama dengan delay 500ms
   saveTimer = setTimeout(function() {
     db.ref('maret/' + op + '/nama').set(name.trim());
   }, 500);
 }
 
 // ==========================================
-// SIZE SUSAH FUNCTIONS
+// PIKET FUNCTIONS
 // ==========================================
-function initSizeSusah(){
-  generateSizeGrid();
+function initPiket(){
+  db.ref('piket').on('value', function(snapshot){
+    piketData = snapshot.val() || {};
+    renderPiket();
+  });
+}
 
-  db.ref('size_susah').on('value', function(snapshot){
-    sizeSusahData = snapshot.val() || {};
-    updateOperatorList();
+function changePiketShift(){
+  currentPiketShift = document.getElementById("piketShiftSelect").value;
+  renderPiket();
+}
+
+function getOperatorNamesByShift(shift){
+  let names = [];
+  for(let i = 1; i <= shifts[shift]; i++){
+    let opKey = shift + "_OP" + i;
+    let nama = "OP " + i;
+    if(currentData[opKey] && currentData[opKey].nama && currentData[opKey].nama.trim() !== ""){
+      nama = currentData[opKey].nama.trim();
+    }
+    names.push({key: opKey, name: nama});
+  }
+  return names;
+}
+
+function acakPiket(){
+  if(!isAdmin){
+    alert("❌ Hanya admin yang dapat mengacak piket!");
+    return;
+  }
+
+  let operators = getOperatorNamesByShift(currentPiketShift);
+  
+  // Shuffle array
+  for(let i = operators.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [operators[i], operators[j]] = [operators[j], operators[i]];
+  }
+
+  // Assign 4-5 people per day (randomly)
+  let piketHari = {};
+  let startIdx = 0;
+  
+  hariPiket.forEach(function(hari){
+    let jumlahOrang = Math.random() > 0.5 ? 5 : 4; // Random 4 or 5
+    let endIdx = Math.min(startIdx + jumlahOrang, operators.length);
+    
+    piketHari[hari] = operators.slice(startIdx, endIdx);
+    startIdx = endIdx;
+    
+    if(startIdx >= operators.length){
+      startIdx = 0; // Reset if we run out of operators
+    }
   });
 
-  db.ref('maret').on('value', function(snapshot){
-    let data = snapshot.val() || {};
-    operatorNames = {};
-    Object.keys(data).forEach(function(key){
-      if(data[key].nama) operatorNames[key] = data[key].nama;
+  // Update local data
+  if(!piketData[currentPiketShift]){
+    piketData[currentPiketShift] = {};
+  }
+  
+  hariPiket.forEach(function(hari){
+    piketData[currentPiketShift][hari] = piketHari[hari];
+  });
+
+  renderPiket();
+  alert("✅ Jadwal piket berhasil diacak! Klik 'Simpan Perubahan' untuk menyimpan.");
+}
+
+function simpanPiket(){
+  if(!isAdmin){
+    alert("❌ Hanya admin yang dapat menyimpan piket!");
+    return;
+  }
+
+  db.ref('piket/' + currentPiketShift).set(piketData[currentPiketShift])
+    .then(function(){
+      alert("✅ Jadwal piket berhasil disimpan!");
+    })
+    .catch(function(error){
+      alert("❌ Gagal menyimpan: " + error.message);
     });
-    updateOperatorList();
-  });
-
-  document.getElementById("selectDay").addEventListener("change", function(){
-    currentDay = parseInt(this.value);
-    updateOperatorList();
-    updateSummary();
-  });
-  
-  currentShift = document.getElementById("selectShift").value;
-  currentDay = parseInt(document.getElementById("selectDay").value);
 }
 
-function generateSizeGrid(){
-  let grid = document.getElementById("sizeGrid");
+function hapusPiket(hari, index){
+  if(!isAdmin){
+    alert("❌ Hanya admin yang dapat menghapus!");
+    return;
+  }
+
+  if(piketData[currentPiketShift] && piketData[currentPiketShift][hari]){
+    piketData[currentPiketShift][hari].splice(index, 1);
+    renderPiket();
+  }
+}
+
+function tambahPiket(hari){
+  if(!isAdmin){
+    alert("❌ Hanya admin yang dapat menambah!");
+    return;
+  }
+
+  let operators = getOperatorNamesByShift(currentPiketShift);
+  let availableOps = operators.filter(function(op){
+    let currentList = piketData[currentPiketShift] && piketData[currentPiketShift][hari] ? piketData[currentPiketShift][hari] : [];
+    return !currentList.find(function(item){ return item.key === op.key; });
+  });
+
+  if(availableOps.length === 0){
+    alert("❌ Semua operator sudah masuk jadwal!");
+    return;
+  }
+
+  let select = document.createElement("select");
+  select.className = "piket-select";
+  select.style.marginBottom = "10px";
+  
+  availableOps.forEach(function(op){
+    let option = document.createElement("option");
+    option.value = op.key;
+    option.textContent = op.name;
+    select.appendChild(option);
+  });
+
+  let modal = document.createElement("div");
+  modal.className = "login-modal-overlay active";
+  modal.innerHTML = "<div class='login-modal-content'>" +
+    "<h3>Tambah Piket " + hari + "</h3>" +
+    "<div id='selectContainer'></div>" +
+    "<button class='btn btn-success' onclick='confirmTambahPiket(\"" + hari + "\", this)'>Tambah</button>" +
+    "<button class='btn btn-danger' onclick='this.closest(\".login-modal-overlay\").remove()'>Batal</button>" +
+    "</div>";
+  
+  modal.querySelector("#selectContainer").appendChild(select);
+  document.body.appendChild(modal);
+}
+
+function confirmTambahPiket(hari, btn){
+  let select = btn.closest(".login-modal-content").querySelector("select");
+  let selectedKey = select.value;
+  let selectedName = select.options[select.selectedIndex].text;
+
+  if(!piketData[currentPiketShift]){
+    piketData[currentPiketShift] = {};
+  }
+  if(!piketData[currentPiketShift][hari]){
+    piketData[currentPiketShift][hari] = [];
+  }
+
+  piketData[currentPiketShift][hari].push({key: selectedKey, name: selectedName});
+  btn.closest(".login-modal-overlay").remove();
+  renderPiket();
+}
+
+function renderPiket(){
+  let grid = document.getElementById("piketGrid");
   grid.innerHTML = "";
-  ALL_SIZES.forEach(function(size){
-    let div = document.createElement("div");
-    div.className = "size-item";
-    div.dataset.size = size;
-    div.onclick = function(){ 
-      if(isAdmin) toggleSize(size); 
-    };
-    div.innerHTML = "<span class='size-label'>" + size + "</span><span class='size-check'>✓</span>";
-    grid.appendChild(div);
-  });
-}
 
-function toggleSize(size){
-  if(!isAdmin){
-    alert("❌ Hanya admin yang dapat mengubah size susah!");
-    return;
-  }
+  hariPiket.forEach(function(hari){
+    let card = document.createElement("div");
+    card.className = "piket-card";
 
-  let index = selectedSizes.indexOf(size);
-  if(index > -1){
-    selectedSizes.splice(index, 1);
-  } else {
-    selectedSizes.push(size);
-  }
-  updateSizeGrid();
-  updateOperatorList();
-  updateSummary();
-}
-
-function updateSizeGrid(){
-  document.querySelectorAll("#sizeGrid .size-item").forEach(function(item){
-    if(selectedSizes.indexOf(item.dataset.size) > -1){
-      item.classList.add("selected");
+    let listHtml = "<ul class='piket-list'>";
+    let piketList = piketData[currentPiketShift] && piketData[currentPiketShift][hari] ? piketData[currentPiketShift][hari] : [];
+    
+    if(piketList.length === 0){
+      listHtml += "<li style='border-left-color: #64748b; color: #94a3b8;'>Belum ada jadwal</li>";
     } else {
-      item.classList.remove("selected");
+      piketList.forEach(function(item, index){
+        let removeBtn = isAdmin ? "<span class='remove-piket' onclick=\"hapusPiket('" + hari + "', " + index + ")\">×</span>" : "";
+        listHtml += "<li>" + escapeHtml(item.name) + removeBtn + "</li>";
+      });
     }
+    listHtml += "</ul>";
+
+    let tambahBtn = isAdmin ? "<button class='btn btn-sm btn-success' style='width: 100%; margin-top: 10px;' onclick=\"tambahPiket('" + hari + "')\">+ Tambah</button>" : "";
+
+    card.innerHTML = 
+      "<h4>" + hari + "</h4>" +
+      listHtml +
+      "<div class='piket-count'>Total: " + piketList.length + " orang</div>" +
+      tambahBtn;
+
+    grid.appendChild(card);
   });
 }
 
-function setModel(model){
-  currentModel = model;
-  if(model === '003'){
-    document.getElementById("tab003").classList.add("active");
-    document.getElementById("tab008").classList.remove("active");
-  } else {
-    document.getElementById("tab003").classList.remove("active");
-    document.getElementById("tab008").classList.add("active");
-  }
-  updateOperatorList();
-  updateSummary();
-}
-
-function changeShift(){
-  let selectElement = document.getElementById("selectShift");
-  currentShift = selectElement.value;
-  
-  document.getElementById("currentShiftDisplay").textContent = currentShift;
-  document.getElementById("summaryShift").textContent = currentShift;
-  
-  updateOperatorList();
-  updateSummary();
-}
-
-function updateOperatorList(){
-  let list = document.getElementById("operatorList");
-  list.innerHTML = "";
-  
-  let totalOps = shifts[currentShift];
-  if(!totalOps) {
-    totalOps = 30;
-  }
-
-  for(let i = 1; i <= totalOps; i++){
-    let opKey = currentShift + "_OP" + i;
-    let opName = operatorNames[opKey] || "OP " + i;
-    
-    let savedSizes = [];
-    let sizeHasil = {};
-
-    if(sizeSusahData && sizeSusahData[currentShift]){
-      let shiftData = sizeSusahData[currentShift];
-      
-      if(shiftData[opKey]){
-        let opData = shiftData[opKey];
-        
-        if(opData[currentModel]){
-          let modelData = opData[currentModel];
-          
-          if(modelData[currentDay]){
-            let dayData = modelData[currentDay];
-            
-            if(Array.isArray(dayData)){
-              savedSizes = dayData;
-            } else if(typeof dayData === 'object' && dayData !== null){
-              savedSizes = dayData.sizes || [];
-              sizeHasil = dayData.hasil || {};
-            }
-          }
-        }
-      }
-    }
-
-    let div = document.createElement("div");
-    div.className = "operator-item";
-
-    let adminButtons = "";
-    if(isAdmin){
-      adminButtons = 
-        "<button class='btn-add-size' onclick=\"openSizeModal('" + opKey + "', '" + escapeHtml(opName) + "')\">+ Size</button>" +
-        "<button class='btn-add-size' style='background: #3b82f6; margin-left: 5px;' onclick=\"openHasilModal('" + opKey + "', '" + escapeHtml(opName) + "')\">📝 Input Hasil</button>";
-    }
-
-    div.innerHTML = 
-      "<div class='operator-name'>" + escapeHtml(opName) + " <small style='color: #94a3b8;'>(" + opKey + ")</small></div>" +
-      "<div class='operator-sizes'>" + renderSizeTagsWithHasil(savedSizes, sizeHasil, opKey) + "</div>" +
-      adminButtons;
-    list.appendChild(div);
-  }
-  
-  document.getElementById("totalOps").textContent = totalOps;
-}
-
-function renderSizeTagsWithHasil(sizes, hasilData, opKey){
-  if(!sizes || sizes.length === 0) return "<span style='color: #64748b; font-size: 12px;'>Belum ada size</span>";
-
-  return sizes.map(function(size){
-    let hasil = hasilData && hasilData[size] ? hasilData[size] : '';
-    let hasilDisplay = hasil ? " <span style='color: #fbbf24;'>(" + hasil + ")</span>" : "";
-    
-    let removeBtn = "";
-    if(isAdmin){
-      removeBtn = "<span class='remove' onclick=\"removeSize('" + opKey + "', '" + size + "')\">×</span>";
-    }
-    
-    return "<span class='size-tag size-tag-with-input'>" + size + hasilDisplay + removeBtn + "</span>";
-  }).join('');
-}
-
 // ==========================================
-// MODAL INPUT HASIL - PERBAIKAN UTAMA
+// ABSENSI FUNCTIONS
 // ==========================================
-function openHasilModal(opKey, opName){
+function initAbsensi(){
+  db.ref('absensi').on('value', function(snapshot){
+    absensiData = snapshot.val() || {};
+    renderAbsensi();
+  });
+}
+
+function changeAbsensiShift(){
+  currentAbsensiShift = document.getElementById("absensiShiftSelect").value;
+  renderAbsensi();
+}
+
+function getAbsensiClass(kode){
+  switch(kode){
+    case 'H': return 'absen-H';
+    case 'I': return 'absen-I';
+    case 'S': return 'absen-S';
+    case 'A': return 'absen-A';
+    case 'L': return 'absen-L';
+    default: return '';
+  }
+}
+
+function saveAbsensi(opKey, day, value){
   if(!isAdmin){
-    alert("❌ Hanya admin yang dapat menginput hasil!");
+    alert("❌ Anda harus login sebagai admin!");
     return;
   }
 
-  console.log("Opening hasil modal for:", opKey, opName);
-  
-  currentHasilOpKey = opKey;
-  document.getElementById("hasilOpName").textContent = opName;
-
-  // Ambil data yang sudah tersimpan
-  let savedSizes = [];
-  let sizeHasil = {};
-
-  try {
-    if(sizeSusahData && sizeSusahData[currentShift] && 
-       sizeSusahData[currentShift][opKey] && 
-       sizeSusahData[currentShift][opKey][currentModel] &&
-       sizeSusahData[currentShift][opKey][currentModel][currentDay]){
-      
-      let dayData = sizeSusahData[currentShift][opKey][currentModel][currentDay];
-      console.log("Day data:", dayData);
-      
-      if(Array.isArray(dayData)){
-        savedSizes = dayData;
-      } else if(typeof dayData === 'object' && dayData !== null){
-        savedSizes = dayData.sizes || [];
-        sizeHasil = dayData.hasil || {};
-      }
-    }
-  } catch(e) {
-    console.error("Error reading data:", e);
+  let kode = value.toUpperCase().trim();
+  if(!['H', 'I', 'S', 'A', 'L', ''].includes(kode)){
+    alert("❌ Kode tidak valid! Gunakan: H, I, S, A, L, atau kosongkan");
+    return;
   }
 
-  // Simpan daftar size yang sedang di-edit
-  currentHasilSizes = savedSizes;
+  if(saveTimer) clearTimeout(saveTimer);
   
-  console.log("Saved sizes:", savedSizes);
-  console.log("Size hasil:", sizeHasil);
+  saveTimer = setTimeout(function(){
+    if(kode === ''){
+      db.ref('absensi/' + currentAbsensiShift + '/' + opKey + '/' + day).remove();
+    } else {
+      db.ref('absensi/' + currentAbsensiShift + '/' + opKey + '/' + day).set(kode);
+    }
+  }, 300);
+}
 
-  let container = document.getElementById("hasilSizeContainer");
+function renderAbsensi(){
+  let tbody = document.getElementById("absensiBody");
+  tbody.innerHTML = "";
+
+  for(let i = 1; i <= shifts[currentAbsensiShift]; i++){
+    let opKey = currentAbsensiShift + "_OP" + i;
+    let opData = currentData[opKey] || {};
+    let nama = opData.nama && opData.nama.trim() !== "" ? opData.nama.trim() : "OP " + i;
+
+    let rowHtml = "<tr>";
+    rowHtml += "<td class='nameCol' style='position: sticky; left: 0; background: #fff; z-index: 5;'>" + escapeHtml(nama) + "</td>";
+
+    for(let d = 1; d <= 31; d++){
+      let absensiKode = '';
+      if(absensiData[currentAbsensiShift] && absensiData[currentAbsensiShift][opKey] && absensiData[currentAbsensiShift][opKey][d]){
+        absensiKode = absensiData[currentAbsensiShift][opKey][d];
+      }
+      
+      let cls = getAbsensiClass(absensiKode);
+      
+      if(isAdmin){
+        rowHtml += "<td class='" + cls + "'><input type='text' value='" + absensiKode + "' maxlength='1' onchange=\"saveAbsensi('" + opKey + "', " + d + ", this.value)\" style='text-transform: uppercase; width: 30px;'></td>";
+      } else {
+        rowHtml += "<td class='" + cls + "'>" + (absensiKode || '-') + "</td>";
+      }
+    }
+
+    rowHtml += "</tr>";
+    tbody.innerHTML += rowHtml;
+  }
+}
+
+// ==========================================
+// SP FUNCTIONS
+// ==========================================
+function initSP(){
+  db.ref('sp').on('value', function(snapshot){
+    spData = snapshot.val() || {};
+    renderSP();
+  });
+}
+
+function changeSPShift(){
+  currentSPShift = document.getElementById("spShiftSelect").value;
+  renderSP();
+}
+
+function tambahSP(opKey){
+  if(!isAdmin){
+    alert("❌ Hanya admin yang dapat menambah SP!");
+    return;
+  }
+
+  let modal = document.createElement("div");
+  modal.className = "login-modal-overlay active";
+  modal.innerHTML = 
+    "<div class='login-modal-content' style='max-width: 400px;'>" +
+      "<h3>Tambah SP</h3>" +
+      "<div class='sp-form'>" +
+        "<select id='spLevelInput'>" +
+          "<option value='1'>SP 1</option>" +
+          "<option value='2'>SP 2</option>" +
+          "<option value='3'>SP 3</option>" +
+        "</select>" +
+        "<input type='number' id='spTanggalInput' placeholder='Tanggal (1-31)' min='1' max='31'>" +
+        "<input type='text' id='spAlasanInput' placeholder='Alasan/Keterangan'>" +
+      "</div>" +
+      "<button class='btn btn-success' onclick='confirmTambahSP(\"" + opKey + "\", this)'>Simpan</button>" +
+      "<button class='btn btn-danger' onclick='this.closest(\".login-modal-overlay\").remove()'>Batal</button>" +
+    "</div>";
+  
+  document.body.appendChild(modal);
+}
+
+function confirmTambahSP(opKey, btn){
+  let level = document.getElementById("spLevelInput").value;
+  let tanggal = document.getElementById("spTanggalInput").value;
+  let alasan = document.getElementById("spAlasanInput").value.trim();
+
+  if(!tanggal || tanggal < 1 || tanggal > 31){
+    alert("❌ Tanggal tidak valid!");
+    return;
+  }
+
+  if(!alasan){
+    alert("❌ Alasan harus diisi!");
+    return;
+  }
+
+  let spEntry = {
+    level: parseInt(level),
+    tanggal: parseInt(tanggal),
+    alasan: alasan,
+    timestamp: new Date().toISOString()
+  };
+
+  let newRef = db.ref('sp/' + currentSPShift + '/' + opKey).push();
+  newRef.set(spEntry)
+    .then(function(){
+      btn.closest(".login-modal-overlay").remove();
+      alert("✅ SP berhasil ditambahkan!");
+    })
+    .catch(function(error){
+      alert("❌ Gagal menyimpan: " + error.message);
+    });
+}
+
+function hapusSP(opKey, spId){
+  if(!isAdmin){
+    alert("❌ Hanya admin yang dapat menghapus SP!");
+    return;
+  }
+
+  if(confirm("Yakin ingin menghapus data SP ini?")){
+    db.ref('sp/' + currentSPShift + '/' + opKey + '/' + spId).remove()
+      .then(function(){
+        alert("✅ SP berhasil dihapus!");
+      })
+      .catch(function(error){
+        alert("❌ Gagal menghapus: " + error.message);
+      });
+  }
+}
+
+function renderSP(){
+  let container = document.getElementById("spContainer");
   container.innerHTML = "";
 
-  if(savedSizes.length === 0){
-    container.innerHTML = "<p style='text-align: center; color: #94a3b8; padding: 20px;'>Belum ada size yang dipilih. Silakan pilih size terlebih dahulu.</p>";
-  } else {
-    savedSizes.forEach(function(size){
-      let hasil = sizeHasil[size] || '';
-      let row = document.createElement("div");
-      row.className = "size-hasil-row";
-      
-      // Buat label dan input dengan ID yang valid (size sudah tidak ada titik)
-      let label = document.createElement("label");
-      label.textContent = "Size " + size;
-      
-      let input = document.createElement("input");
-      input.type = "number";
-      input.id = "hasil-" + size; // ID sekarang aman karena tidak ada titik
-      input.value = hasil;
-      input.placeholder = "0";
-      input.min = "0";
-      
-      row.appendChild(label);
-      row.appendChild(input);
-      container.appendChild(row);
+  for(let i = 1; i <= shifts[currentSPShift]; i++){
+    let opKey = currentSPShift + "_OP" + i;
+    let opData = currentData[opKey] || {};
+    let nama = opData.nama && opData.nama.trim() !== "" ? opData.nama.trim() : "OP " + i;
+
+    let card = document.createElement("div");
+    card.className = "sp-card";
+
+    let spList = spData[currentSPShift] && spData[currentSPShift][opKey] ? spData[currentSPShift][opKey] : {};
+    let spArray = [];
+    
+    Object.keys(spList).forEach(function(key){
+      spArray.push({id: key, ...spList[key]});
     });
-  }
-
-  // Tampilkan modal
-  document.getElementById("hasilModal").classList.add("active");
-  console.log("Modal opened");
-}
-
-function closeHasilModal(){
-  document.getElementById("hasilModal").classList.remove("active");
-  currentHasilOpKey = null;
-  currentHasilSizes = [];
-}
-
-// ==========================================
-// SAVE HASIL - PERBAIKAN UTAMA
-// ==========================================
-function saveHasilSizes(){
-  console.log("Save hasil clicked");
-  
-  if(!isAdmin){
-    alert("❌ Anda harus login sebagai admin!");
-    return;
-  }
-
-  if(!currentHasilOpKey){
-    alert("❌ Error: Operator tidak dipilih!");
-    return;
-  }
-
-  if(!currentHasilSizes || currentHasilSizes.length === 0){
-    alert("❌ Tidak ada size untuk disimpan!");
-    return;
-  }
-
-  // Kumpulkan data hasil dari input fields
-  let hasilData = {};
-  let hasInput = false;
-  
-  currentHasilSizes.forEach(function(size){
-    // ID sekarang sama persis dengan size karena tidak ada titik
-    let inputId = "hasil-" + size;
-    let inputElement = document.getElementById(inputId);
     
-    console.log("Looking for input:", inputId, "Found:", inputElement);
-    
-    if(inputElement){
-      let value = inputElement.value.trim();
-      if(value !== '' && value !== '0'){
-        hasilData[size] = parseInt(value) || 0;
-        hasInput = true;
-        console.log("Size", size, "=", hasilData[size]);
-      }
-    }
-  });
+    spArray.sort(function(a, b){ return a.tanggal - b.tanggal; });
 
-  // Buat path Firebase
-  let path = 'size_susah/' + currentShift + '/' + currentHasilOpKey + '/' + currentModel + '/' + currentDay;
-  
-  // Data yang akan disimpan
-  let dataToSave = {
-    sizes: currentHasilSizes,
-    hasil: hasilData,
-    timestamp: new Date().toISOString()
-  };
-  
-  console.log("Saving to path:", path);
-  console.log("Data:", dataToSave);
-
-  // Simpan ke Firebase dengan error handling
-  try {
-    db.ref(path).set(dataToSave)
-      .then(function() {
-        console.log("Save successful");
-        closeHasilModal();
-        alert("✅ Hasil size berhasil disimpan!");
-      })
-      .catch(function(error) {
-        console.error("Save failed:", error);
-        alert("❌ Gagal menyimpan: " + error.message);
+    let listHtml = "<ul class='sp-list'>";
+    if(spArray.length === 0){
+      listHtml += "<li style='color: #94a3b8; border: none; background: transparent;'>Belum ada riwayat SP</li>";
+    } else {
+      spArray.forEach(function(sp){
+        let levelClass = sp.level === 1 ? '#ef4444' : (sp.level === 2 ? '#f97316' : '#dc2626');
+        let removeBtn = isAdmin ? "<button class='btn btn-sm btn-danger' onclick=\"hapusSP('" + opKey + "', '" + sp.id + "')\" style='padding: 4px 8px; font-size: 11px;'>Hapus</button>" : "";
+        
+        listHtml += 
+          "<li>" +
+            "<div>" +
+              "<span class='sp-level' style='background: " + levelClass + ";'>SP " + sp.level + "</span>" +
+              "<div style='margin-top: 5px;'>" +
+                "<span class='sp-date'>Tgl " + sp.tanggal + "</span>" +
+                "<div class='sp-reason'>" + escapeHtml(sp.alasan) + "</div>" +
+              "</div>" +
+            "</div>" +
+            removeBtn +
+          "</li>";
       });
-  } catch(e) {
-    console.error("Error saving:", e);
-    alert("❌ Error: " + e.message);
-  }
-}
-
-function openSizeModal(opKey, opName){
-  if(!isAdmin){
-    alert("❌ Hanya admin yang dapat mengedit size susah!");
-    return;
-  }
-
-  currentOperatorKey = opKey;
-  document.getElementById("modalOpName").textContent = opName;
-
-  let currentSizes = [];
-  if(sizeSusahData && sizeSusahData[currentShift] && 
-     sizeSusahData[currentShift][opKey] && 
-     sizeSusahData[currentShift][opKey][currentModel] &&
-     sizeSusahData[currentShift][opKey][currentModel][currentDay]){
-    let dayData = sizeSusahData[currentShift][opKey][currentModel][currentDay];
-    if(Array.isArray(dayData)){
-      currentSizes = dayData;
-    } else if(typeof dayData === 'object' && dayData.sizes){
-      currentSizes = dayData.sizes;
     }
+    listHtml += "</ul>";
+
+    let tambahBtn = isAdmin ? "<button class='btn btn-sm btn-success' style='margin-top: 10px;' onclick=\"tambahSP('" + opKey + "')\">+ Tambah SP</button>" : "";
+
+    card.innerHTML = 
+      "<h4>" + escapeHtml(nama) + " <small style='color: #94a3b8;'>(" + opKey + ")</small></h4>" +
+      listHtml +
+      tambahBtn;
+
+    container.appendChild(card);
   }
-
-  let availableSizes = selectedSizes.length > 0 ? selectedSizes : ALL_SIZES;
-
-  let grid = document.getElementById("modalSizeGrid");
-  grid.innerHTML = "";
-
-  availableSizes.forEach(function(size){
-    let isSelected = currentSizes.indexOf(size) > -1;
-    let div = document.createElement("div");
-    div.className = "size-item" + (isSelected ? " selected" : "");
-    div.dataset.size = size;
-    div.onclick = function(){
-      this.classList.toggle("selected");
-    };
-    div.innerHTML = "<span class='size-label'>" + size + "</span><span class='size-check'>✓</span>";
-    grid.appendChild(div);
-  });
-
-  document.getElementById("sizeModal").classList.add("active");
-}
-
-function closeModal(){
-  document.getElementById("sizeModal").classList.remove("active");
-  currentOperatorKey = null;
-}
-
-function saveOperatorSizes(){
-  if(!isAdmin){
-    alert("❌ Anda harus login sebagai admin!");
-    return;
-  }
-
-  if(!currentOperatorKey) return;
-
-  let selected = [];
-  document.querySelectorAll("#modalSizeGrid .size-item.selected").forEach(function(item){
-    selected.push(item.dataset.size);
-  });
-
-  let path = 'size_susah/' + currentShift + '/' + currentOperatorKey + '/' + currentModel + '/' + currentDay;
-  
-  let existingHasil = {};
-  if(sizeSusahData && sizeSusahData[currentShift] && 
-     sizeSusahData[currentShift][currentOperatorKey] && 
-     sizeSusahData[currentShift][currentOperatorKey][currentModel] &&
-     sizeSusahData[currentShift][currentOperatorKey][currentModel][currentDay]){
-    let dayData = sizeSusahData[currentShift][currentOperatorKey][currentModel][currentDay];
-    if(typeof dayData === 'object' && dayData.hasil){
-      existingHasil = dayData.hasil;
-    }
-  }
-
-  let dataToSave = {
-    sizes: selected,
-    hasil: existingHasil,
-    timestamp: new Date().toISOString()
-  };
-  
-  db.ref(path).set(dataToSave);
-
-  closeModal();
-  updateSummary();
-}
-
-function removeSize(opKey, size){
-  if(!isAdmin){
-    alert("❌ Anda harus login sebagai admin!");
-    return;
-  }
-
-  let path = 'size_susah/' + currentShift + '/' + opKey + '/' + currentModel + '/' + currentDay;
-  
-  let currentSizes = [];
-  let currentHasil = {};
-  
-  if(sizeSusahData && sizeSusahData[currentShift] && 
-     sizeSusahData[currentShift][opKey] && 
-     sizeSusahData[currentShift][opKey][currentModel] &&
-     sizeSusahData[currentShift][opKey][currentModel][currentDay]){
-    let dayData = sizeSusahData[currentShift][opKey][currentModel][currentDay];
-    if(Array.isArray(dayData)){
-      currentSizes = dayData;
-    } else if(typeof dayData === 'object'){
-      currentSizes = dayData.sizes || [];
-      currentHasil = dayData.hasil || {};
-    }
-  }
-
-  let newSizes = currentSizes.filter(function(s){ return s !== size; });
-  delete currentHasil[size];
-  
-  let dataToSave = {
-    sizes: newSizes,
-    hasil: currentHasil,
-    timestamp: new Date().toISOString()
-  };
-  
-  db.ref(path).set(dataToSave);
-}
-
-function clearAllSizes(){
-  if(!isAdmin){
-    alert("❌ Hanya admin yang dapat melakukan ini!");
-    return;
-  }
-
-  selectedSizes = [];
-  updateSizeGrid();
-  updateOperatorList();
-  updateSummary();
-}
-
-function selectAllSizes(){
-  if(!isAdmin){
-    alert("❌ Hanya admin yang dapat melakukan ini!");
-    return;
-  }
-
-  selectedSizes = ALL_SIZES.slice();
-  updateSizeGrid();
-  updateOperatorList();
-  updateSummary();
-}
-
-function updateSummary(){
-  document.getElementById("totalSizes").textContent = selectedSizes.length;
-  document.getElementById("summaryModel").textContent = currentModel;
-  document.getElementById("summaryShift").textContent = currentShift;
 }
 
 // ==========================================
@@ -2070,17 +1839,16 @@ function updateSummary(){
 document.addEventListener('DOMContentLoaded', function(){
   console.log("DOM Loaded");
   
-  // Cek Firebase
   if(typeof firebase === 'undefined'){
     alert("Error: Firebase tidak ter-load!");
     return;
   }
   
   initDashboard();
-  initSizeSusah();
+  initPiket();
+  initAbsensi();
+  initSP();
   updateUIForPublic();
-  
-  document.getElementById("currentShiftDisplay").textContent = currentShift;
   
   console.log("Initialization complete");
 });
@@ -2093,17 +1861,18 @@ window.logout = logout;
 window.showPage = showPage;
 window.save = save;
 window.saveName = saveName;
-window.setModel = setModel;
-window.changeShift = changeShift;
-window.openSizeModal = openSizeModal;
-window.closeModal = closeModal;
-window.saveOperatorSizes = saveOperatorSizes;
-window.removeSize = removeSize;
-window.clearAllSizes = clearAllSizes;
-window.selectAllSizes = selectAllSizes;
-window.openHasilModal = openHasilModal;
-window.closeHasilModal = closeHasilModal;
-window.saveHasilSizes = saveHasilSizes;
+window.changePiketShift = changePiketShift;
+window.acakPiket = acakPiket;
+window.simpanPiket = simpanPiket;
+window.hapusPiket = hapusPiket;
+window.tambahPiket = tambahPiket;
+window.confirmTambahPiket = confirmTambahPiket;
+window.changeAbsensiShift = changeAbsensiShift;
+window.saveAbsensi = saveAbsensi;
+window.changeSPShift = changeSPShift;
+window.tambahSP = tambahSP;
+window.confirmTambahSP = confirmTambahSP;
+window.hapusSP = hapusSP;
 
 </script>
 
