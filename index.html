@@ -689,11 +689,261 @@ input:focus{
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+/* ===== SAVING INDICATOR ===== */
+.saving-indicator {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  background: #f59e0b;
+  color: #000;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: bold;
+  z-index: 100;
+  display: none;
+}
+
+.saving-indicator.active {
+  display: block;
+}
+
+.saved-indicator {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  background: #10b981;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: bold;
+  z-index: 100;
+  display: none;
+}
+
+.saved-indicator.active {
+  display: block;
+}
+
+/* ===== BULAN SELECTOR ===== */
+.bulan-selector {
+  background: #334155;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+  border: 2px solid #475569;
+}
+
+.bulan-selector label {
+  display: block;
+  margin-bottom: 8px;
+  color: #fbbf24;
+  font-weight: 600;
+}
+
+.bulan-select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 2px solid #475569;
+  background: #1e293b;
+  color: #fff;
+  font-size: 16px;
+  font-family: inherit;
+  margin-bottom: 10px;
+}
+
+.bulan-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.btn-reset {
+  background: #dc2626;
+}
+
+.btn-reset:hover {
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4);
+}
+
+.btn-arsip {
+  background: #7c3aed;
+}
+
+.btn-arsip:hover {
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
+}
+
+.btn-import {
+  background: #059669;
+}
+
+.btn-import:hover {
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.4);
+}
+
+/* ===== MODAL BESAR ===== */
+.modal-large {
+  max-width: 500px !important;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-large h3 {
+  color: #fbbf24;
+  margin-bottom: 15px;
+}
+
+.confirm-list {
+  background: #0f172a;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 15px 0;
+  text-align: left;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.confirm-list li {
+  padding: 5px 0;
+  border-bottom: 1px solid #334155;
+  color: #cbd5e1;
+}
+
+.confirm-list li:last-child {
+  border-bottom: none;
+}
+
+.warning-box {
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  color: #92400e;
+  padding: 12px;
+  border-radius: 8px;
+  margin: 15px 0;
+  font-size: 13px;
+}
+
+.danger-box {
+  background: #fee2e2;
+  border: 1px solid #ef4444;
+  color: #991b1b;
+  padding: 12px;
+  border-radius: 8px;
+  margin: 15px 0;
+  font-size: 13px;
+}
+
+.success-box {
+  background: #d1fae5;
+  border: 1px solid #10b981;
+  color: #065f46;
+  padding: 12px;
+  border-radius: 8px;
+  margin: 15px 0;
+  font-size: 13px;
+}
+
+/* ===== PROGRESS BAR ===== */
+.progress-container {
+  width: 100%;
+  height: 20px;
+  background: #334155;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 15px 0;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #10b981, #059669);
+  transition: width 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.progress-bar.error {
+  background: linear-gradient(90deg, #ef4444, #dc2626);
+}
+
+/* ===== CHECKBOX GROUP ===== */
+.checkbox-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 15px 0;
+  text-align: left;
+}
+
+.checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  background: #0f172a;
+  border-radius: 6px;
+}
+
+.checkbox-item input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: #10b981;
+}
+
+.checkbox-item label {
+  color: #cbd5e1;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* ===== TOMBOL FLOATING BULAN ===== */
+.btn-bulan {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 50;
+  background: #f59e0b;
+  color: #000;
+  padding: 12px 20px;
+  border-radius: 50px;
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+  margin: 0;
+  font-weight: 600;
+}
+
+@media screen and (max-width: 768px){
+  .btn-bulan {
+    bottom: 15px;
+    left: 15px;
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+  
+  .bulan-actions {
+    grid-template-columns: 1fr;
+  }
+  
+  .checkbox-group {
+    grid-template-columns: 1fr;
+  }
+}
 </style>
 </head>
 <body>
 
 <h1>📊 DASHBOARD TRIMMING</h1>
+
+<!-- SAVING INDICATORS -->
+<div class="saving-indicator" id="savingIndicator">💾 Menyimpan...</div>
+<div class="saved-indicator" id="savedIndicator">✅ Tersimpan!</div>
 
 <!-- ADMIN BADGE -->
 <div class="admin-badge" id="adminBadge">🔐 ADMIN MODE</div>
@@ -701,6 +951,9 @@ input:focus{
 <!-- LOGIN BUTTON -->
 <button class="btn btn-login" id="loginBtn" onclick="openLoginModal()">🔐 Login Admin</button>
 <button class="btn btn-logout" id="logoutBtn" onclick="logout()" style="display: none;">🚪 Logout</button>
+
+<!-- TOMBOL GANTI BULAN (Hanya Admin) -->
+<button class="btn btn-bulan" id="btnBulan" onclick="openBulanModal()" style="display: none;">📅 Ganti Bulan</button>
 
 <!-- LOGIN MODAL -->
 <div class="login-modal-overlay" id="loginModal">
@@ -710,6 +963,130 @@ input:focus{
     <br>
     <button class="btn" onclick="login()">Login</button>
     <button class="btn btn-danger" onclick="closeLoginModal()">Batal</button>
+  </div>
+</div>
+
+<!-- MODAL GANTI BULAN -->
+<div class="login-modal-overlay" id="bulanModal">
+  <div class="login-modal-content modal-large">
+    <h3>📅 Manajemen Bulan</h3>
+    
+    <div class="bulan-selector" style="margin: 0; padding: 10px;">
+      <label>Bulan Aktif Saat Ini:</label>
+      <select id="bulanSelect" class="bulan-select" onchange="changeBulan()">
+        <option value="januari">Januari</option>
+        <option value="februari">Februari</option>
+        <option value="maret" selected>Maret</option>
+        <option value="april">April</option>
+        <option value="mei">Mei</option>
+        <option value="juni">Juni</option>
+        <option value="juli">Juli</option>
+        <option value="agustus">Agustus</option>
+        <option value="september">September</option>
+        <option value="oktober">Oktober</option>
+        <option value="november">November</option>
+        <option value="desember">Desember</option>
+      </select>
+      <div style="font-size: 12px; color: #94a3b8; margin-top: 5px;">
+        Data yang ditampilkan dan diedit sesuai bulan yang dipilih
+      </div>
+    </div>
+
+    <div class="warning-box">
+      <strong>⚠️ Perhatian:</strong><br>
+      Pilih bulan baru untuk mulai mengisi data bulan tersebut. Data bulan lama tetap tersimpan dan bisa dilihat kapan saja.
+    </div>
+
+    <div class="bulan-actions">
+      <button class="btn btn-arsip" onclick="arsipkanBulan()">📦 Arsipkan Bulan Ini</button>
+      <button class="btn btn-reset" onclick="resetBulan()">🗑️ Reset Bulan Ini</button>
+    </div>
+
+    <button class="btn btn-danger" onclick="closeBulanModal()" style="margin-top: 10px; width: 100%;">Tutup</button>
+  </div>
+</div>
+
+<!-- MODAL KONFIRMASI RESET -->
+<div class="login-modal-overlay" id="resetModal">
+  <div class="login-modal-content modal-large">
+    <h3>🗑️ Reset Data Bulan <span id="resetBulanName"></span></h3>
+    
+    <div class="danger-box">
+      <strong>⚠️ PERINGATAN SERIUS!</strong><br>
+      Tindakan ini akan menghapus SEMUA data produksi bulan ini secara permanen. Data yang dihapus tidak bisa dikembalikan kecuali sudah diarsipkan.
+    </div>
+
+    <div style="text-align: left; margin: 15px 0;">
+      <label style="color: #fbbf24; font-weight: 600;">Pilih data yang akan dihapus:</label>
+      <div class="checkbox-group">
+        <div class="checkbox-item">
+          <input type="checkbox" id="resetHasil" checked>
+          <label for="resetHasil">✓ Hasil Produksi (angka & status)</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="resetNama">
+          <label for="resetNama">Nama Operator (tidak dicentang = tetap ada)</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="resetPiket">
+          <label for="resetPiket">Jadwal Piket (tidak dicentang = tetap ada)</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="resetAbsensi" checked>
+          <label for="resetAbsensi">✓ Data Absensi</label>
+        </div>
+        <div class="checkbox-item">
+          <input type="checkbox" id="resetSP">
+          <label for="resetSP">Data SP (tidak dicentang = tetap ada)</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="progress-container" id="resetProgress" style="display: none;">
+      <div class="progress-bar" id="resetProgressBar" style="width: 0%">0%</div>
+    </div>
+
+    <div id="resetStatus" style="font-size: 13px; color: #94a3b8; margin: 10px 0; min-height: 20px;"></div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+      <button class="btn btn-danger" onclick="executeReset()">Ya, Reset Semua</button>
+      <button class="btn" onclick="closeResetModal()">Batal</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL ARSIP -->
+<div class="login-modal-overlay" id="arsipModal">
+  <div class="login-modal-content modal-large">
+    <h3>📦 Arsipkan Bulan <span id="arsipBulanName"></span></h3>
+    
+    <div class="success-box">
+      <strong>ℹ️ Info:</strong><br>
+      Arsipkan akan menyimpan salinan lengkap data bulan ini ke folder arsip. Data asli tetap ada, Anda bisa mengaksesnya nanti dari menu arsip.
+    </div>
+
+    <div style="text-align: left; margin: 15px 0;">
+      <label style="color: #fbbf24; font-weight: 600;">Data yang diarsipkan:</label>
+      <ul class="confirm-list">
+        <li>✓ Hasil Produksi (angka & status harian)</li>
+        <li>✓ Nama Operator</li>
+        <li>✓ Jadwal Piket</li>
+        <li>✓ Data Absensi</li>
+        <li>✓ Data SP</li>
+        <li>✓ Statistik dan persentase</li>
+      </ul>
+    </div>
+
+    <div class="progress-container" id="arsipProgress" style="display: none;">
+      <div class="progress-bar" id="arsipProgressBar" style="width: 0%">0%</div>
+    </div>
+
+    <div id="arsipStatus" style="font-size: 13px; color: #94a3b8; margin: 10px 0; min-height: 20px;"></div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+      <button class="btn btn-success" onclick="executeArsip()">📦 Arsipkan Sekarang</button>
+      <button class="btn btn-danger" onclick="closeArsipModal()">Batal</button>
+    </div>
   </div>
 </div>
 
@@ -911,7 +1288,7 @@ const ADMIN_PASS = "bangkumisganteng123";
 let isAdmin = false;
 
 // Dashboard variables
-const TARGET = 450;
+const TARGET = 410; // DIUBAH DARI 450 KE 410
 let currentData = {};
 const shifts = { "SHIFT A": 30, "SHIFT B": 30, "SHIFT C": 30 };
 const SPECIAL_STATUS = ['P', 'BE', 'U', 'ML', 'M', 'L', 'I', 'A', 'BS', 'MT', 'PR', 'BM'];
@@ -929,8 +1306,27 @@ let absensiData = {};
 let currentSPShift = 'SHIFT A';
 let spData = {};
 
-// Debounce timer untuk optimasi input
-let saveTimer = null;
+// Queue untuk menyimpan data yang akan disimpan
+let saveQueue = {};
+let saveTimeout = null;
+const SAVE_DELAY = 50; // Hanya 50ms delay untuk batching
+
+// Bulan aktif
+let currentBulan = 'maret';
+const bulanNames = {
+  'januari': 'Januari',
+  'februari': 'Februari',
+  'maret': 'Maret',
+  'april': 'April',
+  'mei': 'Mei',
+  'juni': 'Juni',
+  'juli': 'Juli',
+  'agustus': 'Agustus',
+  'september': 'September',
+  'oktober': 'Oktober',
+  'november': 'November',
+  'desember': 'Desember'
+};
 
 // ==========================================
 // LOGIN / LOGOUT FUNCTIONS
@@ -977,6 +1373,7 @@ function updateUIForAdmin(){
   document.getElementById("adminBadge").classList.add("active");
   document.getElementById("loginBtn").style.display = "none";
   document.getElementById("logoutBtn").style.display = "block";
+  document.getElementById("btnBulan").style.display = "block";
   document.getElementById("modeText").innerHTML = "✏️ Edit Mode (Admin)";
 
   // Enable piket buttons
@@ -988,11 +1385,299 @@ function updateUIForPublic(){
   document.getElementById("adminBadge").classList.remove("active");
   document.getElementById("loginBtn").style.display = "block";
   document.getElementById("logoutBtn").style.display = "none";
+  document.getElementById("btnBulan").style.display = "none";
   document.getElementById("modeText").innerHTML = "👁️ View Only (Public)";
 
   // Disable piket buttons
   document.getElementById("btnAcakPiket").disabled = true;
   document.getElementById("btnSimpanPiket").disabled = true;
+}
+
+// ==========================================
+// MANAJEMEN BULAN FUNCTIONS
+// ==========================================
+function openBulanModal(){
+  if(!isAdmin){
+    alert("❌ Hanya admin yang dapat mengakses fitur ini!");
+    return;
+  }
+  document.getElementById("bulanModal").classList.add("active");
+  document.getElementById("bulanSelect").value = currentBulan;
+}
+
+function closeBulanModal(){
+  document.getElementById("bulanModal").classList.remove("active");
+}
+
+function changeBulan(){
+  const selectedBulan = document.getElementById("bulanSelect").value;
+  if(selectedBulan === currentBulan) return;
+  
+  if(!confirm("Pindah ke bulan " + bulanNames[selectedBulan] + "?\n\nNama operator akan tetap dipertahankan.")){
+    document.getElementById("bulanSelect").value = currentBulan;
+    return;
+  }
+  
+  // Simpan bulan lama dan data nama operator sebelum unsubscribe
+  const bulanLama = currentBulan;
+  const dataNamaOperator = {};
+  
+  // Simpan nama operator dari bulan lama
+  for(let shift in shifts){
+    for(let i = 1; i <= shifts[shift]; i++){
+      let opKey = shift + "_OP" + i;
+      if(currentData[opKey] && currentData[opKey].nama){
+        dataNamaOperator[opKey] = currentData[opKey].nama;
+      }
+    }
+  }
+  
+  // Unsubscribe dari listener lama (bulan lama)
+  db.ref(bulanLama).off();
+  db.ref('piket/' + bulanLama).off();
+  db.ref('absensi/' + bulanLama).off();
+  db.ref('sp/' + bulanLama).off();
+  
+  // Update currentBulan ke bulan baru
+  currentBulan = selectedBulan;
+  
+  // Copy nama operator ke bulan baru jika ada data nama yang tersimpan
+  if(Object.keys(dataNamaOperator).length > 0){
+    let updates = {};
+    for(let opKey in dataNamaOperator){
+      updates[currentBulan + '/' + opKey + '/nama'] = dataNamaOperator[opKey];
+    }
+    db.ref().update(updates).then(function(){
+      console.log("✅ Nama operator berhasil disalin ke bulan baru");
+    }).catch(function(error){
+      console.error("❌ Gagal menyalin nama operator:", error);
+    });
+  }
+  
+  // Re-initialize dengan bulan baru
+  initDashboard();
+  initPiket();
+  initAbsensi();
+  initSP();
+  
+  closeBulanModal();
+  alert("✅ Berhasil pindah ke bulan " + bulanNames[currentBulan] + "\n\nNama operator telah dipertahankan.");
+}
+
+  
+
+function resetBulan(){
+  closeBulanModal();
+  document.getElementById("resetBulanName").textContent = bulanNames[currentBulan];
+  document.getElementById("resetModal").classList.add("active");
+  
+  // Reset checkbox - default hanya reset hasil dan absensi, nama/piket/sp tetap
+  document.getElementById("resetHasil").checked = true;
+  document.getElementById("resetNama").checked = false; // Nama operator tetap ada
+  document.getElementById("resetPiket").checked = false; // Piket tetap ada
+  document.getElementById("resetAbsensi").checked = true;
+  document.getElementById("resetSP").checked = false; // SP tetap ada
+}
+
+function closeResetModal(){
+  document.getElementById("resetModal").classList.remove("active");
+  document.getElementById("resetProgress").style.display = "none";
+  document.getElementById("resetStatus").textContent = "";
+}
+
+async function executeReset(){
+  const resetHasil = document.getElementById("resetHasil").checked;
+  const resetNama = document.getElementById("resetNama").checked;
+  const resetPiket = document.getElementById("resetPiket").checked;
+  const resetAbsensi = document.getElementById("resetAbsensi").checked;
+  const resetSP = document.getElementById("resetSP").checked;
+  
+  if(!resetHasil && !resetNama && !resetPiket && !resetAbsensi && !resetSP){
+    alert("❌ Pilih minimal satu data yang akan dihapus!");
+    return;
+  }
+  
+  if(!confirm("Yakin ingin menghapus data yang dipilih? Tindakan ini tidak bisa dibatalkan!")){
+    return;
+  }
+  
+  const progressBar = document.getElementById("resetProgressBar");
+  const progressContainer = document.getElementById("resetProgress");
+  const statusText = document.getElementById("resetStatus");
+  
+  progressContainer.style.display = "block";
+  statusText.textContent = "Memulai proses reset...";
+  
+  let totalTasks = 0;
+  let completedTasks = 0;
+  
+  // Hitung total tasks
+  if(resetHasil || resetNama) totalTasks += Object.keys(shifts).length * 30; // 30 operator per shift
+  if(resetPiket) totalTasks += 6; // 6 hari piket
+  if(resetAbsensi) totalTasks += Object.keys(shifts).length * 30;
+  if(resetSP) totalTasks += Object.keys(shifts).length * 30;
+  
+  function updateProgress(){
+    completedTasks++;
+    const percent = Math.round((completedTasks / totalTasks) * 100);
+    progressBar.style.width = percent + "%";
+    progressBar.textContent = percent + "%";
+  }
+  
+  try {
+    // Reset Hasil Produksi & Nama
+    if(resetHasil || resetNama){
+      statusText.textContent = "Menghapus data produksi...";
+      
+      for(let shift in shifts){
+        for(let i = 1; i <= shifts[shift]; i++){
+          const opKey = shift + "_OP" + i;
+          const updates = {};
+          
+          if(resetNama){
+            updates['nama'] = "";
+          }
+          
+          if(resetHasil){
+            for(let d = 1; d <= 31; d++){
+              updates[d + '/hasil'] = null;
+            }
+          }
+          
+          await db.ref(currentBulan + '/' + opKey).update(updates);
+          updateProgress();
+        }
+      }
+    }
+    
+    // Reset Piket
+    if(resetPiket){
+      statusText.textContent = "Menghapus jadwal piket...";
+      await db.ref('piket/' + currentBulan).remove();
+      for(let i = 0; i < 6; i++) updateProgress();
+    }
+    
+    // Reset Absensi
+    if(resetAbsensi){
+      statusText.textContent = "Menghapus data absensi...";
+      
+      for(let shift in shifts){
+        for(let i = 1; i <= shifts[shift]; i++){
+          const opKey = shift + "_OP" + i;
+          await db.ref('absensi/' + currentBulan + '/' + opKey).remove();
+          updateProgress();
+        }
+      }
+    }
+    
+    // Reset SP
+    if(resetSP){
+      statusText.textContent = "Menghapus data SP...";
+      
+      for(let shift in shifts){
+        for(let i = 1; i <= shifts[shift]; i++){
+          const opKey = shift + "_OP" + i;
+          await db.ref('sp/' + currentBulan + '/' + opKey).remove();
+          updateProgress();
+        }
+      }
+    }
+    
+    statusText.textContent = "✅ Reset berhasil!";
+    progressBar.style.background = "linear-gradient(90deg, #10b981, #059669)";
+    
+    setTimeout(() => {
+      closeResetModal();
+      alert("✅ Data bulan " + bulanNames[currentBulan] + " berhasil direset!");
+    }, 1000);
+    
+  } catch(error) {
+    console.error("Reset error:", error);
+    statusText.textContent = "❌ Error: " + error.message;
+    progressBar.classList.add("error");
+    progressBar.textContent = "Error";
+  }
+}
+
+function arsipkanBulan(){
+  closeBulanModal();
+  document.getElementById("arsipBulanName").textContent = bulanNames[currentBulan];
+  document.getElementById("arsipModal").classList.add("active");
+}
+
+function closeArsipModal(){
+  document.getElementById("arsipModal").classList.remove("active");
+  document.getElementById("arsipProgress").style.display = "none";
+  document.getElementById("arsipStatus").textContent = "";
+}
+
+async function executeArsip(){
+  const progressBar = document.getElementById("arsipProgressBar");
+  const progressContainer = document.getElementById("arsipProgress");
+  const statusText = document.getElementById("arsipStatus");
+  
+  progressContainer.style.display = "block";
+  statusText.textContent = "Mengumpulkan data...";
+  
+  const timestamp = new Date().toISOString();
+  const arsipKey = currentBulan + '_' + new Date().getTime();
+  
+  try {
+    // Ambil semua data
+    statusText.textContent = "Mengambil data produksi...";
+    const produksiSnapshot = await db.ref(currentBulan).once('value');
+    const produksiData = produksiSnapshot.val() || {};
+    progressBar.style.width = "20%";
+    progressBar.textContent = "20%";
+    
+    statusText.textContent = "Mengambil data piket...";
+    const piketSnapshot = await db.ref('piket/' + currentBulan).once('value');
+    const piketDataArsip = piketSnapshot.val() || {};
+    progressBar.style.width = "40%";
+    progressBar.textContent = "40%";
+    
+    statusText.textContent = "Mengambil data absensi...";
+    const absensiSnapshot = await db.ref('absensi/' + currentBulan).once('value');
+    const absensiDataArsip = absensiSnapshot.val() || {};
+    progressBar.style.width = "60%";
+    progressBar.textContent = "60%";
+    
+    statusText.textContent = "Mengambil data SP...";
+    const spSnapshot = await db.ref('sp/' + currentBulan).once('value');
+    const spDataArsip = spSnapshot.val() || {};
+    progressBar.style.width = "80%";
+    progressBar.textContent = "80%";
+    
+    // Simpan ke arsip
+    statusText.textContent = "Menyimpan ke arsip...";
+    const arsipData = {
+      bulan: currentBulan,
+      namaBulan: bulanNames[currentBulan],
+      timestamp: timestamp,
+      tanggalArsip: new Date().toLocaleDateString('id-ID'),
+      produksi: produksiData,
+      piket: piketDataArsip,
+      absensi: absensiDataArsip,
+      sp: spDataArsip
+    };
+    
+    await db.ref('arsip/' + arsipKey).set(arsipData);
+    progressBar.style.width = "100%";
+    progressBar.textContent = "100%";
+    
+    statusText.textContent = "✅ Arsip berhasil dibuat!";
+    
+    setTimeout(() => {
+      closeArsipModal();
+      alert("✅ Data bulan " + bulanNames[currentBulan] + " berhasil diarsipkan!\n\nKode arsip: " + arsipKey);
+    }, 1000);
+    
+  } catch(error) {
+    console.error("Arsip error:", error);
+    statusText.textContent = "❌ Error: " + error.message;
+    progressBar.classList.add("error");
+    progressBar.textContent = "Error";
+  }
 }
 
 // ==========================================
@@ -1011,10 +1696,72 @@ function showPage(pageName){
 }
 
 // ==========================================
-// DASHBOARD FUNCTIONS (ORIGINAL)
+// SAVING INDICATOR FUNCTIONS
+// ==========================================
+function showSaving() {
+  document.getElementById("savingIndicator").classList.add("active");
+  document.getElementById("savedIndicator").classList.remove("active");
+}
+
+function showSaved() {
+  document.getElementById("savingIndicator").classList.remove("active");
+  document.getElementById("savedIndicator").classList.add("active");
+  setTimeout(function() {
+    document.getElementById("savedIndicator").classList.remove("active");
+  }, 1000);
+}
+
+// ==========================================
+// OPTIMIZED SAVE FUNCTIONS - TANPA JEDA
+// ==========================================
+function queueSave(path, value) {
+  if(!isAdmin) return;
+  
+  // Tambahkan ke queue
+  saveQueue[path] = value;
+  
+  // Clear timeout yang ada
+  if(saveTimeout) {
+    clearTimeout(saveTimeout);
+  }
+  
+  // Tampilkan indicator
+  showSaving();
+  
+  // Simpan dengan delay sangat singkat (50ms) untuk batching
+  saveTimeout = setTimeout(function() {
+    processSaveQueue();
+  }, SAVE_DELAY);
+}
+
+function processSaveQueue() {
+  if(Object.keys(saveQueue).length === 0) return;
+  
+  // Proses semua item dalam queue
+  let updates = {};
+  for(let path in saveQueue) {
+    updates[path] = saveQueue[path];
+  }
+  
+  // Clear queue
+  saveQueue = {};
+  
+  // Simpan ke Firebase menggunakan update batch
+  db.ref().update(updates)
+    .then(function() {
+      showSaved();
+    })
+    .catch(function(error) {
+      console.error("Error saving:", error);
+      document.getElementById("savingIndicator").classList.remove("active");
+    });
+}
+
+// ==========================================
+// DASHBOARD FUNCTIONS
 // ==========================================
 function initDashboard(){
-  db.ref('maret').on('value', function(snapshot){
+  db.ref(currentBulan).on('value', function(snapshot){
     currentData = snapshot.val() || {};
     renderDashboard();
   });
@@ -1292,10 +2039,11 @@ function renderDashboard(){
         } else if(status){
           cls = "status-" + status;
         } else if(numVal > 0){
-          let p = (numVal / TARGET) * 100;
-          if(p < 80) cls = "low";
-          else if(p < 100) cls = "mid";
-          else cls = "high";
+          // Logic warna: < 410 = merah, 410-449 = kuning, >= 450 = hijau
+if(numVal < 410) cls = "low";      // Merah (< 410)
+else if(numVal < 450) cls = "mid"; // Kuning (410-449)
+else cls = "high";                 // Hijau (>= 450)
+
         } else {
           displayValue = '';
         }
@@ -1309,8 +2057,6 @@ function renderDashboard(){
 
       let avg = calculatePercentage(dayValues);
       let spLevel = calculateSP(dayValues);
-
-      shiftRankingData.push({key: operatorKey, avg: Number(avg)});
 
       let spText = "-";
       if(spLevel > 0){
@@ -1340,6 +2086,7 @@ function escapeHtml(text){
     .replace(/'/g, "&#039;");
 }
 
+// FUNGSI SAVE YANG CEPAT - TANPA DEBOUNCE LAMA
 function save(op, day, value){
   if(!isAdmin){
     alert("❌ Anda harus login sebagai admin untuk mengedit data!");
@@ -1348,6 +2095,7 @@ function save(op, day, value){
 
   let trimmedValue = value.trim().toUpperCase();
   
+  // Validasi format
   if(trimmedValue.startsWith('BS')){
     let match = trimmedValue.match(/BS\s*(\d+)/i);
     if(!match && trimmedValue !== 'BS'){
@@ -1388,17 +2136,9 @@ function save(op, day, value){
     }
   }
   
-  if(saveTimer) {
-    clearTimeout(saveTimer);
-  }
-  
-  saveTimer = setTimeout(function() {
-    if(trimmedValue === '' || trimmedValue === '0'){
-      db.ref('maret/' + op + '/' + day).set({hasil: 0});
-    } else {
-      db.ref('maret/' + op + '/' + day).set({hasil: trimmedValue});
-    }
-  }, 500);
+  // Simpan langsung ke queue (tanpa delay lama)
+  let saveValue = (trimmedValue === '' || trimmedValue === '0') ? 0 : trimmedValue;
+  queueSave(currentBulan + '/' + op + '/' + day + '/hasil', saveValue);
 }
 
 function saveName(op, name){
@@ -1407,20 +2147,15 @@ function saveName(op, name){
     return;
   }
 
-  if(saveTimer) {
-    clearTimeout(saveTimer);
-  }
-  
-  saveTimer = setTimeout(function() {
-    db.ref('maret/' + op + '/nama').set(name.trim());
-  }, 500);
+  // Simpan langsung ke queue (tanpa delay lama)
+  queueSave(currentBulan + '/' + op + '/nama', name.trim());
 }
 
 // ==========================================
 // PIKET FUNCTIONS
 // ==========================================
 function initPiket(){
-  db.ref('piket').on('value', function(snapshot){
+  db.ref('piket/' + currentBulan).on('value', function(snapshot){
     piketData = snapshot.val() || {};
     renderPiket();
   });
@@ -1493,7 +2228,7 @@ function simpanPiket(){
     return;
   }
 
-  db.ref('piket/' + currentPiketShift).set(piketData[currentPiketShift])
+  db.ref('piket/' + currentBulan + '/' + currentPiketShift).set(piketData[currentPiketShift])
     .then(function(){
       alert("✅ Jadwal piket berhasil disimpan!");
     })
@@ -1609,7 +2344,7 @@ function renderPiket(){
 // ABSENSI FUNCTIONS
 // ==========================================
 function initAbsensi(){
-  db.ref('absensi').on('value', function(snapshot){
+  db.ref('absensi/' + currentBulan).on('value', function(snapshot){
     absensiData = snapshot.val() || {};
     renderAbsensi();
   });
@@ -1631,6 +2366,7 @@ function getAbsensiClass(kode){
   }
 }
 
+// FUNGSI SAVE ABSENSI YANG CEPAT
 function saveAbsensi(opKey, day, value){
   if(!isAdmin){
     alert("❌ Anda harus login sebagai admin!");
@@ -1643,15 +2379,10 @@ function saveAbsensi(opKey, day, value){
     return;
   }
 
-  if(saveTimer) clearTimeout(saveTimer);
-  
-  saveTimer = setTimeout(function(){
-    if(kode === ''){
-      db.ref('absensi/' + currentAbsensiShift + '/' + opKey + '/' + day).remove();
-    } else {
-      db.ref('absensi/' + currentAbsensiShift + '/' + opKey + '/' + day).set(kode);
-    }
-  }, 300);
+  // Simpan langsung ke queue (tanpa delay lama)
+  let path = 'absensi/' + currentBulan + '/' + currentAbsensiShift + '/' + opKey + '/' + day;
+  let saveValue = kode === '' ? null : kode;
+  queueSave(path, saveValue);
 }
 
 function renderAbsensi(){
@@ -1690,7 +2421,7 @@ function renderAbsensi(){
 // SP FUNCTIONS
 // ==========================================
 function initSP(){
-  db.ref('sp').on('value', function(snapshot){
+  db.ref('sp/' + currentBulan).on('value', function(snapshot){
     spData = snapshot.val() || {};
     renderSP();
   });
@@ -1750,8 +2481,9 @@ function confirmTambahSP(opKey, btn){
     timestamp: new Date().toISOString()
   };
 
-  let newRef = db.ref('sp/' + currentSPShift + '/' + opKey).push();
+  let newRef = db.ref('sp/' + currentBulan + '/' + currentSPShift + '/' + opKey).push();
   newRef.set(spEntry)
+   
     .then(function(){
       btn.closest(".login-modal-overlay").remove();
       alert("✅ SP berhasil ditambahkan!");
@@ -1768,7 +2500,7 @@ function hapusSP(opKey, spId){
   }
 
   if(confirm("Yakin ingin menghapus data SP ini?")){
-    db.ref('sp/' + currentSPShift + '/' + opKey + '/' + spId).remove()
+    db.ref('sp/' + currentBulan + '/' + currentSPShift + '/' + opKey + '/' + spId).remove()
       .then(function(){
         alert("✅ SP berhasil dihapus!");
       })
@@ -1873,6 +2605,15 @@ window.changeSPShift = changeSPShift;
 window.tambahSP = tambahSP;
 window.confirmTambahSP = confirmTambahSP;
 window.hapusSP = hapusSP;
+window.openBulanModal = openBulanModal;
+window.closeBulanModal = closeBulanModal;
+window.changeBulan = changeBulan;
+window.resetBulan = resetBulan;
+window.closeResetModal = closeResetModal;
+window.executeReset = executeReset;
+window.arsipkanBulan = arsipkanBulan;
+window.closeArsipModal = closeArsipModal;
+window.executeArsip = executeArsip;
 
 </script>
 
