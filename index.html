@@ -1311,8 +1311,34 @@ let saveQueue = {};
 let saveTimeout = null;
 const SAVE_DELAY = 50; // Hanya 50ms delay untuk batching
 
-// Bulan aktif
+// Bulan aktif - dengan triple fallback (URL param > localStorage > default)
 let currentBulan = 'maret';
+
+// Try URL parameter first (most reliable for file://)
+try {
+  const urlParams = new URLSearchParams(window.location.search);
+  const bulanFromUrl = urlParams.get('bulan');
+  if(bulanFromUrl && ['januari','februari','maret','april','mei','juni','juli','agustus','september','oktober','november','desember'].includes(bulanFromUrl)) {
+    currentBulan = bulanFromUrl;
+    console.log('✅ Bulan dari URL:', currentBulan);
+  }
+} catch(e) {
+  console.log('⚠️ URL param failed:', e);
+}
+
+// If still default, try localStorage
+if(currentBulan === 'maret') {
+  try {
+    const savedBulan = localStorage.getItem('selectedBulan');
+    if(savedBulan && ['januari','februari','maret','april','mei','juni','juli','agustus','september','oktober','november','desember'].includes(savedBulan)) {
+      currentBulan = savedBulan;
+      console.log('✅ Bulan dari localStorage:', currentBulan);
+    }
+  } catch(e) {
+    console.log('⚠️ localStorage failed:', e);
+  }
+}
+
 const bulanNames = {
   'januari': 'Januari',
   'februari': 'Februari',
@@ -1327,6 +1353,11 @@ const bulanNames = {
   'november': 'November',
   'desember': 'Desember'
 };
+
+// ==========================================
+// LOGIN / LOGOUT FUNCTIONS
+// ==========================================
+
 
 // ==========================================
 // LOGIN / LOGOUT FUNCTIONS
@@ -1438,8 +1469,28 @@ function changeBulan(){
   db.ref('absensi/' + bulanLama).off();
   db.ref('sp/' + bulanLama).off();
   
-  // Update currentBulan ke bulan baru
+    // Update currentBulan ke bulan baru
   currentBulan = selectedBulan;
+  
+  // Simpan ke localStorage (best effort, tidak wajib berhasil)
+  try {
+    localStorage.setItem('selectedBulan', currentBulan);
+    console.log('💾 localStorage saved:', currentBulan);
+  } catch(e) {
+    console.log('⚠️ localStorage save failed:', e);
+  }
+  
+  // Update URL tanpa reload (untuk bookmark)
+  try {
+    const newUrl = window.location.pathname + '?bulan=' + currentBulan;
+    window.history.replaceState({bulan: currentBulan}, '', newUrl);
+    console.log('🔗 URL updated:', newUrl);
+  } catch(e) {
+    console.log('⚠️ URL update failed:', e);
+  }
+  
+  // Copy nama operator ke bulan baru jika ada data nama yang tersimpan
+
   
   // Copy nama operator ke bulan baru jika ada data nama yang tersimpan
   if(Object.keys(dataNamaOperator).length > 0){
@@ -2039,11 +2090,10 @@ function renderDashboard(){
         } else if(status){
           cls = "status-" + status;
         } else if(numVal > 0){
-          // Logic warna: < 410 = merah, 410-449 = kuning, >= 450 = hijau
-if(numVal < 410) cls = "low";      // Merah (< 410)
-else if(numVal < 450) cls = "mid"; // Kuning (410-449)
-else cls = "high";                 // Hijau (>= 450)
-
+          // LOGIC WARNA BARU: <=410 merah, 411-450 kuning, >450 hijau
+          if(numVal <= 410) cls = "low";      // Merah (≤410)
+          else if(numVal <= 450) cls = "mid"; // Kuning (411-450)
+          else cls = "high";                  // Hijau (>450)
         } else {
           displayValue = '';
         }
@@ -2568,6 +2618,27 @@ function renderSP(){
 // ==========================================
 // INITIALIZATION
 // ==========================================
+
+// Set dropdown bulan sebelum DOMContentLoaded (agar tidak flash default)
+function setBulanDropdown() {
+  try {
+    const bulanSelect = document.getElementById('bulanSelect');
+    if(bulanSelect && currentBulan) {
+      // Pastikan value valid
+      if(bulanSelect.querySelector('option[value="' + currentBulan + '"]')) {
+        bulanSelect.value = currentBulan;
+        console.log('✅ Dropdown set to:', currentBulan);
+      } else {
+        console.log('⚠️ Invalid bulan value:', currentBulan);
+        currentBulan = 'maret';
+        bulanSelect.value = 'maret';
+      }
+    }
+  } catch(e) {
+    console.log('⚠️ Error setting dropdown:', e);
+  }
+}
+
 document.addEventListener('DOMContentLoaded', function(){
   console.log("DOM Loaded");
   
@@ -2576,14 +2647,20 @@ document.addEventListener('DOMContentLoaded', function(){
     return;
   }
   
+  // Set dropdown value sesuai currentBulan
+  setBulanDropdown();
+  
   initDashboard();
   initPiket();
   initAbsensi();
   initSP();
   updateUIForPublic();
   
-  console.log("Initialization complete");
+  console.log("Initialization complete. Bulan aktif:", currentBulan);
 });
+
+// Make functions global for onclick
+
 
 // Make functions global for onclick
 window.openLoginModal = openLoginModal;
