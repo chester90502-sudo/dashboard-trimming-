@@ -935,6 +935,121 @@ input:focus{
     grid-template-columns: 1fr;
   }
 }
+
+/* ===== TARGET SETTING ===== */
+.target-setting {
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  border: 2px solid #475569;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.target-setting h3 {
+  color: #fbbf24;
+  margin-bottom: 12px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.target-input-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.target-item {
+  background: #0f172a;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #475569;
+}
+
+.target-item label {
+  display: block;
+  font-size: 11px;
+  color: #94a3b8;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.target-item input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  background: #1e293b;
+  border: 2px solid #475569;
+  border-radius: 6px;
+  color: #fff;
+  transition: all 0.2s;
+}
+
+.target-item input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  background: #0f172a;
+}
+
+.target-item.red-threshold input {
+  border-color: #ef4444;
+  color: #fca5a5;
+}
+
+.target-item.yellow-threshold input {
+  border-color: #f59e0b;
+  color: #fde047;
+}
+
+.target-preview {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.target-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.target-badge.red {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.target-badge.yellow {
+  background: #fefce8;
+  color: #ca8a04;
+  border: 1px solid #fde047;
+}
+
+.target-badge.green {
+  background: #f0fdf4;
+  color: #16a34a;
+  border: 1px solid #86efac;
+}
+
+.target-badge span {
+  font-weight: bold;
+}
+
+@media screen and (max-width: 768px) {
+  .target-input-group {
+    grid-template-columns: 1fr;
+  }
+}
 </style>
 </head>
 <body>
@@ -1113,14 +1228,34 @@ input:focus{
 <div class="page active" id="page-dashboard">
 
   <div class="info-box">
-    <strong>Input:</strong> Angka = Hasil | <strong>P</strong> = Perbantukan | <strong>BE</strong> = Pulang Awal (0%) | <strong>U</strong> = UKS | <strong>ML</strong> = Minggu Libur | <strong>M</strong> = Minggu Lembur (contoh: M 230) | <strong>L</strong> = Libur | <strong>I</strong> = Izin (0%) | <strong>A</strong> = Alpa (0%) | <strong>BS</strong> = Barang Sedikit (contoh: BS 250) | <strong>MT</strong> = Mesin Trouble (contoh: MT 250) | <strong>PR</strong> = Probation (contoh: PR 250) | <strong>BM</strong> = Belum Mulai (contoh: BM 250)
-    <br><br>
-    <strong>Mode:</strong> <span id="modeText">👁️ View Only (Public)</span>
-    <br><br>
-    <strong style="color: #fbbf24;">📊 Info Penting:</strong><br>
+    <strong>📊 Info Penting:</strong><br>
+    • Target Warna: <span id="infoTargetRed">≤409 Merah</span> | <span id="infoTargetYellow">410-449 Kuning</span> | <span id="infoTargetGreen">≥450 Hijau</span><br>
     • Ijin (I), Alpa (A), dan BE (Pulang Awal) = 0% (dihitung dalam persentase dan SP)<br>
     • BS, M (Minggu Lembur), MT (Mesin Trouble), PR (Probation), BM (Belum Mulai) = Tidak dihitung dalam persentase dan SP<br>
     • 3 data berturut-turut < 80% (merah, I, A, atau BE) = SP naik 1 level
+  </div>
+
+  <!-- TARGET SETTING PANEL -->
+  <div class="target-setting" id="targetPanel" style="display: none;">
+    <h3>🎯 Pengaturan Target Warna</h3>
+    <div class="target-input-group">
+      <div class="target-item red-threshold">
+        <label>🔴 Batas Merah (Max)</label>
+        <input type="number" id="targetRed" value="409" onchange="updateTargets()" min="0">
+      </div>
+      <div class="target-item yellow-threshold">
+        <label>🟡 Batas Kuning (Max)</label>
+        <input type="number" id="targetYellow" value="449" onchange="updateTargets()" min="0">
+      </div>
+    </div>
+    <div class="target-preview" id="targetPreview">
+      <div class="target-badge red">🔴 ≤ <span id="previewRed">409</span></div>
+      <div class="target-badge yellow">🟡 <span id="previewYellowStart">410</span> - <span id="previewYellowEnd">449</span></div>
+      <div class="target-badge green">🟢 ≥ <span id="previewGreen">450</span></div>
+    </div>
+    <button class="btn btn-success btn-sm" onclick="saveTargets()" style="margin-top: 10px; width: 100%;">
+      💾 Simpan Target
+    </button>
   </div>
 
   <div class="legend">
@@ -1287,8 +1422,12 @@ const db = firebase.database();
 const ADMIN_PASS = "bangkumisganteng123";
 let isAdmin = false;
 
+// Target variables - default values
+let TARGET_RED = 409;    // Batas atas merah
+let TARGET_YELLOW = 449; // Batas atas kuning
+// Hijau = di atas TARGET_YELLOW
+
 // Dashboard variables
-const TARGET = 410; // DIUBAH DARI 450 KE 410
 let currentData = {};
 const shifts = { "SHIFT A": 30, "SHIFT B": 30, "SHIFT C": 30 };
 const SPECIAL_STATUS = ['P', 'BE', 'U', 'ML', 'M', 'L', 'I', 'A', 'BS', 'MT', 'PR', 'BM'];
@@ -1357,11 +1496,6 @@ const bulanNames = {
 // ==========================================
 // LOGIN / LOGOUT FUNCTIONS
 // ==========================================
-
-
-// ==========================================
-// LOGIN / LOGOUT FUNCTIONS
-// ==========================================
 function openLoginModal(){
   document.getElementById("loginModal").classList.add("active");
   document.getElementById("pass").value = "";
@@ -1405,7 +1539,7 @@ function updateUIForAdmin(){
   document.getElementById("loginBtn").style.display = "none";
   document.getElementById("logoutBtn").style.display = "block";
   document.getElementById("btnBulan").style.display = "block";
-  document.getElementById("modeText").innerHTML = "✏️ Edit Mode (Admin)";
+  document.getElementById("targetPanel").style.display = "block";
 
   // Enable piket buttons
   document.getElementById("btnAcakPiket").disabled = false;
@@ -1417,11 +1551,101 @@ function updateUIForPublic(){
   document.getElementById("loginBtn").style.display = "block";
   document.getElementById("logoutBtn").style.display = "none";
   document.getElementById("btnBulan").style.display = "none";
-  document.getElementById("modeText").innerHTML = "👁️ View Only (Public)";
+  document.getElementById("targetPanel").style.display = "none";
 
   // Disable piket buttons
   document.getElementById("btnAcakPiket").disabled = true;
   document.getElementById("btnSimpanPiket").disabled = true;
+}
+
+// ==========================================
+// TARGET MANAGEMENT FUNCTIONS
+// ==========================================
+function loadTargets() {
+  // Load dari Firebase
+  db.ref('settings/targets').once('value').then(function(snapshot) {
+    const data = snapshot.val();
+    if(data) {
+      TARGET_RED = data.red || 409;
+      TARGET_YELLOW = data.yellow || 449;
+    }
+    updateTargetInputs();
+    updateTargetPreview();
+    renderDashboard(); // Re-render dengan target baru
+  }).catch(function(error) {
+    console.log('Using default targets:', error);
+    updateTargetInputs();
+    updateTargetPreview();
+  });
+}
+
+function updateTargetInputs() {
+  const redInput = document.getElementById('targetRed');
+  const yellowInput = document.getElementById('targetYellow');
+  if(redInput) redInput.value = TARGET_RED;
+  if(yellowInput) yellowInput.value = TARGET_YELLOW;
+}
+
+function updateTargets() {
+  const redVal = parseInt(document.getElementById('targetRed').value) || 0;
+  const yellowVal = parseInt(document.getElementById('targetYellow').value) || 0;
+  
+  // Validasi
+  if(redVal >= yellowVal) {
+    alert('⚠️ Batas Kuning harus lebih besar dari Batas Merah!');
+    document.getElementById('targetYellow').value = redVal + 1;
+    return;
+  }
+  
+  TARGET_RED = redVal;
+  TARGET_YELLOW = yellowVal;
+  
+  updateTargetPreview();
+  
+  // Auto-save untuk admin
+  if(isAdmin) {
+    queueSave('settings/targets', {
+      red: TARGET_RED,
+      yellow: TARGET_YELLOW,
+      updatedAt: new Date().toISOString()
+    });
+  }
+  
+  // Re-render dashboard dengan warna baru
+  renderDashboard();
+}
+
+function updateTargetPreview() {
+  document.getElementById('previewRed').textContent = TARGET_RED;
+  document.getElementById('previewYellowStart').textContent = TARGET_RED + 1;
+  document.getElementById('previewYellowEnd').textContent = TARGET_YELLOW;
+  document.getElementById('previewGreen').textContent = TARGET_YELLOW + 1;
+  
+  // Update info box juga
+  const infoRed = document.getElementById('infoTargetRed');
+  const infoYellow = document.getElementById('infoTargetYellow');
+  const infoGreen = document.getElementById('infoTargetGreen');
+  if(infoRed) infoRed.textContent = '≤' + TARGET_RED + ' Merah';
+  if(infoYellow) infoYellow.textContent = (TARGET_RED + 1) + '-' + TARGET_YELLOW + ' Kuning';
+  if(infoGreen) infoGreen.textContent = '≥' + (TARGET_YELLOW + 1) + ' Hijau';
+}
+
+function saveTargets() {
+  if(!isAdmin) {
+    alert('❌ Hanya admin yang dapat menyimpan target!');
+    return;
+  }
+  
+  db.ref('settings/targets').set({
+    red: TARGET_RED,
+    yellow: TARGET_YELLOW,
+    updatedAt: new Date().toISOString()
+  }).then(function() {
+    showSaved();
+    alert('✅ Target warna berhasil disimpan!');
+  }).catch(function(error) {
+    alert('❌ Gagal menyimpan: ' + error.message);
+  });
 }
 
 // ==========================================
@@ -1812,6 +2036,9 @@ function processSaveQueue() {
 // DASHBOARD FUNCTIONS
 // ==========================================
 function initDashboard(){
+  // Load targets dulu
+  loadTargets();
+  
   db.ref(currentBulan).on('value', function(snapshot){
     currentData = snapshot.val() || {};
     renderDashboard();
@@ -1835,7 +2062,7 @@ function isSpecialStatus(value){
   if(strValue.startsWith('PR')) return true;
   if(strValue.startsWith('BM')) return true;
   
-  return SPECIAL_STATUS.indexOf(strValue) > -1;
+    return SPECIAL_STATUS.indexOf(strValue) > -1;
 }
 
 function isBS(value){
@@ -1885,7 +2112,7 @@ function isMerahOrIjinAlpaBE(value){
   
   let numVal = getNumericValue(value);
   if(numVal > 0){
-    let p = (numVal / TARGET) * 100;
+    let p = (numVal / 450) * 100; // Using 450 as reference for percentage calculation
     return p < 80;
   }
   
@@ -2021,7 +2248,7 @@ function calculatePercentage(dayValues){
     }
     
     if(numVal > 0 && !isSpecialStatus(rawValue)){
-      let p = (numVal / TARGET) * 100;
+      let p = (numVal / 450) * 100; // Using 450 as reference for percentage calculation
       totalPercent += p;
       count++;
       continue;
@@ -2090,10 +2317,10 @@ function renderDashboard(){
         } else if(status){
           cls = "status-" + status;
         } else if(numVal > 0){
-          // LOGIC WARNA BARU: <=410 merah, 411-450 kuning, >450 hijau
-          if(numVal <= 410) cls = "low";      // Merah (≤410)
-          else if(numVal <= 450) cls = "mid"; // Kuning (411-450)
-          else cls = "high";                  // Hijau (>450)
+          // LOGIC WARNA DINAMIS berdasarkan target
+          if(numVal <= TARGET_RED) cls = "low";           // Merah (≤TARGET_RED)
+          else if(numVal <= TARGET_YELLOW) cls = "mid";   // Kuning (TARGET_RED+1 sampai TARGET_YELLOW)
+          else cls = "high";                              // Hijau (>TARGET_YELLOW)
         } else {
           displayValue = '';
         }
@@ -2660,9 +2887,6 @@ document.addEventListener('DOMContentLoaded', function(){
 });
 
 // Make functions global for onclick
-
-
-// Make functions global for onclick
 window.openLoginModal = openLoginModal;
 window.closeLoginModal = closeLoginModal;
 window.login = login;
@@ -2691,8 +2915,11 @@ window.executeReset = executeReset;
 window.arsipkanBulan = arsipkanBulan;
 window.closeArsipModal = closeArsipModal;
 window.executeArsip = executeArsip;
+window.updateTargets = updateTargets;
+window.saveTargets = saveTargets;
 
 </script>
 
 </body>
 </html>
+
